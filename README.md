@@ -1,2 +1,2 @@
 # Hound.fm
-Hound.fm web app
+React web interface of hound.fm 
