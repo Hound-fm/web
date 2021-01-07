@@ -1,6 +1,6 @@
 import Button from "./button";
 import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
+
 import {
   mdiSkipNext,
   mdiShuffle,
@@ -12,6 +12,8 @@ import {
   mdiRepeat,
   mdiVolumeHigh,
 } from "@mdi/js";
+
+import "rc-slider/assets/index.css";
 
 function Player() {
   return (

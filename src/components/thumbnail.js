@@ -1,5 +1,5 @@
-import LazyImg from "./lazyImg";
 import clsx from "clsx";
+import LazyImg from "./lazyImg";
 
 function Thumbnail({ src, className }) {
   return (
