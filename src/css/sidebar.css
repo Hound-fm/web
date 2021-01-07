@@ -12,19 +12,14 @@
 
 .sidebar__link {
   margin: 1.25rem 2.5rem;
-  padding: 0.625em 1.25em;
-  border-radius: 2.5rem;
-  color: var(--subtitle-color);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  cursor: pointer;
 }
 
-.sidebar__link:hover {
+.sidebar__link a:hover {
   background: var(--button-hover-bg-color);
   color: var(--text-color);
 }
 
-.sidebar__link--active {
+.sidebar__link--active a {
   background: var(--sidebar-link-bg-color);
   color: var(--sidebar-link-text-color);
 }
@@ -32,6 +27,13 @@
 .sidebar__link a {
   display: flex;
   align-items: center;
+  color: var(--subtitle-color);
+  text-decoration: none;
+  padding: 0.625em 1.25em;
+  border-radius: 2.5rem;
+  color: var(--subtitle-color);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
 }
 
 .sidebar__header {

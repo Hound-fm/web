@@ -2,29 +2,43 @@ import Icon from "@mdi/react";
 import clsx from "clsx";
 import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog } from "@mdi/js";
 
+import { Link, useRouteMatch, useLocation } from "react-router-dom";
+
 function Nav() {
+  const location = useLocation();
+  const page = location.pathname.split("/")[1];
+  const root = page && page.length ? `/${page}` : "";
+  console.info(location);
   return (
     <header>
       <nav className="nav">
         {/* <a className="navbar-brand" href="/">Hound.fm</a> */}
-        <a className="nav__link active" href="#">
-          <span>Latest</span>
-        </a>
-        <a className="nav__link" href="#">
-          <span>Popular</span>
-        </a>
+        <NavLink path={`${root}/latest`} label={"Latest"} />
+        <NavLink path={`${root}/popular`} label={"Popular"} />
       </nav>
     </header>
   );
 }
 
-function SidebarLink({ label, icon, active }) {
+function NavLink({ path, label, icon, exact }) {
+  const match = useRouteMatch({ path, exact });
+
   return (
-    <li className={clsx("sidebar__link", active && "sidebar__link--active")}>
-      <a>
+    <Link to={path} className={clsx("nav__link", match && "active")}>
+      {icon && <Icon path={icon} className={"icon"} />}
+      {label && <span>{label}</span>}
+    </Link>
+  );
+}
+
+function SidebarLink({ path, label, icon, exact }) {
+  let match = useRouteMatch({ path, exact });
+  return (
+    <li className={clsx("sidebar__link", match && "sidebar__link--active")}>
+      <Link to={path}>
         <Icon path={icon} className={"icon"} />
         <span>{label}</span>
-      </a>
+      </Link>
     </li>
   );
 }
@@ -36,10 +50,14 @@ function Sidebar() {
         <h2>Hound.fm</h2>
       </div>
       <ul>
-        <SidebarLink icon={mdiMusic} label={"Music"} active={true} />
-        <SidebarLink icon={mdiPodcast} label={"Podcasts"} />
-        <SidebarLink icon={mdiBookMusic} label={"Audiobooks"} />
-        <SidebarLink icon={mdiCog} label={"Settings"} />
+        <SidebarLink icon={mdiMusic} label={"Music"} path={"/music"} />
+        <SidebarLink icon={mdiPodcast} label={"Podcasts"} path={"/podcasts"} />
+        <SidebarLink
+          icon={mdiBookMusic}
+          label={"Audiobooks"}
+          path={"/audiobooks"}
+        />
+        <SidebarLink icon={mdiCog} label={"Settings"} path={"/settings"} />
       </ul>
     </div>
   );
