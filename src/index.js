@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 // import reportWebVitals from './reportWebVitals';
 
-import "./index.css";
+import "./css";
 
 const queryClient = new QueryClient();
 

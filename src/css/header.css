@@ -1,0 +1,74 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+  background: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1em 1.4em var(--bg-color);
+  margin-left: var(--sidebar-width);
+  height: var(--nav-height);
+}
+
+nav {
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--subtitle-color);
+}
+
+nav a,
+.content--side .title a {
+  margin: 0 1rem;
+  color: inherit;
+  font-weight: bold;
+  position: relative;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.content--side .title a {
+  padding: 1rem 0;
+  line-height: 1.25rem;
+}
+
+nav a::after,
+.content--side .title a::after {
+  content: "";
+  display: block;
+  height: 0.2rem;
+  width: 0;
+  margin: 0;
+  left: 0;
+  border-radius: 1rem;
+  position: absolute;
+  bottom: 0;
+  background: var(--text-color);
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+nav .active {
+  color: var(--text-color);
+}
+
+nav .active::after {
+  background: var(--text-color);
+}
+
+nav .active::after,
+nav a:hover::after,
+.content--side .title a:hover::after {
+  width: 100%;
+}

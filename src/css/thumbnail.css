@@ -1,0 +1,42 @@
+.thumbnail {
+  background-color: var(--border-color);
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail--medium {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 0.25rem;
+}
+
+.thumbnail--medium,
+.thumbnail--medium img {
+  border-radius: 0.75rem;
+}
+
+.thumbnail--small {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 3rem;
+}
+.thumbnail--small,
+.thumbnail--small img {
+  border-radius: 3rem;
+}
+
+.lazy-fade {
+  transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.lazy-fade.hidden {
+  opacity: 0;
+}
+
+.lazy-fade.visible {
+  opacity: 1;
+}

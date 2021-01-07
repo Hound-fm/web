@@ -1,0 +1,68 @@
+.button {
+  border: 0;
+  background: 0;
+  color: inherit;
+  font-size: inherit;
+  border: 1px solid var(--button-border-color);
+  padding: 0.3rem 0.75rem;
+  margin-right: 1.25rem;
+  border-radius: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.button:hover {
+  color: var(--text-color);
+  background: var(--button-hover-bg-color);
+}
+
+.button--large {
+  padding: 0.6em 1.2em;
+  font-size: 1.25em;
+}
+
+.button--icon-large {
+  padding: 0.6em;
+  font-size: 1.25em;
+}
+
+.button--large .button__icon {
+  height: 1.25em;
+}
+
+.button--player-control-main,
+.button--player-control,
+.button--icon {
+  margin: 0 0.15em;
+  padding: 0.3em;
+  color: var(--subtitle-color);
+}
+
+.button--player-control-main,
+.button--player-control {
+  font-size: 1.25em;
+  border: 0;
+}
+
+.button--player-control-main {
+  font-size: 2em;
+  padding: 0.1em;
+  color: var(--text-color);
+}
+
+.button--player-control-main .button__icon,
+.button--player-control .button__icon {
+  height: 1.25em;
+}
+
+.button__icon {
+  height: 1rem;
+}
+
+.button__label {
+  margin: 0 0.25rem;
+}

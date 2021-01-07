@@ -1,10 +1,7 @@
 import { Nav, Sidebar } from "./components/nav";
 import { List, SimpleList } from "./components/list";
 import { useQuery } from "react-query";
-
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-import "./App.css";
 
 function App() {
   const { isLoading, error, data } = useQuery("repoData", () =>
