@@ -3,6 +3,7 @@ import Button from "./button";
 import Thumbnail from "./thumbnail";
 import { memo } from "react";
 import { DateTime, Duration } from "luxon";
+import { TagLink } from "./tag";
 
 import {
   mdiShareVariant,
@@ -51,7 +52,7 @@ const Item = memo(
               {DateTime.fromISO(date).toRelative()}
             </span>
           </div>
-          {tag && <a className="item-tag">{tag}</a>}
+          {tag && <TagLink tag={tag} />}
         </div>
         <div className="item-data">
           <div className="item-thumbnail">

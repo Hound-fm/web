@@ -1,12 +1,15 @@
 import { Nav, Sidebar } from "./components/nav";
 import { List, SimpleList } from "./components/list";
 import { useQuery } from "react-query";
+import clsx from "clsx";
 import {
   BrowserRouter as Router,
   Switch,
   Redirect,
   Route,
 } from "react-router-dom";
+
+import { TagLink } from "./components/tag";
 
 function App() {
   const { isLoading, error, data } = useQuery("repoData", () =>
@@ -39,9 +42,7 @@ function App() {
                   </h3>
                   <div className="tags">
                     {data.data["genres"].map((tag) => (
-                      <a key={tag} className="item-tag">
-                        {tag}
-                      </a>
+                      <TagLink key={tag} tag={tag} />
                     ))}
                   </div>
                 </>
@@ -52,9 +53,7 @@ function App() {
               <div className="tags">
                 {dataReady &&
                   data.data["tags"].map((tag) => (
-                    <a key={tag} className="item-tag">
-                      {tag}
-                    </a>
+                    <TagLink key={tag} tag={tag} />
                   ))}
               </div>
               <h3 className="title">

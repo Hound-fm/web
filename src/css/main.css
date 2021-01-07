@@ -5,6 +5,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .page {
   display: flex;
   align-items: center;
@@ -170,13 +175,13 @@ body {
   margin: 0.75rem 0;
 }
 
-.tags .item-tag {
+.tags .tag-link {
   margin-top: 0.75rem;
   margin-right: 0.64rem;
   font-size: 0.756rem;
 }
 
-.item-tag {
+.tag-link {
   font-size: 0.75em;
   padding: 0.25rem 0.75rem;
   color: var(--subtitle-color);
@@ -187,7 +192,7 @@ body {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.item-tag:hover {
+.tag-link:hover {
   background: var(--button-hover-bg-color);
   color: var(--text-color);
   cursor: pointer;
