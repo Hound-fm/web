@@ -1,7 +1,12 @@
 import { Nav, Sidebar } from "./components/nav";
 import { List, SimpleList } from "./components/list";
 import { useQuery } from "react-query";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+  Route,
+} from "react-router-dom";
 
 function App() {
   const { isLoading, error, data } = useQuery("repoData", () =>
@@ -15,6 +20,12 @@ function App() {
       <div className="App dark">
         <Nav />
         <Sidebar />
+        <Switch>
+          <Redirect exact from="/" to="/music/latest" />
+          <Redirect exact from="/music" to="/music/latest" />
+          <Redirect exact from="/podcasts" to="/podcasts/latest" />
+          <Redirect exact from="/audiobooks" to="/audiobooks/latest" />
+        </Switch>
         <div className="page">
           <div className="content">
             <div className="content--center">
