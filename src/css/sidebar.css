@@ -19,7 +19,7 @@
   color: var(--text-color);
 }
 
-.sidebar__link--active a {
+.sidebar__link.sidebar__link--active a {
   background: var(--sidebar-link-bg-color);
   color: var(--sidebar-link-text-color);
 }
@@ -31,7 +31,6 @@
   text-decoration: none;
   padding: 0.625em 1.25em;
   border-radius: 2.5rem;
-  color: var(--subtitle-color);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
 }
