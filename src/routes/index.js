@@ -23,13 +23,13 @@ const Routes = () => {
     <>
       <Redirects />
       <Switch>
-        <Route path="/music">
+        <Route path="/music/:group">
           <Music />
         </Route>
-        <Route path="/podcasts">
+        <Route path="/podcasts/:group">
           <Podcasts />
         </Route>
-        <Route path="/audiobooks">
+        <Route path="/audiobooks/:group">
           <Audiobooks />
         </Route>
       </Switch>

@@ -1,19 +1,22 @@
 import clsx from "clsx";
-import { useQuery } from "react-query";
-import { TagLink } from "components/tag";
+import { TagsGroup } from "components/tag";
 import { List, SimpleList } from "components/list";
 import { Nav } from "components/nav";
+import { useParams } from "react-router-dom";
 
 import useFetchData from "hooks/useFetchData";
 import useRouterQuery from "hooks/useRouterQuery";
 
-function Music() {
+function Podcasts() {
   const params = useRouterQuery();
   const tag = params.get("tag");
-  const { isLoading, error, data } = useFetchData("podcast", tag);
+  const { group } = useParams();
+  const { isLoading, error, data } = useFetchData("podcast", group, tag);
   const dataReady = data && data.data != null;
   const showGenres =
     dataReady && data.data["genres"] && data.data["genres"].length > 0;
+  const showTags =
+    dataReady && data.data["tags"] && data.data["tags"].length > 0;
   return (
     <div className="page">
       <Nav />
@@ -26,24 +29,9 @@ function Music() {
         </div>
         <div className="content--side content--side-right">
           {showGenres && (
-            <>
-              <h3 className="title">
-                <a href="#">Genres</a>
-              </h3>
-              <div className="tags">
-                {data.data["genres"].map((tag) => (
-                  <TagLink key={tag} tag={tag} />
-                ))}
-              </div>
-            </>
+            <TagsGroup title={"Genres"} tags={data.data["genres"]} />
           )}
-          <h3 className="title">
-            <a href="#">Tags</a>
-          </h3>
-          <div className="tags">
-            {dataReady &&
-              data.data["tags"].map((tag) => <TagLink key={tag} tag={tag} />)}
-          </div>
+          {showTags && <TagsGroup title={"Tags"} tags={data.data["tags"]} />}
           <h3 className="title">
             <a href="#">Channels</a>
           </h3>
@@ -54,4 +42,4 @@ function Music() {
   );
 }
 
-export default Music;
+export default Podcasts;

@@ -17,7 +17,7 @@ function App() {
     dataReady && data.data["genres"] && data.data["genres"].length > 0;
   return (
     <Router>
-      <div className="App dark">
+      <div className="App">
         <Sidebar />
         <Routes />
       </div>

@@ -1,15 +1,19 @@
 import { useQuery } from "react-query";
 
-function useFetchData(category, tag) {
-  const res = useQuery([`${category}-data`, { tag }], () => {
+function useFetchData(category, group, tag) {
+  const res = useQuery([`${category}-data`, group, tag], () => {
     if (tag && tag.length > 3) {
       return fetch(
-        `http://localhost:3333/latest/${category}?tag=${tag}`
+        `http://localhost:3333/latest/${category}?${
+          group ? `group=${group}&` : ""
+        }tag=${tag}`
       ).then((res) => res.json());
     }
-    return fetch(`http://localhost:3333/latest/${category}`).then((res) =>
-      res.json()
-    );
+    return fetch(
+      `http://localhost:3333/latest/${category}?${
+        group ? `group=${group}&` : ""
+      }`
+    ).then((res) => res.json());
   });
   return res;
 }

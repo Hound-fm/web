@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { memo } from "react";
 import { Link, useRouteMatch, useLocation } from "react-router-dom";
 
 const formatPath = (pathname) => {
@@ -10,10 +11,10 @@ const formatPath = (pathname) => {
   return path;
 };
 
-export const TagLink = ({ tag, className }) => {
+export const TagLink = ({ tag, className, activeOnMatch }) => {
   const location = useLocation();
   const path = formatPath(location.pathname) + "?tag=" + tag;
-  const match = location.pathname + location.search === path;
+  const match = activeOnMatch && location.pathname + location.search === path;
 
   return (
     <Link to={path} className={clsx("tag-link", className, match && "active")}>
@@ -21,3 +22,18 @@ export const TagLink = ({ tag, className }) => {
     </Link>
   );
 };
+
+export const TagsGroup = memo(({ title, tags }) => {
+  return (
+    <>
+      <h3 className="title">
+        <a href="#">{title}</a>
+      </h3>
+      <div className="tags">
+        {tags.map((tag) => (
+          <TagLink key={tag} tag={tag} activeOnMatch />
+        ))}
+      </div>
+    </>
+  );
+});
