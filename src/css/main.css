@@ -181,6 +181,18 @@ a {
   font-size: 0.756rem;
 }
 
+.dark .tag-link.active {
+  color: #74b9ff;
+  border-color: #74b9ff;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.tag-link.active {
+  color: #133f53;
+  background: #d2edf8;
+  border-color: #133f53;
+}
+
 .tag-link {
   font-size: 0.75em;
   padding: 0.25rem 0.75rem;
@@ -192,7 +204,7 @@ a {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.tag-link:hover {
+.tag-link:hover:not(.active) {
   background: var(--button-hover-bg-color);
   color: var(--text-color);
   cursor: pointer;

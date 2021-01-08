@@ -19,7 +19,10 @@ function Music() {
       <Nav />
       <div className="content">
         <div className="content--center">
-          <List dataItems={dataReady && data.data["streams"]} />
+          <List
+            dataItems={dataReady && data.data["streams"]}
+            defaultTag={tag}
+          />
         </div>
         <div className="content--side content--side-right">
           {showGenres && (

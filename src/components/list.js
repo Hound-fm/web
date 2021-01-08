@@ -40,8 +40,11 @@ const Item = memo(
     date,
     action,
     duration,
+    defaultTag,
   }) => {
-    const tag = tags.length ? tags[0] : false;
+    const tag =
+      (defaultTag && defaultTag.length > 3 && defaultTag) ||
+      (tags.length ? tags[0] : false);
     return (
       <div className="item">
         <div className="item-message">
@@ -89,7 +92,7 @@ const ItemSmall = memo(({ title, subtitle, thumbnail }) => {
   );
 });
 
-export function List({ dataItems }) {
+export function List({ dataItems, defaultTag }) {
   return (
     <div className="list">
       {dataItems &&
@@ -103,6 +106,7 @@ export function List({ dataItems }) {
             subtitle={item.publisher_title}
             duration={item.audio_duration}
             thumbnail={item.thumbnail_url}
+            defaultTag={defaultTag}
             tags={item.genres || []}
             action="Discovered"
           />

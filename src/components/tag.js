@@ -10,10 +10,10 @@ const formatPath = (pathname) => {
   return path;
 };
 
-export const TagLink = ({ tag, exact, className }) => {
+export const TagLink = ({ tag, className }) => {
   const location = useLocation();
   const path = formatPath(location.pathname) + "?tag=" + tag;
-  const match = useRouteMatch({ path, exact });
+  const match = location.pathname + location.search === path;
 
   return (
     <Link to={path} className={clsx("tag-link", className, match && "active")}>
