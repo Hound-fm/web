@@ -4,10 +4,13 @@ import { TagLink } from "components/tag";
 import { List, SimpleList } from "components/list";
 import { Nav } from "components/nav";
 
+import useFetchData from "hooks/useFetchData";
+import useRouterQuery from "hooks/useRouterQuery";
+
 function Music() {
-  const { isLoading, error, data } = useQuery("podcast-data", () =>
-    fetch("http://localhost:3333/latest/podcast").then((res) => res.json())
-  );
+  const params = useRouterQuery();
+  const tag = params.get("tag");
+  const { isLoading, error, data } = useFetchData("podcast", tag);
   const dataReady = data && data.data != null;
   const showGenres =
     dataReady && data.data["genres"] && data.data["genres"].length > 0;

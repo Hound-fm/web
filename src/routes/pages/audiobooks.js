@@ -3,11 +3,13 @@ import { useQuery } from "react-query";
 import { TagLink } from "components/tag";
 import { List, SimpleList } from "components/list";
 import { Nav } from "components/nav";
+import useFetchData from "hooks/useFetchData";
+import useRouterQuery from "hooks/useRouterQuery";
 
 function Music() {
-  const { isLoading, error, data } = useQuery("audiobook-data", () =>
-    fetch("http://localhost:3333/latest/audiobook").then((res) => res.json())
-  );
+  const params = useRouterQuery();
+  const tag = params.get("tag");
+  const { isLoading, error, data } = useFetchData("audiobook", tag);
   const dataReady = data && data.data != null;
   const showGenres =
     dataReady && data.data["genres"] && data.data["genres"].length > 0;

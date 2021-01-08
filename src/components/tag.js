@@ -1,8 +1,18 @@
 import clsx from "clsx";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch, useLocation } from "react-router-dom";
+
+const formatPath = (pathname) => {
+  let path = pathname;
+  const last = path.slice(-1);
+  if (last === "/") {
+    path = path.slice(0, -1);
+  }
+  return path;
+};
 
 export const TagLink = ({ tag, exact, className }) => {
-  const path = "/tags/" + tag;
+  const location = useLocation();
+  const path = formatPath(location.pathname) + "?tag=" + tag;
   const match = useRouteMatch({ path, exact });
 
   return (

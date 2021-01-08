@@ -8,7 +8,7 @@ function Nav() {
   const location = useLocation();
   const page = location.pathname.split("/")[1];
   const root = page && page.length ? `/${page}` : "";
-  console.info(location);
+
   return (
     <header>
       <nav className="nav">

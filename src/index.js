@@ -9,7 +9,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import "./css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    staleTime: 100 * 60 * 5,
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
