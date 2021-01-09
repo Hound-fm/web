@@ -8,6 +8,7 @@ import {
 import Music from "routes/pages/music";
 import Podcasts from "routes/pages/podcasts";
 import Audiobooks from "routes/pages/audiobooks";
+import Settings from "routes/pages/settings";
 
 const Redirects = () => (
   <Switch>
@@ -31,6 +32,9 @@ const Routes = () => {
         </Route>
         <Route path="/audiobooks/:group">
           <Audiobooks />
+        </Route>
+        <Route path="/settings">
+          <Settings />
         </Route>
       </Switch>
     </>

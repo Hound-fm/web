@@ -4,17 +4,20 @@ import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog } from "@mdi/js";
 
 import { Link, useRouteMatch, useLocation } from "react-router-dom";
 
-function Nav() {
+function Nav({ innerRoutes, title }) {
   const location = useLocation();
   const page = location.pathname.split("/")[1];
   const root = page && page.length ? `/${page}` : "";
 
   return (
     <header>
+      {title && <h3 className={"header__title"}>{title}</h3>}
       <nav className="nav">
-        {/* <a className="navbar-brand" href="/">Hound.fm</a> */}
-        <NavLink path={`${root}/latest`} label={"Latest"} />
-        <NavLink path={`${root}/popular`} label={"Popular"} />
+        {innerRoutes &&
+          innerRoutes.length > 0 &&
+          innerRoutes.map((route) => (
+            <NavLink path={`${root}/${route.path}`} label={route.label} />
+          ))}
       </nav>
     </header>
   );

@@ -51,7 +51,6 @@
 .button--player-control-main {
   font-size: 2em;
   padding: 0.1em;
-  color: var(--text-color);
 }
 
 .button--player-control-main .button__icon,

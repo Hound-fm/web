@@ -13,6 +13,12 @@ header {
   height: var(--nav-height);
 }
 
+.header__title {
+  margin-left: 2.5em;
+  font-size: 1.4em;
+  font-weight: bolder;
+}
+
 nav {
   padding: 0 1.5rem;
   box-sizing: border-box;
@@ -65,6 +71,10 @@ nav .active {
 
 nav .active::after {
   background: var(--text-color);
+}
+
+nav a::after {
+  background-color: var(--subtitle-color);
 }
 
 nav .active::after,

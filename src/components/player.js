@@ -45,7 +45,6 @@ function Player() {
 
         <div className={"player__controls__buttons"}>
           <Button icon={mdiRepeat} type="player-control" />
-          <Button icon={mdiShuffle} type="player-control" />
           <Button icon={mdiVolumeHigh} type="player-control" />
         </div>
       </div>

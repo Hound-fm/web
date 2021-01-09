@@ -9,7 +9,6 @@
   box-shadow: 0 -1em 1.4em var(--player-bg-color);
   z-index: 99;
   border-top: 1px solid var(--border-color);
-  color: inherit;
   justify-content: space-between;
 }
 
@@ -39,12 +38,18 @@
 .rc-slider-track,
 .rc-slider-handle {
   border: 0;
-  background: var(--text-color);
+  background: var(--subtitle-color);
 }
 
+.rc-slider-handle:focus,
 .rc-slider:hover .rc-slider-handle {
   opacity: 1;
 }
+
+ {
+  opacity: 1;
+}
+
 .rc-slider-handle {
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -69,6 +74,10 @@
   font-size: 0.8em;
   max-width: calc(var(--sidebar-width) + 5em);
   flex-grow: 1;
+}
+
+.playlist-info {
+  color: var(--subtitle-color);
 }
 
 .track-info__thumbnail {

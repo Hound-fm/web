@@ -6,6 +6,11 @@ import { useParams } from "react-router-dom";
 import useFetchData from "hooks/useFetchData";
 import useRouterQuery from "hooks/useRouterQuery";
 
+const routes = [
+  { label: "Latest", path: "latest" },
+  { label: "Popular", path: "popular" },
+];
+
 function Music() {
   const params = useRouterQuery();
   const tag = params.get("tag");
@@ -19,7 +24,7 @@ function Music() {
     dataReady && data.data["tags"] && data.data["tags"].length > 0;
   return (
     <div className="page">
-      <Nav />
+      <Nav title={"Music"} innerRoutes={routes} />
       <div className="content">
         <div className="content--center">
           <List
