@@ -4,6 +4,7 @@ import Thumbnail from "./thumbnail";
 import { memo } from "react";
 import { DateTime, Duration } from "luxon";
 import { TagLink } from "./tag";
+import { getStreamLink } from "utils/lbryplayer";
 
 import {
   mdiShareVariant,
@@ -31,6 +32,8 @@ const shortFormat = (seconds) => {
 
 const Item = memo(
   ({
+    id,
+    name,
     title,
     tags,
     subtitle,
@@ -46,7 +49,7 @@ const Item = memo(
       (defaultTag && defaultTag.length > 3 && defaultTag) ||
       (tags.length ? tags[0] : false);
     return (
-      <div className="item">
+      <div className="item" data-name={name} data-id={id}>
         <div className="item-message">
           <div className="item-message__text">
             <Icon path={mdiAntenna} className="item-message__icon" />
@@ -69,7 +72,11 @@ const Item = memo(
         <div className="item-actions">
           <Button label={shortFormat(duration)} icon={mdiPlay} />
           {/* <Button type="icon" icon={mdiShareVariant} /> */}
-          <Button type="icon" icon={mdiArrowDownBold} />
+          <Button
+            externalLink={getStreamLink({ name, id }, true)}
+            type="icon"
+            icon={mdiArrowDownBold}
+          />
         </div>
       </div>
     );
@@ -100,6 +107,8 @@ export function List({ dataItems, defaultTag }) {
         dataItems.map((item) => (
           <Item
             key={item.id}
+            id={item.id}
+            name={item.name}
             date={item.discovered_at}
             title={item.title}
             author={item.discovered_name}
@@ -107,7 +116,7 @@ export function List({ dataItems, defaultTag }) {
             duration={item.audio_duration}
             thumbnail={item.thumbnail_url}
             defaultTag={defaultTag}
-            tags={item.genres || []}
+            tags={item.genres || item.tags || []}
             action="Discovered"
           />
         ))}
