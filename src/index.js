@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { ThemeContext } from "./store/context";
 import Player from "./components/player";
+import { PlayerProvider } from "store/playerContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 // import reportWebVitals from './reportWebVitals';
@@ -17,12 +17,12 @@ const queryClient = new QueryClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeContext.Provider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <PlayerProvider>
         <App />
         <Player />
-      </QueryClientProvider>
-    </ThemeContext.Provider>
+      </PlayerProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

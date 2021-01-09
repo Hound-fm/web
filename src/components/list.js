@@ -5,6 +5,7 @@ import { memo } from "react";
 import { DateTime, Duration } from "luxon";
 import { TagLink } from "./tag";
 import { getStreamLink } from "utils/lbryplayer";
+import { usePlayerState, usePlayerDispatch } from "store/playerContext";
 
 import {
   mdiShareVariant,
@@ -12,9 +13,10 @@ import {
   mdiAntenna,
   mdiPlay,
   mdiArrowDownBold,
+  mdiStar,
 } from "@mdi/js";
 
-const shortFormat = (seconds) => {
+const shortFormat = (seconds = 0) => {
   const duration = Duration.fromObject({ seconds });
 
   const hours = duration.as("hours");
@@ -28,6 +30,22 @@ const shortFormat = (seconds) => {
   }
 
   return seconds.toFixed() + " sec";
+};
+
+const ItemPlayButton = ({ duration, id, name, title, author, thumbnail }) => {
+  const state = usePlayerState();
+  const dispatch = usePlayerDispatch();
+  const handleClick = () => {
+    dispatch({ type: "play", data: { id, name, title, author, thumbnail } });
+  };
+
+  return (
+    <Button
+      label={shortFormat(duration)}
+      icon={mdiPlay}
+      onClick={handleClick}
+    />
+  );
 };
 
 const Item = memo(
@@ -54,7 +72,8 @@ const Item = memo(
           <div className="item-message__text">
             <Icon path={mdiAntenna} className="item-message__icon" />
             <span>
-              {`${action} by ${author}`} &bull;{" "}
+              {`${action}`}
+              {author && ` ${author}`} &bull;{" "}
               {DateTime.fromISO(date).toRelative()}
             </span>
           </div>
@@ -70,7 +89,14 @@ const Item = memo(
           </div>
         </div>
         <div className="item-actions">
-          <Button label={shortFormat(duration)} icon={mdiPlay} />
+          <ItemPlayButton
+            duration={duration}
+            id={id}
+            name={name}
+            title={title}
+            author={subtitle}
+            thumbnail={thumbnail}
+          />
           {/* <Button type="icon" icon={mdiShareVariant} /> */}
           <Button
             externalLink={getStreamLink({ name, id }, true)}

@@ -2,7 +2,14 @@ import clsx from "clsx";
 import Icon from "@mdi/react";
 import { DownloadLink, ExternalLink } from "components/externalLink";
 
-const Button = ({ label, icon, type, externalLink, downloadlLink }) => {
+const Button = ({
+  label,
+  icon,
+  type,
+  externalLink,
+  downloadlLink,
+  ...props
+}) => {
   if (externalLink) {
     return (
       <ExternalLink
@@ -28,7 +35,7 @@ const Button = ({ label, icon, type, externalLink, downloadlLink }) => {
   }
 
   return (
-    <button className={clsx("button", type && `button--${type}`)}>
+    <button className={clsx("button", type && `button--${type}`)} {...props}>
       {icon && <Icon path={icon} className="button__icon" />}
       {label && <span className="button__label">{label}</span>}
     </button>

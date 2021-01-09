@@ -1,5 +1,7 @@
 import Button from "./button";
 import Slider from "rc-slider";
+import Thumbnail from "components/thumbnail";
+import { usePlayerState } from "store/playerContext";
 
 import {
   mdiSkipNext,
@@ -15,21 +17,26 @@ import {
 
 import "rc-slider/assets/index.css";
 
+function TrackInfo() {
+  const { title, name, id, author, thumbnail } = usePlayerState();
+
+  return (
+    <div className={"track-info"}>
+      <div className={"track-info__thumbnail"}>
+        <Thumbnail src={thumbnail} className={"thumbnail--tiny"} />
+      </div>
+      <div className={"track-info__metadata"}>
+        <div className={"track-info__metadata__title"}>{title}</div>
+        <div className={"track-info__metadata__channel"}>{author}</div>
+      </div>
+    </div>
+  );
+}
+
 function Player() {
   return (
     <div className={"player"}>
-      <div className={"track-info"}>
-        <div className={"track-info__thumbnail"}></div>
-        <div className={"track-info__metadata"}>
-          <div className={"track-info__metadata__title"}>
-            Title of the track
-          </div>
-          <div className={"track-info__metadata__channel"}>
-            Artist or channel name
-          </div>
-        </div>
-      </div>
-
+      <TrackInfo />
       <div className="player__controls">
         <div className={"player__controls__buttons"}>
           <Button icon={mdiSkipPrevious} type="player-control" />

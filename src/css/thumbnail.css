@@ -29,6 +29,16 @@
   border-radius: 3rem;
 }
 
+.thumbnail--tiny {
+  height: 5em;
+  width: 5em;
+}
+
+.thumbnail--tiny,
+.thumbnail--tiny img {
+  border-radius: 0.75em;
+}
+
 .lazy-fade {
   transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
