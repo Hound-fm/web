@@ -24,7 +24,7 @@ body {
   --text-color: #fff;
   --subtitle-color: #d2dae2;
   --border-color: #3f4453;
-  --bg-color: #23252d; /* #252831; */
+  --bg-color: #1a1c22; /* #252831; */
   --button-border-color: #677088;
   --button-hover-bg-color: #333743;
   --sidebar-link-bg-color: var(--border-color);

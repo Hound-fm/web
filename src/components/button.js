@@ -4,19 +4,26 @@ import { DownloadLink, ExternalLink } from "components/externalLink";
 
 const Button = ({
   label,
-  icon,
   type,
+  icon,
+  active,
+  iconClassName,
   externalLink,
   downloadlLink,
   ...props
 }) => {
+  const classNames = clsx(
+    "button",
+    type && `button--${type}`,
+    active && "button--active"
+  );
+
   if (externalLink) {
     return (
-      <ExternalLink
-        path={externalLink}
-        className={clsx("button", type && `button--${type}`)}
-      >
-        {icon && <Icon path={icon} className="button__icon" />}
+      <ExternalLink path={externalLink} className={classNames}>
+        {icon && (
+          <Icon path={icon} className={clsx("button__icon", iconClassName)} />
+        )}
         {label && <span className="button__label">{label}</span>}
       </ExternalLink>
     );
@@ -24,19 +31,20 @@ const Button = ({
 
   if (downloadlLink) {
     return (
-      <DownloadLink
-        path={downloadlLink}
-        className={clsx("button", type && `button--${type}`)}
-      >
-        {icon && <Icon path={icon} className="button__icon" />}
+      <DownloadLink path={downloadlLink} className={classNames}>
+        {icon && (
+          <Icon path={icon} className={clsx("button__icon", iconClassName)} />
+        )}
         {label && <span className="button__label">{label}</span>}
       </DownloadLink>
     );
   }
 
   return (
-    <button className={clsx("button", type && `button--${type}`)} {...props}>
-      {icon && <Icon path={icon} className="button__icon" />}
+    <button className={classNames} {...props}>
+      {icon && (
+        <Icon path={icon} className={clsx("button__icon", iconClassName)} />
+      )}
       {label && <span className="button__label">{label}</span>}
     </button>
   );

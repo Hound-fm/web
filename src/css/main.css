@@ -9,6 +9,10 @@ a {
   text-decoration: none;
 }
 
+button[disabled] {
+  pointer-events: none;
+}
+
 .page {
   display: flex;
   align-items: center;
@@ -44,7 +48,6 @@ a {
   padding: 0.75em 0;
   margin: 0;
   margin-top: 2.1rem;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .content--side .title a {
@@ -128,7 +131,7 @@ a {
 
 .item-title,
 .item-subtitle {
-  font-size: 1rem;
+  font-size: 0.94rem;
   text-transform: capitalize;
   margin: 0.2rem 0;
 }
@@ -160,7 +163,7 @@ a {
 }
 
 .item-message__text {
-  font-size: 0.86em;
+  font-size: 0.84em;
   display: flex;
   align-items: center;
 }

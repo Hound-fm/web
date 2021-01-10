@@ -22,8 +22,8 @@
 
 .player__controls {
   flex: 1;
-  margin-right: 6.75em;
-  margin-left: 2.5em;
+  margin-right: 6.75rem;
+  margin-left: 2.5rem;
   justify-content: center;
 }
 
@@ -32,7 +32,8 @@
 }
 
 .rc-slider {
-  min-width: 10em;
+  min-width: 10rem;
+  flex: 1;
 }
 
 .rc-slider-track,
@@ -52,15 +53,20 @@
 }
 
 .player__slider {
-  min-width: 10em;
+  min-width: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
-  max-width: 50em;
 }
 
 .player__slider span {
-  margin: 0 1.25em;
-  font-size: 0.86em;
+  min-width: 5rem;
+  font-size: 0.86rem;
   color: var(--subtitle-color);
+  margin: 0;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
 }
 
 .track-info,
@@ -69,7 +75,7 @@
   align-items: center;
   font-size: 0.8em;
   max-width: calc(var(--sidebar-width) + 10em);
-  flex-grow: 1;
+  flex: 1;
 }
 
 .playlist-info {
@@ -113,6 +119,7 @@
 .track-info__metadata__channel {
   color: var(--subtitle-color);
   font-size: 0.96em;
+  text-transform: capitalize;
 }
 
 .player__controls__buttons {

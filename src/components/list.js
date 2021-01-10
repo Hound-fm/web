@@ -2,8 +2,9 @@ import Icon from "@mdi/react";
 import Button from "./button";
 import Thumbnail from "./thumbnail";
 import { memo } from "react";
-import { DateTime, Duration } from "luxon";
+import { DateTime } from "luxon";
 import { TagLink } from "./tag";
+import { durationShortFormat } from "utils/format.js";
 import { getStreamLink } from "utils/lbryplayer";
 import { usePlayerState, usePlayerDispatch } from "store/playerContext";
 
@@ -14,34 +15,22 @@ import {
   mdiPlay,
   mdiArrowDownBold,
   mdiStar,
+  mdiDotsVertical,
 } from "@mdi/js";
-
-const shortFormat = (seconds = 0) => {
-  const duration = Duration.fromObject({ seconds });
-
-  const hours = duration.as("hours");
-  if (hours >= 1) {
-    return hours.toFixed() + " hrs";
-  }
-
-  const minutes = duration.as("minutes");
-  if (minutes >= 1) {
-    return minutes.toFixed() + " min";
-  }
-
-  return seconds.toFixed() + " sec";
-};
 
 const ItemPlayButton = ({ duration, id, name, title, author, thumbnail }) => {
   const state = usePlayerState();
   const dispatch = usePlayerDispatch();
   const handleClick = () => {
-    dispatch({ type: "play", data: { id, name, title, author, thumbnail } });
+    dispatch({
+      type: "play",
+      data: { id, name, title, author, thumbnail, duration },
+    });
   };
 
   return (
     <Button
-      label={shortFormat(duration)}
+      label={durationShortFormat(duration)}
       icon={mdiPlay}
       onClick={handleClick}
     />
@@ -63,9 +52,7 @@ const Item = memo(
     duration,
     defaultTag,
   }) => {
-    const tag =
-      (defaultTag && defaultTag.length > 3 && defaultTag) ||
-      (tags.length ? tags[0] : false);
+    const tag = defaultTag || (tags.length ? tags[0] : false);
     return (
       <div className="item" data-name={name} data-id={id}>
         <div className="item-message">
@@ -90,9 +77,9 @@ const Item = memo(
         </div>
         <div className="item-actions">
           <ItemPlayButton
-            duration={duration}
             id={id}
             name={name}
+            duration={duration}
             title={title}
             author={subtitle}
             thumbnail={thumbnail}
@@ -142,7 +129,7 @@ export function List({ dataItems, defaultTag }) {
             duration={item.audio_duration}
             thumbnail={item.thumbnail_url}
             defaultTag={defaultTag}
-            tags={item.genres || item.tags || []}
+            tags={item.genres.legth > 0 ? item.genres : item.tags || []}
             action="Discovered"
           />
         ))}

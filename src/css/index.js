@@ -1,3 +1,4 @@
+import "./animation.css";
 import "./themes.css";
 import "./header.css";
 import "./button.css";

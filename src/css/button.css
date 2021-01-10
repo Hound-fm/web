@@ -15,8 +15,9 @@
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.button--active,
 .button:hover {
-  color: var(--text-color);
+  color: var(--text-color) !important;
   background: var(--button-hover-bg-color);
 }
 
@@ -44,7 +45,7 @@
 
 .button--player-control-main,
 .button--player-control {
-  font-size: 1.25em;
+  font-size: 1.25rem;
   border: 0;
 }
 

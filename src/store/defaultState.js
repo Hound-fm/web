@@ -6,6 +6,7 @@ export const playerDefaultState = {
   thumbnail: null,
   paused: false,
   playing: false,
+  fakeDuration: 0,
 };
 
 export const themeDefaultState = "light";
