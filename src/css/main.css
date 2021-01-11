@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  overflow-y: scroll;
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -39,7 +40,9 @@ button[disabled] {
   padding: 1.25rem 2rem;
   box-sizing: border-box;
   width: calc(var(--sidebar-width) + 5em);
+  min-width: calc(var(--sidebar-width) + 5em);
   border-left: 1px solid var(--border-color);
+  min-height: 100vh;
 }
 
 .content--side .title {

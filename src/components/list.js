@@ -60,7 +60,7 @@ const Item = memo(
             <Icon path={mdiAntenna} className="item-message__icon" />
             <span>
               {`${action}`}
-              {author && ` ${author}`} &bull;{" "}
+              {author && ` by ${author}`} &bull;{" "}
               {DateTime.fromISO(date).toRelative()}
             </span>
           </div>
