@@ -48,7 +48,7 @@
 
 .sidebar__link a span {
   margin: 0 0.625rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .sidebar__link .icon {

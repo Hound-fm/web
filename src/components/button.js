@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Icon from "@mdi/react";
 import { DownloadLink, ExternalLink } from "components/externalLink";
+import { Button as BaseButton } from "reakit/Button";
 
 const Button = ({
   label,
@@ -10,12 +11,14 @@ const Button = ({
   iconClassName,
   externalLink,
   downloadlLink,
+  className,
   ...props
 }) => {
   const classNames = clsx(
     "button",
     type && `button--${type}`,
-    active && "button--active"
+    active && "button--active",
+    className
   );
 
   if (externalLink) {
@@ -41,12 +44,12 @@ const Button = ({
   }
 
   return (
-    <button className={classNames} {...props}>
+    <BaseButton className={classNames} {...props}>
       {icon && (
         <Icon path={icon} className={clsx("button__icon", iconClassName)} />
       )}
       {label && <span className="button__label">{label}</span>}
-    </button>
+    </BaseButton>
   );
 };
 

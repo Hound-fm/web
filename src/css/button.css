@@ -26,6 +26,25 @@
   font-size: 1.25em;
 }
 
+.button--menu {
+  border: 0;
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+.button--menu .button__icon {
+  height: 1.25rem;
+}
+
+.button.button--icon {
+  border: 0;
+  margin: 0 0.5em;
+}
+
+.button--icon .button__icon {
+  height: 1.5em;
+}
+
 .button--icon-large {
   padding: 0.6em;
   font-size: 1.25em;

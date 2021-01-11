@@ -154,6 +154,11 @@ button[disabled] {
   color: var(--subtitle-color);
 }
 
+.item-message__actions {
+  display: flex;
+  align-items: center;
+}
+
 .item-message {
   display: flex;
   align-items: center;

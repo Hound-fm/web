@@ -39,7 +39,8 @@ nav a,
 .content--side .title a {
   margin: 0 1rem;
   color: inherit;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.96em;
   position: relative;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -54,7 +55,7 @@ nav a::after,
 .content--side .title a::after {
   content: "";
   display: block;
-  height: 0.2rem;
+  height: 0.15rem;
   width: 0;
   margin: 0;
   left: 0;

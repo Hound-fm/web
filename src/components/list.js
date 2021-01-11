@@ -9,6 +9,7 @@ import { getStreamLink } from "utils/lbryplayer";
 import { usePlayerState, usePlayerDispatch } from "store/playerContext";
 
 import {
+  mdiShare,
   mdiShareVariant,
   mdiCreation,
   mdiAntenna,
@@ -16,6 +17,7 @@ import {
   mdiArrowDownBold,
   mdiStar,
   mdiDotsVertical,
+  mdiCardsHeart,
 } from "@mdi/js";
 
 const ItemPlayButton = ({ duration, id, name, title, author, thumbnail }) => {
@@ -34,6 +36,12 @@ const ItemPlayButton = ({ duration, id, name, title, author, thumbnail }) => {
       icon={mdiPlay}
       onClick={handleClick}
     />
+  );
+};
+
+const ItemMenuButton = ({}) => {
+  return (
+    <Button type={"icon"} className={"button--menu"} icon={mdiDotsVertical} />
   );
 };
 
@@ -64,7 +72,10 @@ const Item = memo(
               {DateTime.fromISO(date).toRelative()}
             </span>
           </div>
-          {tag && <TagLink tag={tag} />}
+          <div className={"item-message__actions"}>
+            {tag && <TagLink tag={tag} />}
+            <ItemMenuButton />
+          </div>
         </div>
         <div className="item-data">
           <div className="item-thumbnail">
@@ -84,7 +95,7 @@ const Item = memo(
             author={subtitle}
             thumbnail={thumbnail}
           />
-          {/* <Button type="icon" icon={mdiShareVariant} /> */}
+          <Button type="icon" icon={mdiShare} />
           <Button
             externalLink={getStreamLink({ name, id }, true)}
             type="icon"
