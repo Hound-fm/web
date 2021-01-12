@@ -22,7 +22,7 @@
 
 .player__controls {
   flex: 1;
-  margin-right: 6.75rem;
+  margin-right: 7.5rem;
   margin-left: 2.5rem;
   justify-content: center;
 }
@@ -74,7 +74,7 @@
   display: flex;
   align-items: center;
   font-size: 0.8em;
-  max-width: calc(var(--sidebar-width) + 10em);
+  max-width: calc(var(--sidebar-width) + 7.5em);
   flex: 1;
 }
 

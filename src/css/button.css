@@ -37,8 +37,12 @@
 }
 
 .button.button--icon {
-  border: 0;
+  border: 1px solid transparent;
   margin: 0 0.5em;
+}
+
+.button--active {
+  border-color: var(--button-border-color) !important;
 }
 
 .button--icon .button__icon {
@@ -57,7 +61,7 @@
 .button--player-control-main,
 .button--player-control,
 .button--icon {
-  margin: 0 0.15em;
+  margin: 0 0.5em;
   padding: 0.3em;
   color: var(--subtitle-color);
 }
@@ -65,12 +69,14 @@
 .button--player-control-main,
 .button--player-control {
   font-size: 1.25rem;
-  border: 0;
+  border-color: transparent;
+  box-sizing: border-box;
 }
 
 .button--player-control-main {
   font-size: 2em;
   padding: 0.1em;
+  margin: 0 0.25em;
 }
 
 .button--player-control-main .button__icon,

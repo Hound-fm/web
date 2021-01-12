@@ -140,7 +140,7 @@ export function List({ dataItems, defaultTag }) {
             duration={item.audio_duration}
             thumbnail={item.thumbnail_url}
             defaultTag={defaultTag}
-            tags={item.genres.legth > 0 ? item.genres : item.tags || []}
+            tags={item.genres.length > 0 ? item.genres : item.tags || []}
             action="Discovered"
           />
         ))}

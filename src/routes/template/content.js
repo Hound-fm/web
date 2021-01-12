@@ -12,6 +12,17 @@ const routes = [
   { label: "Popular", path: "popular" },
 ];
 
+function ChannelsList({ title, data }) {
+  return (
+    <>
+      <h3 className="title">
+        <a href="#">{title}</a>
+      </h3>
+      <SimpleList dataItems={data} />
+    </>
+  );
+}
+
 function ContentPage({ title, category }) {
   const params = useRouterQuery();
   const tag = params.get("tag");
@@ -30,10 +41,16 @@ function ContentPage({ title, category }) {
     knowledgeReady &&
     knowledge.data["genres"] &&
     knowledge.data["genres"].length > 0;
+
   const showTags =
     knowledgeReady &&
     knowledge.data["tags"] &&
     knowledge.data["tags"].length > 0;
+
+  const showChannels =
+    knowledgeReady &&
+    knowledge.data["channels"] &&
+    knowledge.data["channels"].length > 0;
 
   return (
     <div className="page">
@@ -52,12 +69,13 @@ function ContentPage({ title, category }) {
           {showTags && (
             <TagsGroup title={"Tags"} tags={knowledge.data["tags"]} />
           )}
-          <h3 className="title">
-            <a href="#">Channels</a>
-          </h3>
-          <SimpleList
-            dataItems={knowledgeReady && knowledge.data["channels"]}
-          />
+
+          {showChannels && (
+            <ChannelsList
+              title={"Channels"}
+              data={knowledge.data["channels"]}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -37,10 +37,10 @@ button[disabled] {
 }
 
 .content--side {
-  padding: 1.25rem 2rem;
+  padding: 1.25rem 2.5rem;
   box-sizing: border-box;
-  width: calc(var(--sidebar-width) + 5em);
-  min-width: calc(var(--sidebar-width) + 5em);
+  width: calc(var(--sidebar-width) + 7.5em);
+  min-width: calc(var(--sidebar-width) + 7.5em);
   border-left: 1px solid var(--border-color);
   min-height: 100vh;
 }
@@ -150,8 +150,13 @@ button[disabled] {
 
 .item-message,
 .item-actions {
-  margin: 1.4rem 0;
+  margin: 1rem 0;
+  min-height: 1.8em;
   color: var(--subtitle-color);
+}
+
+.item-actions {
+  margin: 2em 0;
 }
 
 .item-message__actions {
