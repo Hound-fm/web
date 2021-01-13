@@ -96,14 +96,28 @@ export const ButtonMenu = memo(
       [menu, items]
     );
 
-    const children = useCallback(
-      (itemProps) => (
-        <button {...itemProps} className={itemClassNames} onClick={onClick}>
+    const children = useCallback((itemProps) => {
+      const { externalLink, ...props } = itemProps;
+      if (externalLink) {
+        return (
+          <a
+            href={externalLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={itemClassNames}
+            onClick={onClick}
+            {...props}
+          >
+            <span className={"button__label"}>{props.title}</span>
+          </a>
+        );
+      }
+      return (
+        <button {...props} className={itemClassNames} onClick={onClick}>
           <span className={"button__label"}>{itemProps.title}</span>
         </button>
-      ),
-      []
-    );
+      );
+    }, []);
 
     return (
       <>
@@ -114,8 +128,8 @@ export const ButtonMenu = memo(
           {label && <span className="button__label">{label}</span>}
         </MenuButton>
         <Menu className={"menu"} {...menu} aria-label="Preferences">
-          {items.map(({ title, id, tabIndex }) => (
-            <MenuItem {...menu} key={id} id={id} title={title}>
+          {items.map(({ id, ...itemProps }) => (
+            <MenuItem {...menu} key={id} id={id} {...itemProps}>
               {children}
             </MenuItem>
           ))}

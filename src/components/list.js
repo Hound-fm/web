@@ -5,7 +5,7 @@ import { memo, useCallback } from "react";
 import { DateTime } from "luxon";
 import { TagLink } from "./tag";
 import { durationShortFormat } from "utils/format.js";
-import { getStreamLink } from "utils/lbryplayer";
+import { getStreamLink, getReportLink } from "utils/lbry";
 import { usePlayerState, usePlayerDispatch } from "store/playerContext";
 import { copyToClipboard } from "utils/clipboard";
 import {
@@ -45,10 +45,14 @@ const ItemMenuButton = ({ id }) => {
   const copyId = useCallback(() => {
     copyToClipboard(id);
   }, [id]);
+
+  const reportLink = getReportLink(id);
+
   const items = [
     { title: "Copy Id", id: "item-0", action: copyId },
-    { title: "Report content", id: "item-1" },
+    { title: "Report content", id: "item-1", externalLink: reportLink },
   ];
+
   return (
     <ButtonMenu
       type={"icon"}

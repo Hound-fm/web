@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { getStreamLink } from "utils/lbryplayer";
+import { getStreamLink } from "utils/lbry";
 import { usePlayerState } from "store/playerContext";
 import { durationTrackFormat } from "utils/format.js";
 

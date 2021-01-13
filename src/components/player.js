@@ -2,7 +2,6 @@ import { Button } from "./button";
 import Slider from "rc-slider";
 import Thumbnail from "components/thumbnail";
 import useAudioPlayer from "hooks/useAudioPlayer";
-import { getStreamLink } from "utils/lbryplayer";
 import { usePlayerState } from "store/playerContext";
 import { useRef, useState, useEffect } from "react";
 import { durationTrackFormat } from "utils/format.js";
