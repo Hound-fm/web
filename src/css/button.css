@@ -15,8 +15,35 @@
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.button--menu-item {
+  border: 0;
+  margin-bottom: 0.5em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding: 0.3em;
+  font-family: inherit;
+  font-size: 0.82em;
+  text-align: left;
+  min-width: 4em;
+  justify-content: flex-start;
+  border-radius: 0.4em;
+}
+
+.button--menu-item:first-child {
+  margin-top: 0.5em;
+}
+
+.button.button--menu-item:hover:not(:focus) {
+  background: 0;
+}
+
+.button.button--menu-item:focus {
+  background-color: var(--menu-item-bg-color);
+}
+
 .button--active,
-.button:hover {
+.button:hover,
+.button:focus {
   color: var(--text-color) !important;
   background: var(--button-hover-bg-color);
 }
@@ -33,7 +60,7 @@
 }
 
 .button--menu .button__icon {
-  height: 1.25rem;
+  height: 1.25rem !important;
 }
 
 .button.button--icon {

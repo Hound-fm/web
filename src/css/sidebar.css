@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   position: fixed;
-  z-index: 99;
+  z-index: 3;
   background: var(--bg-color);
   border-right: 1px solid var(--border-color);
   width: var(--sidebar-width);
@@ -31,8 +31,9 @@
   text-decoration: none;
   padding: 0.625em 1.25em;
   border-radius: 2.5rem;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
+  transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: background-color;
 }
 
 .sidebar__header {

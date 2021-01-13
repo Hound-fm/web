@@ -1,4 +1,4 @@
-import Button from "./button";
+import { Button } from "./button";
 import Slider from "rc-slider";
 import Thumbnail from "components/thumbnail";
 import useAudioPlayer from "hooks/useAudioPlayer";

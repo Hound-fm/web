@@ -1,7 +1,7 @@
 import Icon from "@mdi/react";
 import clsx from "clsx";
 import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog } from "@mdi/js";
-
+import React from "react";
 import { Link, useRouteMatch, useLocation } from "react-router-dom";
 
 function Nav({ innerRoutes, title }) {
@@ -23,7 +23,7 @@ function Nav({ innerRoutes, title }) {
   );
 }
 
-function NavLink({ path, label, icon, exact }) {
+const NavLink = React.memo(({ path, label, icon, exact }) => {
   const match = useRouteMatch({ path, exact });
 
   return (
@@ -32,9 +32,9 @@ function NavLink({ path, label, icon, exact }) {
       {label && <span>{label}</span>}
     </Link>
   );
-}
+});
 
-function SidebarLink({ path, label, icon, exact }) {
+const SidebarLink = React.memo(({ path, label, icon, exact }) => {
   let match = useRouteMatch({ path, exact });
   return (
     <li className={clsx("sidebar__link", match && "sidebar__link--active")}>
@@ -44,7 +44,7 @@ function SidebarLink({ path, label, icon, exact }) {
       </Link>
     </li>
   );
-}
+});
 
 function Sidebar() {
   return (

@@ -10,34 +10,30 @@ import Podcasts from "routes/pages/podcasts";
 import Audiobooks from "routes/pages/audiobooks";
 import Settings from "routes/pages/settings";
 
-const Redirects = () => (
-  <Switch>
-    <Redirect exact from="/" to="/music/latest" />
-    <Redirect exact from="/music" to="/music/latest" />
-    <Redirect exact from="/podcasts" to="/podcasts/latest" />
-    <Redirect exact from="/audiobooks" to="/audiobooks/latest" />
-  </Switch>
-);
-
 const Routes = () => {
   return (
-    <>
-      <Redirects />
-      <Switch>
-        <Route path="/music/:group">
-          <Music />
-        </Route>
-        <Route path="/podcasts/:group">
-          <Podcasts />
-        </Route>
-        <Route path="/audiobooks/:group">
-          <Audiobooks />
-        </Route>
-        <Route path="/settings">
-          <Settings />
-        </Route>
-      </Switch>
-    </>
+    <Switch>
+      <Redirect exact from="/" to="/music/latest" />
+      <Redirect exact from="/music" to="/music/latest" />
+      <Redirect exact from="/podcasts" to="/podcasts/latest" />
+      <Redirect exact from="/audiobooks" to="/audiobooks/latest" />
+
+      <Route path="/music/:group">
+        <Music />
+      </Route>
+
+      <Route path="/podcasts/:group">
+        <Podcasts />
+      </Route>
+
+      <Route path="/audiobooks/:group">
+        <Audiobooks />
+      </Route>
+
+      <Route path="/settings">
+        <Settings />
+      </Route>
+    </Switch>
   );
 };
 

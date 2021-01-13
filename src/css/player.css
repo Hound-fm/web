@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   box-shadow: 0 -1em 1.4em var(--player-bg-color);
-  z-index: 99;
+  z-index: 4;
   border-top: 1px solid var(--border-color);
   justify-content: space-between;
 }

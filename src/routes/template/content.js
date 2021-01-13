@@ -34,7 +34,7 @@ function ContentPage({ title, category }) {
     data: knowledge,
   } = useFetchKnowledge(category, group, tag);
 
-  const dataReady = data && data.data != null;
+  const dataReady = data && !isLoading && data.data != null;
   const knowledgeReady = knowledge && knowledge.data != null;
 
   const showGenres =
@@ -57,10 +57,9 @@ function ContentPage({ title, category }) {
       <Nav title={title} innerRoutes={routes} />
       <div className="content">
         <div className="content--center">
-          <List
-            dataItems={dataReady && data.data["streams"]}
-            defaultTag={tag}
-          />
+          {dataReady && (
+            <List dataItems={data.data["streams"]} defaultTag={tag} />
+          )}
         </div>
         <div className="content--side content--side-right">
           {showGenres && (

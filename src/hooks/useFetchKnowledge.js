@@ -9,7 +9,6 @@ function useFetchKnowledge(category, group) {
     ).then((res) => res.json());
   });
 
-  console.info(res.data && res.data.data);
   return res;
 }
 

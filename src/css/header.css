@@ -5,7 +5,7 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 3;
+  z-index: 2;
   background: var(--bg-color);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1em 1.4em var(--bg-color);
@@ -43,7 +43,7 @@ nav a,
   font-size: 0.96em;
   position: relative;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .content--side .title a {

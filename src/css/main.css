@@ -193,7 +193,7 @@ button[disabled] {
 
 .tags .tag-link {
   margin-top: 0.75rem;
-  margin-right: 0.64rem;
+  margin-right: 0.75rem;
   font-size: 0.756rem;
 }
 
@@ -225,4 +225,16 @@ button[disabled] {
   background: var(--button-hover-bg-color);
   color: var(--text-color);
   cursor: pointer;
+}
+
+.menu {
+  background: var(--menu-bg-color);
+  padding: 0;
+  margin: 1.25em 0;
+  border-radius: 0.4em;
+  box-shadow: var(--menu-box-shadow);
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  border: 1px solid var(--border-color);
 }

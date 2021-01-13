@@ -1,13 +1,13 @@
 import Icon from "@mdi/react";
-import Button from "./button";
+import { Button, ButtonMenu } from "./button";
 import Thumbnail from "./thumbnail";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { DateTime } from "luxon";
 import { TagLink } from "./tag";
 import { durationShortFormat } from "utils/format.js";
 import { getStreamLink } from "utils/lbryplayer";
 import { usePlayerState, usePlayerDispatch } from "store/playerContext";
-
+import { copyToClipboard } from "utils/clipboard";
 import {
   mdiShare,
   mdiShareVariant,
@@ -20,28 +20,42 @@ import {
   mdiCardsHeart,
 } from "@mdi/js";
 
-const ItemPlayButton = ({ duration, id, name, title, author, thumbnail }) => {
-  const state = usePlayerState();
-  const dispatch = usePlayerDispatch();
-  const handleClick = () => {
-    dispatch({
-      type: "play",
-      data: { id, name, title, author, thumbnail, duration },
-    });
-  };
+const ItemPlayButton = memo(
+  ({ duration, id, name, title, author, thumbnail }) => {
+    const state = usePlayerState();
+    const dispatch = usePlayerDispatch();
+    const handleClick = () => {
+      dispatch({
+        type: "play",
+        data: { id, name, title, author, thumbnail, duration },
+      });
+    };
 
+    return (
+      <Button
+        label={durationShortFormat(duration)}
+        icon={mdiPlay}
+        onClick={handleClick}
+      />
+    );
+  }
+);
+
+const ItemMenuButton = ({ id }) => {
+  const copyId = useCallback(() => {
+    copyToClipboard(id);
+  }, [id]);
+  const items = [
+    { title: "Copy Id", id: "item-0", action: copyId },
+    { title: "Report content", id: "item-1" },
+  ];
   return (
-    <Button
-      label={durationShortFormat(duration)}
-      icon={mdiPlay}
-      onClick={handleClick}
+    <ButtonMenu
+      type={"icon"}
+      items={items}
+      className={"button--menu"}
+      icon={mdiDotsVertical}
     />
-  );
-};
-
-const ItemMenuButton = ({}) => {
-  return (
-    <Button type={"icon"} className={"button--menu"} icon={mdiDotsVertical} />
   );
 };
 
@@ -74,7 +88,7 @@ const Item = memo(
           </div>
           <div className={"item-message__actions"}>
             {tag && <TagLink tag={tag} />}
-            <ItemMenuButton />
+            <ItemMenuButton id={id} />
           </div>
         </div>
         <div className="item-data">
@@ -123,7 +137,7 @@ const ItemSmall = memo(({ title, subtitle, thumbnail }) => {
   );
 });
 
-export function List({ dataItems, defaultTag }) {
+export const List = memo(({ dataItems, defaultTag }) => {
   return (
     <div className="list">
       {dataItems &&
@@ -146,9 +160,9 @@ export function List({ dataItems, defaultTag }) {
         ))}
     </div>
   );
-}
+});
 
-export function SimpleList({ dataItems }) {
+export const SimpleList = memo(({ dataItems }) => {
   return (
     <div className="list">
       {dataItems &&
@@ -164,4 +178,4 @@ export function SimpleList({ dataItems }) {
         ))}
     </div>
   );
-}
+});
