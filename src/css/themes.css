@@ -17,8 +17,8 @@
   --sidebar-link-bg-color: var(--subtitle-color);
   --sidebar-link-text-color: var(--bg-color);
 
-  --menu-bg-color: var(----button-hover-bg-color);
-  --menu-item-bg-color: rgba(91, 99, 115, 0.5);
+  --menu-bg-color: white;
+  --menu-item-bg-color: var(--button-hover-bg-color);
   --menu-box-shadow: 0 1px 14px rgba(91, 99, 115, 0.16);
 }
 
@@ -36,7 +36,7 @@ body {
   --bg-color: #1a1c22; /* #252831; */
   --button-border-color: #677088;
   --button-hover-bg-color: #333743;
-  --sidebar-link-bg-color: var(--border-color);
+  --sidebar-link-bg-color: var(--button-hover-bg-color);
   --sidebar-link-text-color: var(--text-color);
   --menu-bg-color: var(--button-hover-bg-color);
   --menu-item-bg-color: rgba(0, 0, 0, 0.4);

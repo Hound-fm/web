@@ -1,7 +1,23 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { getStreamLink } from "utils/lbry";
-import { usePlayerState } from "store/playerContext";
+import { useQueueDispatch } from "store/queueContext";
 import { durationTrackFormat } from "utils/format.js";
+import useGetTrack from "hooks/useGetTrack";
+
+const defaultPersistentState = {
+  loop: false,
+  muted: false,
+};
+
+const defaultState = {
+  ready: false,
+  source: null,
+  loading: false,
+  duration: 0,
+  currentTime: 0,
+  paused: false,
+  playing: false,
+};
 
 const isPlaying = (audio) => {
   return (
@@ -13,23 +29,14 @@ const isPlaying = (audio) => {
   );
 };
 
-const defaultState = {
-  ready: false,
-  source: null,
-  loading: false,
-  duration: 0,
-  currentTime: 0,
-  durationFormated: durationTrackFormat(0),
-  loop: false,
-  paused: false,
-  playing: false,
-};
-
 const useAudioPlayer = () => {
   const audioRef = useRef();
-  const { name, id } = usePlayerState();
-
-  const [state, setState] = useState(defaultState);
+  const queueDispatch = useQueueDispatch();
+  const currentTrack = useGetTrack();
+  const [state, setState] = useState({
+    ...defaultState,
+    ...defaultPersistentState,
+  });
 
   const seek = (nextTime) => {
     const player = audioRef.current;
@@ -45,31 +52,30 @@ const useAudioPlayer = () => {
     // Loop current playlist
     if (!state.loop) {
       setState((prevState) => ({ ...prevState, loop: "playlist" }));
-      player.loop = false;
     }
 
     // Loop current track
     if (state.loop == "playlist") {
       setState((prevState) => ({ ...prevState, loop: "once" }));
-      player.loop = true;
     }
 
     // No loop
     if (state.loop === "once") {
       setState((prevState) => ({ ...prevState, loop: false }));
-      player.loop = false;
     }
+  };
+
+  const toggleMuted = () => {
+    const player = audioRef.current;
+    player.muted = !player.muted;
+    setState((prevState) => ({ ...prevState, muted: player.muted }));
   };
 
   const triggerPlay = () => {
     const player = audioRef.current;
     const promise = player.play();
     if (promise) {
-      promise
-        .then(() => {})
-        .catch(() => {
-          setState((prevState) => ({ paused: player.paused }));
-        });
+      promise.then(() => {}).catch(() => {});
     }
   };
 
@@ -85,14 +91,14 @@ const useAudioPlayer = () => {
 
   const handleReady = () => {
     setState((prevState) => ({ ...prevState, loading: false, ready: true }));
+    triggerPlay();
   };
 
-  const handleMetadata = () => {
+  const handleDurationChange = () => {
     const player = audioRef.current;
     setState((prevState) => ({
       ...prevState,
       duration: player.duration,
-      durationFormated: durationTrackFormat(player.duration),
     }));
   };
 
@@ -125,7 +131,12 @@ const useAudioPlayer = () => {
 
   const handleEnded = () => {
     const player = audioRef.current;
-    setState((prevState) => ({ ...prevState, playing: false, pause: false }));
+    setState((prevState) => {
+      if (prevState.loop === "playlist") {
+      }
+
+      return { ...prevState, playing: false, pause: false };
+    });
   };
 
   const togglePlay = () => {
@@ -171,17 +182,27 @@ const useAudioPlayer = () => {
   };
 
   useEffect(() => {
-    if (id && name) {
+    const player = audioRef.current;
+
+    if (player) {
+      player.loop = state.loop === "once";
+    }
+  }, [state.loop, audioRef]);
+
+  useEffect(() => {
+    if (currentTrack) {
+      const { id, name } = currentTrack;
       const source = getStreamLink({ id, name });
       // Reset state with default values
-      setState({
+      setState((prevState) => ({
+        ...prevState,
         ...defaultState,
         loading: true,
         ready: false,
         source,
-      });
+      }));
     }
-  }, [id, name, setState]);
+  }, [currentTrack, setState]);
 
   useEffect(() => {
     const player = audioRef.current;
@@ -189,7 +210,7 @@ const useAudioPlayer = () => {
     player.addEventListener("canplay", handleReady);
     player.addEventListener("playing", handlePlaying);
     player.addEventListener("waiting", handleWaiting);
-    player.addEventListener("loadedmetadata", handleMetadata);
+    player.addEventListener("durationchange", handleDurationChange);
     player.addEventListener("timeupdate", handleTimeUpdate);
     player.addEventListener("ended", handleEnded);
     // Unmount
@@ -200,12 +221,20 @@ const useAudioPlayer = () => {
       player.removeEventListener("playing", handlePlaying);
       player.removeEventListener("waiting", handleWaiting);
       player.removeEventListener("timeupdate", handleTimeUpdate);
-      player.removeEventListener("loadedmetadata", handleMetadata);
+      player.removeEventListener("durationchange", handleDurationChange);
       player.removeEventListener("ended", handleEnded);
     };
   }, []);
 
-  return { audioRef, togglePlay, toggleLoop, seek, ...state };
+  return {
+    audioRef,
+    currentTrack,
+    togglePlay,
+    toggleMuted,
+    toggleLoop,
+    seek,
+    ...state,
+  };
 };
 
 export default useAudioPlayer;

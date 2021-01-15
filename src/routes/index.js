@@ -8,6 +8,7 @@ import {
 import Music from "routes/pages/music";
 import Podcasts from "routes/pages/podcasts";
 import Audiobooks from "routes/pages/audiobooks";
+import Queue from "routes/pages/queue";
 import Settings from "routes/pages/settings";
 
 const Routes = () => {
@@ -28,6 +29,10 @@ const Routes = () => {
 
       <Route path="/audiobooks/:group">
         <Audiobooks />
+      </Route>
+
+      <Route path="/queue">
+        <Queue />
       </Route>
 
       <Route path="/settings">

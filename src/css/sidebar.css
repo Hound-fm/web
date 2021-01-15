@@ -15,7 +15,6 @@
 }
 
 .sidebar__link a:hover {
-  background: var(--button-hover-bg-color);
   color: var(--text-color);
 }
 

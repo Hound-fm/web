@@ -1,15 +1,15 @@
-export const ExternalLink = ({ children, path, label, ...props }) => {
+export const ExternalLink = ({ children, to, label, ...props }) => {
   return (
-    <a href={path} target="_blank" rel="noopener noreferrer" {...props}>
-      {children || label || path}
+    <a href={to} target="_blank" rel="noopener noreferrer" {...props}>
+      {children || label || to}
     </a>
   );
 };
 
-export const DownloadLink = ({ children, path, label, ...props }) => {
+export const DownloadLink = ({ children, to, label, ...props }) => {
   return (
-    <a href={path} download {...props}>
-      {children || label || path}
+    <a href={to} download {...props}>
+      {children || label || to}
     </a>
   );
 };

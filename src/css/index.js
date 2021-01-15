@@ -5,4 +5,5 @@ import "./button.css";
 import "./player.css";
 import "./sidebar.css";
 import "./thumbnail.css";
+import "./table.css";
 import "./main.css";

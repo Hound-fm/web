@@ -16,29 +16,29 @@ function Nav({ innerRoutes, title }) {
         {innerRoutes &&
           innerRoutes.length > 0 &&
           innerRoutes.map((route) => (
-            <NavLink path={`${root}/${route.path}`} label={route.label} />
+            <NavLink to={`${root}/${route.path}`} label={route.label} />
           ))}
       </nav>
     </header>
   );
 }
 
-const NavLink = React.memo(({ path, label, icon, exact }) => {
-  const match = useRouteMatch({ path, exact });
+const NavLink = React.memo(({ to, label, icon, exact }) => {
+  const match = useRouteMatch({ path: to, exact });
 
   return (
-    <Link to={path} className={clsx("nav__link", match && "active")}>
+    <Link to={to} className={clsx("nav__link", match && "active")}>
       {icon && <Icon path={icon} className={"icon"} />}
       {label && <span>{label}</span>}
     </Link>
   );
 });
 
-const SidebarLink = React.memo(({ path, label, icon, exact }) => {
-  let match = useRouteMatch({ path, exact });
+const SidebarLink = React.memo(({ to, label, icon, exact }) => {
+  let match = useRouteMatch({ path: to, exact });
   return (
     <li className={clsx("sidebar__link", match && "sidebar__link--active")}>
-      <Link to={path}>
+      <Link to={to}>
         <Icon path={icon} className={"icon"} />
         <span>{label}</span>
       </Link>
@@ -53,14 +53,14 @@ function Sidebar() {
         <h2>Hound.fm</h2>
       </div>
       <ul>
-        <SidebarLink icon={mdiMusic} label={"Music"} path={"/music"} />
-        <SidebarLink icon={mdiPodcast} label={"Podcasts"} path={"/podcasts"} />
+        <SidebarLink icon={mdiMusic} label={"Music"} to={"/music"} />
+        <SidebarLink icon={mdiPodcast} label={"Podcasts"} to={"/podcasts"} />
         <SidebarLink
           icon={mdiBookMusic}
           label={"Audiobooks"}
-          path={"/audiobooks"}
+          to={"/audiobooks"}
         />
-        <SidebarLink icon={mdiCog} label={"Settings"} path={"/settings"} />
+        <SidebarLink icon={mdiCog} label={"Settings"} to={"/settings"} />
       </ul>
     </div>
   );

@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { BrowserRouter as Router } from "react-router-dom";
 import { TagLink } from "components/tag";
 
+import Player from "./components/player";
 import Routes from "routes";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Sidebar />
         <Routes />
       </div>
+      <Player />
     </Router>
   );
 }

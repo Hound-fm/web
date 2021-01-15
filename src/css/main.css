@@ -8,6 +8,7 @@ body {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 button[disabled] {
@@ -97,7 +98,8 @@ button[disabled] {
   align-items: center;
   display: flex;
   border: 0;
-  padding: 0.42rem 0;
+  padding: 0;
+  margin: 0.75rem 0;
 }
 
 .item--small .item-data {
@@ -107,7 +109,7 @@ button[disabled] {
 
 .item--small .item-title,
 .item--small .item-subtitle {
-  font-size: 0.86rem;
+  font-size: 0.82rem;
 }
 
 .item--small .item-title {

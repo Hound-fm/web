@@ -1,8 +1,9 @@
 import { Button } from "./button";
 import Slider from "rc-slider";
 import Thumbnail from "components/thumbnail";
+import { memo } from "react";
 import useAudioPlayer from "hooks/useAudioPlayer";
-import { usePlayerState } from "store/playerContext";
+import useQueueNavigation from "hooks/useQueueNavigation";
 import { useRef, useState, useEffect } from "react";
 import { durationTrackFormat } from "utils/format.js";
 
@@ -19,26 +20,37 @@ import {
   mdiVolumeHigh,
   mdiLoading,
   mdiRepeatOnce,
+  mdiVolumeMute,
 } from "@mdi/js";
 
 import "rc-slider/assets/index.css";
 
-function TrackInfo() {
-  const { title, name, id, author, thumbnail } = usePlayerState();
+const defaultDurationFormat = "0:00";
+
+const TrackInfo = memo(({ currentTrack }) => {
   return (
     <div className={"track-info"}>
-      <div className={"track-info__thumbnail"}>
-        <Thumbnail src={thumbnail} className={"thumbnail--tiny"} />
-      </div>
-      <div className={"track-info__metadata"}>
-        <div className={"track-info__metadata__title"}>{title}</div>
-        <div className={"track-info__metadata__channel"}>{author}</div>
-      </div>
+      {currentTrack && (
+        <>
+          <div className={"track-info__thumbnail"}>
+            <Thumbnail
+              src={currentTrack.thumbnail_url}
+              className={"thumbnail--tiny"}
+            />
+          </div>
+          <div className={"track-info__metadata"}>
+            <div className={"track-info__metadata__title"}>
+              {currentTrack.title}
+            </div>
+            <div className={"track-info__metadata__channel"}>
+              {currentTrack.publisher_title}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
-}
-
-const defaultDurationFormat = "0:00";
+});
 
 function PlayerSilder({ currentTime, seek, duration }) {
   const [next, setNext] = useState(currentTime);
@@ -87,11 +99,12 @@ function PlayerSilder({ currentTime, seek, duration }) {
 }
 
 function Player() {
-  const { name, id, fakeDuration } = usePlayerState();
   const {
     audioRef,
     seek,
+    muted,
     togglePlay,
+    toggleMuted,
     playing,
     paused,
     loop,
@@ -101,16 +114,23 @@ function Player() {
     loading,
     duration,
     currentTime,
-    durationFormated,
+    currentTrack,
   } = useAudioPlayer();
+
+  const { playPrev, playNext, canPrev, canNext } = useQueueNavigation();
 
   return (
     <div className={"player"}>
       <audio ref={audioRef} type="audio/wav" src={source} />
-      <TrackInfo />
+      <TrackInfo currentTrack={currentTrack} />
       <div className="player__controls">
         <div className={"player__controls__buttons"}>
-          <Button icon={mdiSkipPrevious} type="player-control" />
+          <Button
+            icon={mdiSkipPrevious}
+            type="player-control"
+            disabled={!canPrev}
+            onClick={playPrev}
+          />
           <Button
             icon={
               loading ? mdiLoading : playing ? mdiPauseCircle : mdiPlayCircle
@@ -120,14 +140,20 @@ function Player() {
             disabled={loading || !ready}
             onClick={togglePlay}
           />
-          <Button icon={mdiSkipNext} type="player-control" />
+          <Button
+            icon={mdiSkipNext}
+            type="player-control"
+            onClick={playNext}
+            disabled={!canNext}
+          />
         </div>
 
         <PlayerSilder
           seek={seek}
           currentTime={currentTime}
-          duration={duration || fakeDuration}
-          durationFormated={durationFormated}
+          duration={
+            duration || (currentTrack && currentTrack.audio_duration) || 0
+          }
         />
 
         <div className={"player__controls__buttons"}>
@@ -137,12 +163,21 @@ function Player() {
             type="player-control"
             onClick={toggleLoop}
           />
-          <Button icon={mdiVolumeHigh} type="player-control" />
+          <Button
+            icon={muted ? mdiVolumeMute : mdiVolumeHigh}
+            type="player-control"
+            onClick={toggleMuted}
+          />
         </div>
       </div>
       <div className={"playlist-info"}>
-        <Button icon={mdiPlaylistMusic} label={"Queue"} type={"large"} />
-        <Button icon={mdiDotsHorizontal} type={"icon-large"} />
+        <Button
+          icon={mdiPlaylistMusic}
+          label={"Queue"}
+          type={"large"}
+          routeLink={"/queue"}
+        />
+        {/* <Button icon={mdiDotsHorizontal} type={"icon-large"} /> */}
       </div>
     </div>
   );

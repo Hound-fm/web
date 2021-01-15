@@ -1,27 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import Player from "./components/player";
-import { PlayerProvider } from "store/playerContext";
 import { QueryClient, QueryClientProvider } from "react-query";
-
-// import reportWebVitals from './reportWebVitals';
+import { QueueProvider } from "store/queueContext";
+//import reportWebVitals from './reportWebVitals';
 
 import "./css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    staleTime: 100 * 60 * 5,
+    staleTime: 100 * 60 * 15,
   },
 });
 
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <PlayerProvider>
+      <QueueProvider>
         <App />
-        <Player />
-      </PlayerProvider>
+      </QueueProvider>
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById("root")

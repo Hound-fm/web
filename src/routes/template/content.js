@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useEffect } from "react";
 import { TagsGroup } from "components/tag";
 import { List, SimpleList } from "components/list";
 import { Nav } from "components/nav";
@@ -6,6 +7,7 @@ import { useParams } from "react-router-dom";
 import useFetchData from "hooks/useFetchData";
 import useFetchKnowledge from "hooks/useFetchKnowledge";
 import useRouterQuery from "hooks/useRouterQuery";
+import { useQueueDispatch } from "store/queueContext";
 
 const routes = [
   { label: "Latest", path: "latest" },
@@ -24,9 +26,10 @@ function ChannelsList({ title, data }) {
 }
 
 function ContentPage({ title, category }) {
+  const queueDispatch = useQueueDispatch();
   const params = useRouterQuery();
-  const tag = params.get("tag");
   const { group } = useParams();
+  const tag = params.get("tag");
   const { isLoading, error, data } = useFetchData(category, group, tag);
   const {
     isLoading: knowledgeIsLoading,
@@ -51,6 +54,15 @@ function ContentPage({ title, category }) {
     knowledgeReady &&
     knowledge.data["channels"] &&
     knowledge.data["channels"].length > 0;
+
+  useEffect(() => {
+    if (dataReady && data.data["streams"]) {
+      queueDispatch({
+        type: "setNextQueue",
+        data: { items: data.data["streams"] },
+      });
+    }
+  }, [data, dataReady]);
 
   return (
     <div className="page">

@@ -3,6 +3,8 @@ import { memo, useCallback } from "react";
 import Icon from "@mdi/react";
 import { DownloadLink, ExternalLink } from "components/externalLink";
 import { Button as BaseButton } from "reakit/Button";
+import { Link, useRouteMatch, useLocation } from "react-router-dom";
+
 import {
   useMenuState,
   Menu,
@@ -22,6 +24,7 @@ export const Button = memo(
     downloadlLink,
     className,
     children,
+    routeLink,
     ...props
   }) => {
     const classNames = clsx(
@@ -31,9 +34,20 @@ export const Button = memo(
       className
     );
 
+    if (routeLink) {
+      return (
+        <Link to={routeLink} className={classNames}>
+          {icon && (
+            <Icon path={icon} className={clsx("button__icon", iconClassName)} />
+          )}
+          {label && <span className="button__label">{label}</span>}
+        </Link>
+      );
+    }
+
     if (externalLink) {
       return (
-        <ExternalLink path={externalLink} className={classNames}>
+        <ExternalLink to={externalLink} className={classNames}>
           {icon && (
             <Icon path={icon} className={clsx("button__icon", iconClassName)} />
           )}
@@ -44,7 +58,7 @@ export const Button = memo(
 
     if (downloadlLink) {
       return (
-        <DownloadLink path={downloadlLink} className={classNames}>
+        <DownloadLink to={downloadlLink} className={classNames}>
           {icon && (
             <Icon path={icon} className={clsx("button__icon", iconClassName)} />
           )}

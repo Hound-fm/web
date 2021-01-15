@@ -5,9 +5,11 @@ import { memo, useCallback } from "react";
 import { DateTime } from "luxon";
 import { TagLink } from "./tag";
 import { durationShortFormat } from "utils/format.js";
-import { getStreamLink, getReportLink } from "utils/lbry";
-import { usePlayerState, usePlayerDispatch } from "store/playerContext";
+import { getStreamLink, getReportLink, getRedirectLink } from "utils/lbry";
+import { useQueueDispatch } from "store/queueContext";
 import { copyToClipboard } from "utils/clipboard";
+import { ExternalLink } from "components/externalLink";
+
 import {
   mdiShare,
   mdiShareVariant,
@@ -20,26 +22,34 @@ import {
   mdiCardsHeart,
 } from "@mdi/js";
 
-const ItemPlayButton = memo(
-  ({ duration, id, name, title, author, thumbnail }) => {
-    const state = usePlayerState();
-    const dispatch = usePlayerDispatch();
-    const handleClick = () => {
-      dispatch({
-        type: "play",
-        data: { id, name, title, author, thumbnail, duration },
-      });
-    };
+const ItemPlayButton = ({
+  duration,
+  index,
+  id,
+  name,
+  title,
+  author,
+  thumbnail,
+}) => {
+  const queueDispatch = useQueueDispatch();
+  const handleClick = useCallback(() => {
+    queueDispatch({
+      type: "loadNextQueue",
+    });
+    queueDispatch({
+      type: "setTrack",
+      data: index,
+    });
+  }, [index]);
 
-    return (
-      <Button
-        label={durationShortFormat(duration)}
-        icon={mdiPlay}
-        onClick={handleClick}
-      />
-    );
-  }
-);
+  return (
+    <Button
+      label={durationShortFormat(duration)}
+      icon={mdiPlay}
+      onClick={handleClick}
+    />
+  );
+};
 
 const ItemMenuButton = ({ id }) => {
   const copyId = useCallback(() => {
@@ -66,13 +76,16 @@ const ItemMenuButton = ({ id }) => {
 const Item = memo(
   ({
     id,
+    index,
     name,
     title,
     tags,
+    publisherId,
     subtitle,
     thumbnail,
     message,
-    author,
+    user,
+    userId,
     date,
     action,
     duration,
@@ -85,9 +98,9 @@ const Item = memo(
           <div className="item-message__text">
             <Icon path={mdiAntenna} className="item-message__icon" />
             <span>
-              {`${action}`}
-              {author && ` by ${author}`} &bull;{" "}
-              {DateTime.fromISO(date).toRelative()}
+              {`${action} by `}
+              <ExternalLink to={getRedirectLink(userId)}>{user}</ExternalLink>
+              &bull; {DateTime.fromISO(date).toRelative()}
             </span>
           </div>
           <div className={"item-message__actions"}>
@@ -100,20 +113,19 @@ const Item = memo(
             <Thumbnail className="thumbnail--medium" src={thumbnail} />
           </div>
           <div className="item-header">
-            <h3 className="item-title">{title}</h3>
-            <h4 className="item-subtitle">{subtitle}</h4>
+            <h3 className="item-title">
+              <ExternalLink to={getRedirectLink(id)}>{title}</ExternalLink>
+            </h3>
+            <h4 className="item-subtitle">
+              <ExternalLink to={getRedirectLink(publisherId)}>
+                {subtitle}
+              </ExternalLink>
+            </h4>
           </div>
         </div>
         <div className="item-actions">
-          <ItemPlayButton
-            id={id}
-            name={name}
-            duration={duration}
-            title={title}
-            author={subtitle}
-            thumbnail={thumbnail}
-          />
-          <Button type="icon" icon={mdiShare} />
+          <ItemPlayButton id={id} index={index} duration={duration} />
+          {/* <Button type="icon" icon={mdiShare} /> */}
           <Button
             externalLink={getStreamLink({ name, id }, true)}
             type="icon"
@@ -125,19 +137,19 @@ const Item = memo(
   }
 );
 
-const ItemSmall = memo(({ title, subtitle, thumbnail }) => {
+const ItemSmall = memo(({ id, title, subtitle, thumbnail }) => {
   return (
-    <div className="item item--small">
+    <ExternalLink to={getRedirectLink(id)} className="item item--small">
       <div className="item-thumbnail item-thumbnail--small">
         <Thumbnail className="thumbnail--small" src={thumbnail} />
       </div>
       <div className="item-data">
         <div className="item-header">
           <div className="item-title">{title}</div>
-          <div className="item-subtitle">{subtitle}</div>
+          {subtitle && <div className="item-subtitle">{subtitle}</div>}
         </div>
       </div>
-    </div>
+    </ExternalLink>
   );
 });
 
@@ -146,14 +158,17 @@ export const List = memo(({ dataItems, defaultTag }) => {
     <div className="list">
       {dataItems &&
         dataItems.length &&
-        dataItems.map((item) => (
+        dataItems.map((item, index) => (
           <Item
             key={item.id}
             id={item.id}
+            index={index}
             name={item.name}
             date={item.discovered_at}
             title={item.title}
-            author={item.discovered_name}
+            user={item.discovered_name}
+            userId={item.discovered_by}
+            publisherId={item.publisher_id}
             subtitle={item.publisher_title}
             duration={item.audio_duration}
             thumbnail={item.thumbnail_url}
@@ -174,6 +189,7 @@ export const SimpleList = memo(({ dataItems }) => {
         dataItems.map((item) => (
           <ItemSmall
             key={item.publisher_id}
+            id={item.publisher_id}
             title={item.publisher_title}
             subtitle={item.publisher_name}
             thumbnail={item.thumbnail_url}
