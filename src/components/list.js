@@ -99,7 +99,9 @@ const Item = memo(
             <Icon path={mdiAntenna} className="item-message__icon" />
             <span>
               {`${action} by `}
-              <ExternalLink to={getRedirectLink(userId)}>{user}</ExternalLink>
+              <ExternalLink to={getRedirectLink(userId)}>
+                {user}
+              </ExternalLink>{" "}
               &bull; {DateTime.fromISO(date).toRelative()}
             </span>
           </div>
