@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { getStreamLink } from "utils/lbry";
-import { useQueueDispatch } from "store/queueContext";
+import { useQueueDispatch, useQueueState } from "store/queueContext";
 import { durationTrackFormat } from "utils/format.js";
 import useGetTrack from "hooks/useGetTrack";
 
@@ -32,7 +32,8 @@ const isPlaying = (audio) => {
 const useAudioPlayer = () => {
   const audioRef = useRef();
   const queueDispatch = useQueueDispatch();
-  const currentTrack = useGetTrack();
+  const { queue, nextQueue } = useQueueState();
+  const { currentTrack } = useGetTrack();
   const [state, setState] = useState({
     ...defaultState,
     ...defaultPersistentState,
@@ -71,14 +72,6 @@ const useAudioPlayer = () => {
     setState((prevState) => ({ ...prevState, muted: player.muted }));
   };
 
-  const triggerPlay = () => {
-    const player = audioRef.current;
-    const promise = player.play();
-    if (promise) {
-      promise.then(() => {}).catch(() => {});
-    }
-  };
-
   const triggerPause = () => {
     const player = audioRef.current;
     player.pause();
@@ -87,6 +80,18 @@ const useAudioPlayer = () => {
       paused: player.paused,
       playing: false,
     }));
+  };
+
+  const triggerPlay = () => {
+    const player = audioRef.current;
+    const promise = player.play();
+    if (promise) {
+      promise
+        .then(() => {})
+        .catch(() => {
+          triggerPause();
+        });
+    }
   };
 
   const handleReady = () => {
@@ -180,6 +185,14 @@ const useAudioPlayer = () => {
       error: true,
     }));
   };
+
+  useEffect(() => {
+    if (!currentTrack && nextQueue.length && !queue.length) {
+      console.info("?");
+      queueDispatch({ type: "loadNextQueue" });
+      queueDispatch({ type: "setTrack", data: 0 });
+    }
+  }, [currentTrack, nextQueue, queue]);
 
   useEffect(() => {
     const player = audioRef.current;

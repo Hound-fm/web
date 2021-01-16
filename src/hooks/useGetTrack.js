@@ -6,7 +6,7 @@ function useGetTrack() {
   const [currentTrack, setCurrentTrack] = useState(null);
 
   useEffect(() => {
-    const queueExists = queue && queue.length > 0;
+    const queueExists = queue && queue.length;
     if (queueExists) {
       const trackExists = currentIndex >= 0 && currentIndex < queue.length;
       if (trackExists) {
@@ -15,7 +15,7 @@ function useGetTrack() {
     }
   }, [currentIndex, queue, currentTrack, setCurrentTrack]);
 
-  return currentTrack;
+  return { currentIndex, currentTrack };
 }
 
 export default useGetTrack;
