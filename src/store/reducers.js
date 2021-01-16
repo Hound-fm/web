@@ -42,8 +42,15 @@ export const queueReducer = (state, action) => {
       const length = state.queue.length;
       const queueExists = state.queue && length > 0;
 
-      if (queueExists && next < length) {
-        return { ...state, currentIndex: next };
+      if (queueExists) {
+        // Select next track
+        if (next < length) {
+          return { ...state, currentIndex: next };
+        }
+        // Restart queue position
+        if (next >= length) {
+          return { ...state, currentIndex: 0 };
+        }
       }
 
       return state;
