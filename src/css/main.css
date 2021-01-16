@@ -11,6 +11,10 @@ a {
   color: inherit;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 button[disabled] {
   pointer-events: none;
 }
@@ -221,6 +225,10 @@ button[disabled] {
   border-radius: 1rem;
   text-transform: capitalize;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.tag-link:hover {
+  text-decoration: none;
 }
 
 .tag-link:hover:not(.active) {

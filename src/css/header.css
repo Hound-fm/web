@@ -46,6 +46,11 @@ nav a,
   transition: color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+nav a:hover,
+.content--side .title a:hover {
+  text-decoration: none;
+}
+
 .content--side .title a {
   padding: 1rem 0;
   line-height: 1.25rem;

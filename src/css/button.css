@@ -15,6 +15,10 @@
   transition: background 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.button:hover {
+  text-decoration: none;
+}
+
 .button--menu-item {
   border: 0;
   margin-bottom: 0.5em;
