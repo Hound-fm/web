@@ -16,6 +16,7 @@
 
 .sidebar__link a:hover {
   color: var(--text-color);
+  text-decoration: none;
 }
 
 .sidebar__link.sidebar__link--active a {
