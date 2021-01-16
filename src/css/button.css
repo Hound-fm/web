@@ -12,7 +12,7 @@
   justify-content: center;
   flex-direction: row;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: background 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .button--menu-item {
@@ -63,6 +63,7 @@
   height: 1.25rem !important;
 }
 
+.button--icon-overlay,
 .button.button--icon {
   border: 1px solid transparent;
   margin: 0 0.5em;
@@ -71,7 +72,7 @@
 .button--active {
   border-color: var(--button-border-color) !important;
 }
-
+.button--icon-overlay .button__icon,
 .button--icon .button__icon {
   height: 1.5em;
 }
@@ -85,8 +86,24 @@
   height: 1.25em;
 }
 
+.button--icon-overlay {
+  position: absolute;
+  left: -25%;
+  margin: 0;
+  opacity: 0;
+}
+
+.table__row:hover .track-index {
+  opacity: 0;
+}
+
+.table__row:hover .button--icon-overlay {
+  opacity: 1;
+}
+
 .button--player-control-main,
 .button--player-control,
+.button--icon-overlay,
 .button--icon {
   margin: 0 0.5em;
   padding: 0.3em;

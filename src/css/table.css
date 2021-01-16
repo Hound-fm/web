@@ -43,4 +43,9 @@
 
 .fixed-width--small {
   min-width: 2em;
+  min-height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }

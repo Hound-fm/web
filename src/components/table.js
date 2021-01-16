@@ -2,6 +2,7 @@ import { memo } from "react";
 import { durationTrackFormat } from "utils/format";
 import Thumbnail from "components/thumbnail";
 import { Button } from "components/button";
+import { useQueueDispatch } from "store/queueContext";
 
 import {
   mdiShare,
@@ -16,11 +17,19 @@ import {
 } from "@mdi/js";
 
 const TableRow = memo(({ rowData, index }) => {
+  const queueDispatch = useQueueDispatch();
+  const setTrack = () => {
+    queueDispatch({ type: "setTrack", data: index });
+  };
+
   return (
     <div className={"table__row"}>
       <div className={"table__cell"}>
         <div className={"table__cell__data fixed-width--small"}>
-          <div className={"table__cell__subtitle numeric"}>{index + 1}</div>
+          <div className={"table__cell__subtitle numeric track-index"}>
+            {index + 1}
+          </div>
+          <Button type={"icon-overlay"} icon={mdiPlay} onClick={setTrack} />
         </div>
         <Thumbnail src={rowData.thumbnail_url} className={"thumbnail--row"} />
         <div className={"table__cell__data"}>
