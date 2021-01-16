@@ -175,7 +175,7 @@ export const List = memo(({ dataItems, defaultTag }) => {
             duration={item.audio_duration}
             thumbnail={item.thumbnail_url}
             defaultTag={defaultTag}
-            tags={item.genres.length > 0 ? item.genres : item.tags || []}
+            tags={item.genres}
             action="Discovered"
           />
         ))}

@@ -28,8 +28,8 @@ function ChannelsList({ title, data }) {
 function ContentPage({ title, category }) {
   const queueDispatch = useQueueDispatch();
   const params = useRouterQuery();
-  const { group } = useParams();
   const tag = params.get("tag");
+  const { group } = useParams();
   const { isLoading, error, data } = useFetchData(category, group, tag);
   const {
     isLoading: knowledgeIsLoading,
@@ -44,11 +44,6 @@ function ContentPage({ title, category }) {
     knowledgeReady &&
     knowledge.data["genres"] &&
     knowledge.data["genres"].length > 0;
-
-  const showTags =
-    knowledgeReady &&
-    knowledge.data["tags"] &&
-    knowledge.data["tags"].length > 0;
 
   const showChannels =
     knowledgeReady &&
@@ -77,10 +72,6 @@ function ContentPage({ title, category }) {
           {showGenres && (
             <TagsGroup title={"Genres"} tags={knowledge.data["genres"]} />
           )}
-          {showTags && (
-            <TagsGroup title={"Tags"} tags={knowledge.data["tags"]} />
-          )}
-
           {showChannels && (
             <ChannelsList
               title={"Channels"}
