@@ -133,8 +133,8 @@ const useAudioPlayer = () => {
     const player = audioRef.current;
     setState((prevState) => {
       if (prevState.loop === "playlist") {
+        queueDispatch({ type: "setNextTrack" });
       }
-
       return { ...prevState, playing: false, pause: false };
     });
   };
