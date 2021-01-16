@@ -34,14 +34,13 @@ button[disabled] {
 .content--center {
   flex-grow: 1;
   display: flex;
-  padding-top: 0.625rem;
 }
 
 .content--side {
-  padding: 1.25rem 2.5rem;
+  padding: 1.25rem 3.5rem;
   box-sizing: border-box;
-  width: calc(var(--sidebar-width) + 7.5em);
-  min-width: calc(var(--sidebar-width) + 7.5em);
+  width: calc(var(--sidebar-width) + 6.5em);
+  min-width: calc(var(--sidebar-width) + 6.5em);
   border-left: 1px solid var(--border-color);
   min-height: 100vh;
 }
@@ -70,7 +69,7 @@ button[disabled] {
   font-size: 1rem;
   text-align: left;
   border-bottom: 1px solid var(--border-color);
-  padding: 0 2.5em;
+  padding: 0 3.5em;
 }
 
 .item-data {
@@ -171,6 +170,7 @@ button[disabled] {
   align-items: center;
   justify-content: space-between;
   min-height: 1.8em;
+  margin-top: 1.5rem;
 }
 
 .item-message__icon {
