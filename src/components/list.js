@@ -51,16 +51,23 @@ const ItemPlayButton = ({
   );
 };
 
-const ItemMenuButton = ({ id }) => {
+const ItemMenuButton = ({ id, queueItem }) => {
   const copyId = useCallback(() => {
     copyToClipboard(id);
   }, [id]);
+
+  const queueDispatch = useQueueDispatch();
+
+  const addToQueue = useCallback(() => {
+    queueDispatch({ type: "addToQueue", data: queueItem });
+  }, [queueDispatch, queueItem]);
 
   const reportLink = getReportLink(id);
 
   const items = [
     { title: "Copy Id", id: "item-0", action: copyId },
-    { title: "Report content", id: "item-1", externalLink: reportLink },
+    { title: "Add To Queue", id: "item-1", action: addToQueue },
+    { title: "Report content", id: "item-2", externalLink: reportLink },
   ];
 
   return (
@@ -80,6 +87,7 @@ const Item = memo(
     name,
     title,
     tags,
+    queueItem,
     publisherId,
     subtitle,
     thumbnail,
@@ -107,7 +115,7 @@ const Item = memo(
           </div>
           <div className={"item-message__actions"}>
             {tag && <TagLink tag={tag} />}
-            <ItemMenuButton id={id} />
+            <ItemMenuButton id={id} queueItem={queueItem} />
           </div>
         </div>
         <div className="item-data">
@@ -174,6 +182,7 @@ export const List = memo(({ dataItems, defaultTag }) => {
             subtitle={item.publisher_title}
             duration={item.audio_duration}
             thumbnail={item.thumbnail_url}
+            queueItem={item}
             defaultTag={defaultTag}
             tags={item.genres}
             action="Discovered"

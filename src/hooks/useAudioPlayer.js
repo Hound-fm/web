@@ -188,7 +188,6 @@ const useAudioPlayer = () => {
 
   useEffect(() => {
     if (!currentTrack && nextQueue.length && !queue.length) {
-      console.info("?");
       queueDispatch({ type: "loadNextQueue" });
       queueDispatch({ type: "setTrack", data: 0 });
     }

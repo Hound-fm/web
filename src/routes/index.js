@@ -14,11 +14,6 @@ import Settings from "routes/pages/settings";
 const Routes = () => {
   return (
     <Switch>
-      <Redirect exact from="/" to="/music/latest" />
-      <Redirect exact from="/music" to="/music/latest" />
-      <Redirect exact from="/podcasts" to="/podcasts/latest" />
-      <Redirect exact from="/audiobooks" to="/audiobooks/latest" />
-
       <Route path="/music/:group">
         <Music />
       </Route>
@@ -38,6 +33,11 @@ const Routes = () => {
       <Route path="/settings">
         <Settings />
       </Route>
+
+      <Redirect exact from="/" to="/music/latest" />
+      <Redirect exact from="/music" to="/music/latest" />
+      <Redirect exact from="/podcasts" to="/podcasts/latest" />
+      <Redirect exact from="/audiobooks" to="/audiobooks/latest" />
     </Switch>
   );
 };

@@ -14,6 +14,34 @@ export const queueReducer = (state, action) => {
       return state;
     }
 
+    case "addToQueue": {
+      const { queue } = state;
+      const item = action.data;
+      const queueExists = queue && queue.length > 0;
+      if (queueExists) {
+        const updatedQueue = state.queue.concat(item);
+        return { ...state, queue: updatedQueue };
+      }
+      return state;
+    }
+
+    case "removeFromQueue": {
+      const { queue } = state;
+      const index = action.data;
+      const queueExists = queue && queue.length > 0;
+      if (queueExists) {
+        const updatedQueue = queue.filter(
+          (item, itemIndex) => itemIndex === index
+        );
+        const updatedIndex =
+          state.currentIndex > index
+            ? state.currentIndex - 1
+            : state.currentIndex;
+        return { ...state, queue: updatedQueue, currentIndex: updatedIndex };
+      }
+      return state;
+    }
+
     // Set next queue
     case "setNextQueue": {
       const { items } = action.data;
