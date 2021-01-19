@@ -80,10 +80,13 @@ export const Button = memo(
   }
 );
 
+const MENU_GUTTER = 20;
+
 export const ButtonMenu = memo(
   ({ icon, label, iconClassName, type, className, items }) => {
     const menu = useMenuState({
       placement: "bottom-end",
+      gutter: MENU_GUTTER,
     });
     const classNames = clsx(
       "button",
