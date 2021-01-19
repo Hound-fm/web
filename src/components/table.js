@@ -1,8 +1,10 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { durationTrackFormat } from "utils/format";
 import Thumbnail from "components/thumbnail";
-import { Button } from "components/button";
+import { Button, ButtonMenu } from "components/button";
 import { useQueueDispatch } from "store/queueContext";
+import { copyToClipboard } from "utils/clipboard";
+import { getStreamLink, getReportLink, getRedirectLink } from "utils/lbry";
 
 import {
   mdiShare,
@@ -12,11 +14,44 @@ import {
   mdiPlay,
   mdiArrowDownBold,
   mdiStar,
-  mdiDotsVertical,
+  mdiDotsHorizontal,
   mdiCardsHeart,
 } from "@mdi/js";
 
-const TableRow = memo(({ rowData, index }) => {
+const RowMenuButton = ({ queueItem, queueIndex }) => {
+  const queueDispatch = useQueueDispatch();
+
+  const addToQueue = () => {
+    queueDispatch({ type: "addToQueue", data: queueItem });
+  };
+
+  const removeFromQueue = () => {
+    queueDispatch({ type: "removeFromQueue", data: queueIndex });
+  };
+
+  const copyId = useCallback(() => {
+    copyToClipboard(queueItem.id);
+  }, [queueItem.id]);
+
+  const reportLink = getReportLink(queueItem.id);
+
+  const items = [
+    { title: "Copy Id", id: "item-0", action: copyId },
+    { title: "Add To Queue", id: "item-1", action: addToQueue },
+    { title: "Remove From Queue", id: "item-2", action: removeFromQueue },
+    { title: "Report content", id: "item-3", externalLink: reportLink },
+  ];
+  return (
+    <ButtonMenu
+      type={"icon"}
+      items={items}
+      className={"button--menu"}
+      icon={mdiDotsHorizontal}
+    />
+  );
+};
+
+const TableRow = ({ rowData, index }) => {
   const queueDispatch = useQueueDispatch();
   const setTrack = () => {
     queueDispatch({ type: "setTrack", data: index });
@@ -50,10 +85,13 @@ const TableRow = memo(({ rowData, index }) => {
             {durationTrackFormat(rowData.audio_duration)}
           </div>
         </div>
+        <div className={"table__cell__subtitle"}>
+          <RowMenuButton queueItem={rowData} queueIndex={index} />
+        </div>
       </div>
     </div>
   );
-});
+};
 
 const Table = ({ dataRows }) => {
   return (
@@ -61,7 +99,7 @@ const Table = ({ dataRows }) => {
       {dataRows &&
         dataRows.length > 0 &&
         dataRows.map((row, index) => (
-          <TableRow key={index} rowData={row} index={index} />
+          <TableRow key={row.id + index} rowData={row} index={index} />
         ))}
     </div>
   );

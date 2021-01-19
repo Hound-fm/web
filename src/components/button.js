@@ -84,7 +84,6 @@ export const ButtonMenu = memo(
   ({ icon, label, iconClassName, type, className, items }) => {
     const menu = useMenuState({
       placement: "bottom-end",
-      currrentId: items[0].id,
     });
     const classNames = clsx(
       "button",

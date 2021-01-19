@@ -170,7 +170,7 @@ export const List = memo(({ dataItems, defaultTag }) => {
         dataItems.length &&
         dataItems.map((item, index) => (
           <Item
-            key={item.id}
+            key={item.id + index}
             id={item.id}
             index={index}
             name={item.name}

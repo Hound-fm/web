@@ -31,7 +31,7 @@ export const queueReducer = (state, action) => {
       const queueExists = queue && queue.length > 0;
       if (queueExists) {
         const updatedQueue = queue.filter(
-          (item, itemIndex) => itemIndex === index
+          (item, itemIndex) => itemIndex !== index
         );
         const updatedIndex =
           state.currentIndex > index
