@@ -5,7 +5,6 @@ import { durationTrackFormat } from "utils/format.js";
 import useGetTrack from "hooks/useGetTrack";
 
 const defaultPersistentState = {
-  loop: false,
   muted: false,
 };
 
@@ -38,6 +37,15 @@ const useAudioPlayer = () => {
     ...defaultState,
     ...defaultPersistentState,
   });
+  const stateRef = useRef(state);
+
+  const updateState = (newState) => {
+    setState((prevState) => {
+      const updated = { ...prevState, ...newState };
+      stateRef.current = updated;
+      return updated;
+    });
+  };
 
   const seek = (nextTime) => {
     const player = audioRef.current;
@@ -48,21 +56,19 @@ const useAudioPlayer = () => {
   };
 
   const toggleLoop = () => {
-    const player = audioRef.current;
-
     // Loop current playlist
     if (!state.loop) {
-      setState((prevState) => ({ ...prevState, loop: "playlist" }));
+      updateState({ loop: "playlist" });
     }
 
     // Loop current track
     if (state.loop == "playlist") {
-      setState((prevState) => ({ ...prevState, loop: "once" }));
+      updateState({ loop: "once" });
     }
 
     // No loop
     if (state.loop === "once") {
-      setState((prevState) => ({ ...prevState, loop: false }));
+      updateState({ loop: false });
     }
   };
 
@@ -136,12 +142,12 @@ const useAudioPlayer = () => {
 
   const handleEnded = () => {
     const player = audioRef.current;
-    setState((prevState) => {
-      if (prevState.loop === "playlist") {
-        queueDispatch({ type: "setNextTrack" });
-      }
-      return { ...prevState, playing: false, pause: false };
-    });
+
+    if (stateRef.current.loop === "playlist") {
+      queueDispatch({ type: "setNextTrack" });
+    }
+
+    setState((prevState) => ({ ...prevState, playing: false, pause: false }));
   };
 
   const togglePlay = () => {
@@ -195,11 +201,10 @@ const useAudioPlayer = () => {
 
   useEffect(() => {
     const player = audioRef.current;
-
     if (player) {
       player.loop = state.loop === "once";
     }
-  }, [state.loop, audioRef]);
+  }, [state.loop]);
 
   useEffect(() => {
     if (currentTrack) {

@@ -60,7 +60,7 @@ function Sidebar() {
           label={"Audiobooks"}
           to={"/audiobooks"}
         />
-        <SidebarLink icon={mdiCog} label={"Settings"} to={"/settings"} />
+        {/* <SidebarLink icon={mdiCog} label={"Settings"} to={"/settings"} /> */}
       </ul>
     </div>
   );

@@ -117,7 +117,7 @@ function Player() {
     currentTrack,
   } = useAudioPlayer();
 
-  const { playPrev, playNext, canPrev, canNext } = useQueueNavigation();
+  const { playPrev, playNext, canPrev, canNext } = useQueueNavigation(loop);
 
   return (
     <div className={"player"}>
