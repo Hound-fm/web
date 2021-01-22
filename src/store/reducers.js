@@ -102,3 +102,14 @@ export const queueReducer = (state, action) => {
     }
   }
 };
+
+export const settingsReducer = (state, action) => {
+  switch (action.type) {
+    case "updateSettings": {
+      return { ...state, ...action.data };
+    }
+    default: {
+      throw new Error(`Unhandled action type: ${action.type}`);
+    }
+  }
+};

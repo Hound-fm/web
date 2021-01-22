@@ -16,7 +16,11 @@ function Nav({ innerRoutes, title }) {
         {innerRoutes &&
           innerRoutes.length > 0 &&
           innerRoutes.map((route) => (
-            <NavLink to={`${root}/${route.path}`} label={route.label} />
+            <NavLink
+              key={route.label}
+              to={`${root}/${route.path}`}
+              label={route.label}
+            />
           ))}
       </nav>
     </header>
@@ -60,7 +64,7 @@ function Sidebar() {
           label={"Audiobooks"}
           to={"/audiobooks"}
         />
-        {/* <SidebarLink icon={mdiCog} label={"Settings"} to={"/settings"} /> */}
+        <SidebarLink icon={mdiCog} label={"Settings"} to={"/settings"} />
       </ul>
     </div>
   );

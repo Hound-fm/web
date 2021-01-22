@@ -210,7 +210,7 @@ button[disabled] {
 }
 
 /*dark theme */
-.tag-link.active {
+[data-theme="dark"] .tag-link.active {
   color: #74b9ff;
   border-color: #74b9ff;
   background: rgba(0, 0, 0, 0.25);
@@ -247,4 +247,16 @@ button[disabled] {
   flex-direction: column;
   z-index: 1;
   border: 1px solid var(--border-color);
+}
+
+.content--center section {
+  margin: 1.5rem 3.5rem;
+}
+.content--center section p {
+  margin: 1.5rem 0;
+  font-size: 0.9em;
+  color: var(--subtitle-color);
+}
+.content--center section h3 {
+  margin-bottom: 1.5em;
 }

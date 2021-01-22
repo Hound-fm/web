@@ -3,15 +3,9 @@ import { memo, useCallback } from "react";
 import Icon from "@mdi/react";
 import { DownloadLink, ExternalLink } from "components/externalLink";
 import { Button as BaseButton } from "reakit/Button";
-import { Link, useRouteMatch, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import {
-  useMenuState,
-  Menu,
-  MenuItem,
-  MenuButton,
-  MenuSeparator,
-} from "reakit/Menu";
+import { useMenuState, Menu, MenuItem, MenuButton } from "reakit/Menu";
 
 export const Button = memo(
   ({
@@ -144,7 +138,7 @@ export const ButtonMenu = memo(
           {label && <span className="button__label">{label}</span>}
         </MenuButton>
         <Menu className={"menu"} {...menu} aria-label="Preferences">
-          {items.map(({ id, ...itemProps }) => (
+          {items.map(({ id, action, ...itemProps }) => (
             <MenuItem {...menu} key={id} id={id} {...itemProps}>
               {children}
             </MenuItem>

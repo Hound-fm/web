@@ -6,4 +6,5 @@ import "./player.css";
 import "./sidebar.css";
 import "./thumbnail.css";
 import "./table.css";
+import "./radio.css";
 import "./main.css";

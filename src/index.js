@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { QueueProvider } from "store/queueContext";
+import { SettingsProvider } from "store/settingsContext";
 //import reportWebVitals from './reportWebVitals';
 
 import "./css";
@@ -16,9 +17,11 @@ const queryClient = new QueryClient({
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <QueueProvider>
-        <App />
-      </QueueProvider>
+      <SettingsProvider>
+        <QueueProvider>
+          <App />
+        </QueueProvider>
+      </SettingsProvider>
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById("root")

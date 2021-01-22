@@ -4,4 +4,6 @@ export const queueDefaultState = {
   currentIndex: -1,
 };
 
-export const themeDefaultState = "light";
+export const settingsDefaultState = {
+  theme: "light",
+};
