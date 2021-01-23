@@ -27,14 +27,14 @@ function ChannelsList({ title, data }) {
 function ContentPage({ title, category }) {
   const queueDispatch = useQueueDispatch();
   const params = useRouterQuery();
-  const tag = params.get("tag");
+  const genre = params.get("genre");
   const { group } = useParams();
-  const { isLoading, error, data } = useFetchData(category, group, tag);
+  const { isLoading, error, data } = useFetchData(category, group, genre);
   const {
     isLoading: knowledgeIsLoading,
     error: knowledgeError,
     data: knowledge,
-  } = useFetchKnowledge(category, group, tag);
+  } = useFetchKnowledge(category, group);
 
   const dataReady = !error && !isLoading && data && data.data != null;
   const knowledgeReady =
@@ -68,7 +68,7 @@ function ContentPage({ title, category }) {
       <div className="content">
         <div className="content--center">
           {dataReady && (
-            <List dataItems={data.data["streams"]} defaultTag={tag} />
+            <List dataItems={data.data["streams"]} defaultTag={genre} />
           )}
         </div>
         <div className="content--side content--side-right">

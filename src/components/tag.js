@@ -13,7 +13,7 @@ const formatPath = (pathname) => {
 
 export const TagLink = ({ tag, className, activeOnMatch }) => {
   const location = useLocation();
-  const path = formatPath(location.pathname) + "?tag=" + tag;
+  const path = formatPath(location.pathname) + "?genre=" + tag;
   const match = activeOnMatch && location.pathname + location.search === path;
 
   return (
