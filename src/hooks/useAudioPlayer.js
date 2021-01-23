@@ -1,7 +1,6 @@
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import { getStreamLink } from "utils/lbry";
 import { useQueueDispatch, useQueueState } from "store/queueContext";
-import { durationTrackFormat } from "utils/format.js";
 import useGetTrack from "hooks/useGetTrack";
 
 const defaultPersistentState = {
@@ -62,7 +61,7 @@ const useAudioPlayer = () => {
     }
 
     // Loop current track
-    if (state.loop == "playlist") {
+    if (state.loop === "playlist") {
       updateState({ loop: "once" });
     }
 
@@ -114,7 +113,6 @@ const useAudioPlayer = () => {
   };
 
   const handlePlaying = () => {
-    const player = audioRef.current;
     setState((prevState) => ({
       ...prevState,
       paused: false,
@@ -141,8 +139,6 @@ const useAudioPlayer = () => {
   };
 
   const handleEnded = () => {
-    const player = audioRef.current;
-
     if (stateRef.current.loop === "playlist") {
       queueDispatch({ type: "setNextTrack" });
     }
@@ -197,7 +193,7 @@ const useAudioPlayer = () => {
       queueDispatch({ type: "loadNextQueue" });
       queueDispatch({ type: "setTrack", data: 0 });
     }
-  }, [currentTrack, nextQueue, queue]);
+  }, [currentTrack, nextQueue, queue, queueDispatch]);
 
   useEffect(() => {
     const player = audioRef.current;
@@ -232,7 +228,6 @@ const useAudioPlayer = () => {
     player.addEventListener("ended", handleEnded);
     // Unmount
     return () => {
-      const player = audioRef.current;
       player.removeEventListener("error", handleErrors);
       player.removeEventListener("canplay", handleReady);
       player.removeEventListener("playing", handlePlaying);
@@ -241,7 +236,7 @@ const useAudioPlayer = () => {
       player.removeEventListener("durationchange", handleDurationChange);
       player.removeEventListener("ended", handleEnded);
     };
-  }, []);
+  });
 
   return {
     audioRef,

@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { useEffect } from "react";
 import { TagsGroup } from "components/tag";
 import { List, SimpleList } from "components/list";
@@ -18,7 +17,7 @@ function ChannelsList({ title, data }) {
   return (
     <>
       <h3 className="title">
-        <a href="#">{title}</a>
+        <a href="#title">{title}</a>
       </h3>
       <SimpleList dataItems={data} />
     </>
@@ -37,8 +36,12 @@ function ContentPage({ title, category }) {
     data: knowledge,
   } = useFetchKnowledge(category, group, tag);
 
-  const dataReady = data && !isLoading && data.data != null;
-  const knowledgeReady = knowledge && knowledge.data != null;
+  const dataReady = !error && !isLoading && data && data.data != null;
+  const knowledgeReady =
+    !knowledgeError &&
+    !knowledgeIsLoading &&
+    knowledge &&
+    knowledge.data != null;
 
   const showGenres =
     knowledgeReady &&
@@ -57,7 +60,7 @@ function ContentPage({ title, category }) {
         data: { items: data.data["streams"] },
       });
     }
-  }, [data, dataReady]);
+  }, [data, dataReady, queueDispatch]);
 
   return (
     <div className="page">

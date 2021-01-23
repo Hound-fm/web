@@ -4,7 +4,6 @@ import Icon from "@mdi/react";
 import { DownloadLink, ExternalLink } from "components/externalLink";
 import { Button as BaseButton } from "reakit/Button";
 import { Link } from "react-router-dom";
-
 import { useMenuState, Menu, MenuItem, MenuButton } from "reakit/Menu";
 
 export const Button = memo(
@@ -106,28 +105,31 @@ export const ButtonMenu = memo(
       [menu, items]
     );
 
-    const children = useCallback((itemProps) => {
-      const { externalLink, ...props } = itemProps;
-      if (externalLink) {
+    const children = useCallback(
+      (itemProps) => {
+        const { externalLink, ...props } = itemProps;
+        if (externalLink) {
+          return (
+            <a
+              href={externalLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={itemClassNames}
+              onClick={onClick}
+              {...props}
+            >
+              <span className={"button__label"}>{props.title}</span>
+            </a>
+          );
+        }
         return (
-          <a
-            href={externalLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={itemClassNames}
-            onClick={onClick}
-            {...props}
-          >
-            <span className={"button__label"}>{props.title}</span>
-          </a>
+          <button {...props} className={itemClassNames} onClick={onClick}>
+            <span className={"button__label"}>{itemProps.title}</span>
+          </button>
         );
-      }
-      return (
-        <button {...props} className={itemClassNames} onClick={onClick}>
-          <span className={"button__label"}>{itemProps.title}</span>
-        </button>
-      );
-    }, []);
+      },
+      [itemClassNames, onClick]
+    );
 
     return (
       <>

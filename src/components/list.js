@@ -11,15 +11,10 @@ import { copyToClipboard } from "utils/clipboard";
 import { ExternalLink } from "components/externalLink";
 
 import {
-  mdiShare,
-  mdiShareVariant,
-  mdiCreation,
-  mdiAntenna,
   mdiPlay,
+  mdiAntenna,
   mdiArrowDownBold,
-  mdiStar,
   mdiDotsVertical,
-  mdiCardsHeart,
 } from "@mdi/js";
 
 const ItemPlayButton = ({
@@ -40,7 +35,7 @@ const ItemPlayButton = ({
       type: "setTrack",
       data: index,
     });
-  }, [index]);
+  }, [index, queueDispatch]);
 
   return (
     <Button

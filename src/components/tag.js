@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { memo } from "react";
-import { Link, useRouteMatch, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const formatPath = (pathname) => {
   let path = pathname;
@@ -27,7 +27,7 @@ export const TagsGroup = memo(({ title, tags }) => {
   return (
     <>
       <h3 className="title">
-        <a href="#">{title}</a>
+        <a href="#title">{title}</a>
       </h3>
       <div className="tags">
         {tags.map((tag) => (

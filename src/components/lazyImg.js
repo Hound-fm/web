@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import clsx from "clsx";
 function LazyImg({ src, ...imgProps }) {
   const [state, setState] = useState("loading");
 
@@ -14,7 +14,8 @@ function LazyImg({ src, ...imgProps }) {
   return (
     <img
       src={src}
-      className={"lazy-fade" + " " + (state === "ready" ? "visible" : "hidden")}
+      alt=""
+      className={clsx("lazy-fade", state === "ready" ? "visible" : "hidden")}
       {...imgProps}
       loading={"lazy"}
       onLoad={loaded}

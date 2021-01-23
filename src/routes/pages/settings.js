@@ -1,12 +1,8 @@
-import clsx from "clsx";
 import { Nav } from "components/nav";
 import Icon from "@mdi/react";
 import { useEffect } from "react";
-
 import { useRadioState, Radio, RadioGroup } from "reakit/Radio";
-
 import { useSettingsDispatch, useSettingsState } from "store/settingsContext";
-
 import { mdiRadioboxBlank, mdiRadioboxMarked } from "@mdi/js";
 
 function ThemeRadio({ label, active }) {

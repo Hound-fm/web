@@ -1,22 +1,12 @@
-import { memo, useCallback } from "react";
+import { useCallback } from "react";
 import { durationTrackFormat } from "utils/format";
 import Thumbnail from "components/thumbnail";
 import { Button, ButtonMenu } from "components/button";
 import { useQueueDispatch } from "store/queueContext";
 import { copyToClipboard } from "utils/clipboard";
-import { getStreamLink, getReportLink, getRedirectLink } from "utils/lbry";
+import { getReportLink } from "utils/lbry";
 
-import {
-  mdiShare,
-  mdiShareVariant,
-  mdiCreation,
-  mdiAntenna,
-  mdiPlay,
-  mdiArrowDownBold,
-  mdiStar,
-  mdiDotsHorizontal,
-  mdiCardsHeart,
-} from "@mdi/js";
+import { mdiPlay, mdiArrowDownBold, mdiDotsHorizontal } from "@mdi/js";
 
 const RowMenuButton = ({ queueItem, queueIndex }) => {
   const queueDispatch = useQueueDispatch();

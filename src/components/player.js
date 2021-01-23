@@ -4,17 +4,14 @@ import Thumbnail from "components/thumbnail";
 import { memo } from "react";
 import useAudioPlayer from "hooks/useAudioPlayer";
 import useQueueNavigation from "hooks/useQueueNavigation";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { durationTrackFormat } from "utils/format.js";
 
 import {
   mdiSkipNext,
-  mdiShuffle,
   mdiPlaylistMusic,
-  mdiDotsHorizontal,
   mdiPlayCircle,
   mdiSkipPrevious,
-  mdiPlayCircleOutline,
   mdiPauseCircle,
   mdiRepeat,
   mdiVolumeHigh,
@@ -106,7 +103,6 @@ function Player() {
     togglePlay,
     toggleMuted,
     playing,
-    paused,
     loop,
     toggleLoop,
     ready,
