@@ -8,8 +8,10 @@
   border-right: 1px solid var(--border-color);
   width: var(--sidebar-width);
   background: var(--bg-color);
-  transition: all 0.2s linear;
+  /*
+  transition: all 0.25s linear;
   transition-property: box-shadow, border-color, background-color, color;
+  */
 }
 
 .sidebar__link {
@@ -26,6 +28,11 @@
   color: var(--sidebar-link-text-color);
 }
 
+.sidebar__link--active span,
+.sidebar__link--active svg {
+  transition: none;
+}
+
 .sidebar__link a {
   display: flex;
   align-items: center;
@@ -34,8 +41,10 @@
   padding: 0.625em 1.25em;
   border-radius: 2.5rem;
   cursor: pointer;
-  transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  /*
+  transition: background-color 0.2s ease;
   will-change: background-color;
+  */
 }
 
 .sidebar__header {

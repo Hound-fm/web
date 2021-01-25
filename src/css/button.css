@@ -12,7 +12,9 @@
   justify-content: center;
   flex-direction: row;
   cursor: pointer;
-  transition: background 0.2s linear;
+  /*
+  transition: background 0.25s linear;\
+  */
   outline: 0;
 }
 

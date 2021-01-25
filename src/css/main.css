@@ -1,10 +1,14 @@
+:root,
 body {
   margin: 0;
+  min-height: 100vh;
+}
+
+body {
   overflow-y: scroll;
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
 }
 
 a {
@@ -21,13 +25,27 @@ button[aria-disabled] {
   opacity: 0.5;
 }
 
+h1,
+h2,
+h3 {
+  transition: none;
+}
+
+/*
+span,
+p,
+svg {
+  transition: color 0.25s linear;
+}
+*/
+
 .page {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: var(--sidebar-width);
-  margin-bottom: var(--player-height);
-  margin-top: var(--nav-height);
+  padding-bottom: var(--player-height);
+  padding-top: var(--nav-height);
 }
 
 .content {
@@ -48,7 +66,7 @@ button[aria-disabled] {
   width: calc(var(--sidebar-width) + 6.5em);
   min-width: calc(var(--sidebar-width) + 6.5em);
   border-left: 1px solid var(--border-color);
-  min-height: 100vh;
+  min-height: calc(100vh - var(--player-height) - var(--nav-height));
 }
 
 .content--side .title {
@@ -226,7 +244,7 @@ button[aria-disabled] {
   margin-right: 0.5rem;
   border-radius: 1rem;
   text-transform: capitalize;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.25s linear;
 }
 
 .tag-link:hover {

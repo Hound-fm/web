@@ -11,8 +11,10 @@ header {
   left: var(--sidebar-width);
   height: var(--nav-height);
   background: var(--bg-color);
-  transition: all 0.2s linear;
+  /*
+  transition: all 0.25s linear;
   transition-property: box-shadow, border-color, background-color, color;
+  */
 }
 
 .header__title {
@@ -45,7 +47,7 @@ nav a,
   font-size: 0.96em;
   position: relative;
   text-decoration: none;
-  transition: color 0.2s linear;
+  transition: color 0.25s linear;
 }
 
 nav a:hover,
@@ -70,7 +72,7 @@ nav a::after,
   position: absolute;
   bottom: 0;
   background: var(--text-color);
-  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: width 0.25s linear;
 }
 
 nav .active {

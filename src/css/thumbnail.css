@@ -55,7 +55,7 @@
 }
 
 .lazy-fade {
-  transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: opacity 0.25s linear;
 }
 
 .lazy-fade.hidden {
