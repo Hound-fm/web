@@ -39,6 +39,13 @@ svg {
 }
 */
 
+.App {
+  top: 0;
+  left: 0;
+  position: absolute;
+  min-width: 100%;
+}
+
 .page {
   display: flex;
   align-items: center;
