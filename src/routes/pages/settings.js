@@ -27,9 +27,9 @@ function ThemeRadio({ label, active }) {
 }
 
 function ThemeSelector() {
-  const radio = useRadioState();
-  const settingsDispatch = useSettingsDispatch();
   const { theme } = useSettingsState();
+  const radio = useRadioState({ state: theme });
+  const settingsDispatch = useSettingsDispatch();
 
   useEffect(() => {
     if (radio.state) {
@@ -39,12 +39,6 @@ function ThemeSelector() {
       });
     }
   }, [radio.state, settingsDispatch]);
-
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.dataset.theme = theme;
-    }
-  }, [theme]);
 
   return (
     <RadioGroup {...radio} aria-label="fruits" className={"theme-options"}>

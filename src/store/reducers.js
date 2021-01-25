@@ -1,3 +1,5 @@
+import { persistState } from "utils/persist";
+
 export const queueReducer = (state, action) => {
   // Set current queue
   switch (action.type) {
@@ -106,7 +108,11 @@ export const queueReducer = (state, action) => {
 export const settingsReducer = (state, action) => {
   switch (action.type) {
     case "updateSettings": {
-      return { ...state, ...action.data };
+      const updated = { ...state, ...action.data };
+      const { theme } = updated;
+      persistState("hound-fm-settings", updated);
+      document.documentElement.dataset.theme = theme;
+      return updated;
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);

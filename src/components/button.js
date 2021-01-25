@@ -61,7 +61,7 @@ export const Button = memo(
     }
 
     return (
-      <BaseButton className={classNames} label={label} {...props}>
+      <BaseButton className={classNames} label={label} focusable {...props}>
         {icon && (
           <Icon path={icon} className={clsx("button__icon", iconClassName)} />
         )}

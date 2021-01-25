@@ -6,7 +6,6 @@ header {
   top: 0;
   width: 100%;
   z-index: 2;
-  background: var(--bg-color);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1em 1.4em var(--bg-color);
   margin-left: var(--sidebar-width);

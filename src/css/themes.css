@@ -23,8 +23,7 @@
   --menu-box-shadow: 0 1px 14px rgba(91, 99, 115, 0.16);
 }
 
-:root,
-body {
+:root {
   color: var(--text-color);
   background: var(--bg-color);
 }

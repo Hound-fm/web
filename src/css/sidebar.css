@@ -5,7 +5,6 @@
   left: 0;
   position: fixed;
   z-index: 3;
-  background: var(--bg-color);
   border-right: 1px solid var(--border-color);
   width: var(--sidebar-width);
 }

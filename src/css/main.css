@@ -15,8 +15,9 @@ a:hover {
   text-decoration: underline;
 }
 
-button[disabled] {
-  pointer-events: none;
+button[aria-disabled] {
+  opacity: 0.64;
+  cursor: not-allowed !important;
 }
 
 .page {

@@ -1,5 +1,5 @@
 .player {
-  background: var(--player-bg-color);
+  background-color: var(--player-bg-color);
   height: var(--player-height);
   width: 100%;
   position: fixed;
