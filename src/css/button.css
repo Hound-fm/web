@@ -16,6 +16,7 @@
   transition: background 0.25s linear;\
   */
   outline: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .button:hover {
