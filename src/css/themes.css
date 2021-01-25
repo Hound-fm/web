@@ -31,7 +31,7 @@
   color: var(--text-color);
   background: var(--bg-color);
   min-height: 100vh;
-  transition: all 0.25s linear;
+  transition: all 0.2s linear;
   transition-property: background-color, color;
   margin: 0;
 }

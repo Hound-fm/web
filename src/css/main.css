@@ -21,16 +21,6 @@ button[aria-disabled] {
   opacity: 0.5;
 }
 
-h1,
-h2,
-h3,
-p,
-span,
-div,
-svg {
-  transition: color 0.25s linear;
-}
-
 .page {
   display: flex;
   align-items: center;
@@ -108,7 +98,7 @@ svg {
 
 .item--small {
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 500;
   justify-content: flex-start;
   align-items: center;
   display: flex;
@@ -161,7 +151,7 @@ svg {
 }
 
 .item-subtitle {
-  font-weight: normal;
+  font-weight: 500;
   color: var(--subtitle-color);
 }
 

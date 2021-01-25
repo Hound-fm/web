@@ -8,7 +8,7 @@
   border-right: 1px solid var(--border-color);
   width: var(--sidebar-width);
   background: var(--bg-color);
-  transition: all 0.25s linear;
+  transition: all 0.2s linear;
   transition-property: box-shadow, border-color, background-color, color;
 }
 

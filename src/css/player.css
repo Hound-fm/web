@@ -10,7 +10,7 @@
   z-index: 4;
   border-top: 1px solid var(--border-color);
   justify-content: space-between;
-  transition: all 0.25s linear;
+  transition: all 0.2s linear;
   transition-property: box-shadow, border-color, background-color, color;
 }
 
