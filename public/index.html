@@ -37,6 +37,18 @@
     <title>React App</title>
   </head>
   <body>
+    <script>
+      const setInitialTheme = () => {
+        const savedState = window.localStorage.getItem("hound-fm-settings");
+        try {
+          const parsed = JSON.parse(savedState);
+          document.documentElement.dataset.theme = parsed.theme;
+        } catch (e) {
+          console.error("Error loading state : " + storageKey);
+        }
+      };
+      setInitialTheme();
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

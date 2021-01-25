@@ -25,7 +25,15 @@
 
 :root {
   color: var(--text-color);
+}
+
+.App {
+  color: var(--text-color);
   background: var(--bg-color);
+  min-height: 100vh;
+  transition: all 0.25s linear;
+  transition-property: background-color, color;
+  margin: 0;
 }
 
 [data-theme="dark"]:root {

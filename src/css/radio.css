@@ -34,6 +34,8 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: space-between;
+  transition: all 0.25s linear;
+  transition-property: box-shadow, border-color, background-color, color;
 }
 
 .theme-radio__label {
@@ -43,11 +45,14 @@
   color: var(--subtitle-color);
   display: flex;
   align-items: center;
+  transition: all 0.25s linear;
+  transition-property: box-shadow, border-color, background-color, color;
 }
 
 .theme-radio__icon {
   height: 1em;
   margin: 0 0.6em;
+  transition: color 0.25s linear;
 }
 
 .theme-radio__preview {

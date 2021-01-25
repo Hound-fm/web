@@ -9,10 +9,7 @@ export const getIntialState = (storageKey) => {
     if (!savedState) {
       return undefined;
     }
-    const parsed = JSON.parse(savedState);
-    document.documentElement.dataset.theme = parsed.theme;
-
-    return parsed;
+    return JSON.parse(savedState);
   } catch (e) {
     console.error("Error loading state : " + storageKey);
     return undefined;

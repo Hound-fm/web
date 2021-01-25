@@ -4,6 +4,7 @@ body {
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
 a {
@@ -15,9 +16,19 @@ a:hover {
   text-decoration: underline;
 }
 
+button[disabled],
 button[aria-disabled] {
-  opacity: 0.64;
-  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+
+h1,
+h2,
+h3,
+p,
+span,
+div,
+svg {
+  transition: color 0.25s linear;
 }
 
 .page {

@@ -4,12 +4,15 @@ header {
   justify-content: center;
   position: fixed;
   top: 0;
-  width: 100%;
+  right: 0;
   z-index: 2;
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1em 1.4em var(--bg-color);
-  margin-left: var(--sidebar-width);
+  left: var(--sidebar-width);
   height: var(--nav-height);
+  background: var(--bg-color);
+  transition: all 0.25s linear;
+  transition-property: box-shadow, border-color, background-color, color;
 }
 
 .header__title {
