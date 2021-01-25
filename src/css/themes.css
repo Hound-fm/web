@@ -27,15 +27,13 @@
   color: var(--text-color);
 }
 
+:root,
+body,
 .App {
+  margin: 0;
+  min-height: 100vh;
   color: var(--text-color);
   background: var(--bg-color);
-  min-height: 100vh;
-  /*
-  transition: all 0.25s linear;
-  transition-property: background-color, color;
-  */
-  margin: 0;
 }
 
 [data-theme="dark"]:root {
