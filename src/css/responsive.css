@@ -1,0 +1,9 @@
+@media only screen and (max-width: 1280px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .player__controls {
+    margin: 0 1.25em;
+  }
+}

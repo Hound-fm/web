@@ -8,3 +8,4 @@ import "./thumbnail.css";
 import "./table.css";
 import "./radio.css";
 import "./main.css";
+import "./responsive.css";
