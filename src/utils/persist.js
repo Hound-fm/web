@@ -4,7 +4,6 @@ export const persistState = (storageKey, state) => {
 
 export const getIntialState = (storageKey) => {
   const savedState = window.localStorage.getItem(storageKey);
-  console.info(savedState);
   try {
     if (!savedState) {
       return undefined;
