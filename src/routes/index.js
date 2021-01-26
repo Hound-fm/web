@@ -6,7 +6,10 @@ import Audiobooks from "routes/pages/audiobooks";
 import Queue from "routes/pages/queue";
 import Settings from "routes/pages/settings";
 
+import useLocationBlocker from "hooks/useLocationBlocker";
+
 const Routes = () => {
+  useLocationBlocker();
   return (
     <Switch>
       <Route path="/music/:group">

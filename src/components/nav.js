@@ -67,7 +67,7 @@ const NavLink = React.memo(({ to, label, icon, exact }) => {
   );
 });
 
-const SidebarLink = React.memo(({ to, label, icon, exact }) => {
+const SidebarLink = ({ to, label, icon, exact }) => {
   let match = useRouteMatch({ path: to, exact });
   return (
     <li className={clsx("sidebar__link", match && "sidebar__link--active")}>
@@ -77,7 +77,7 @@ const SidebarLink = React.memo(({ to, label, icon, exact }) => {
       </Link>
     </li>
   );
-});
+};
 
 function Sidebar({ className }) {
   return (
@@ -86,12 +86,16 @@ function Sidebar({ className }) {
         <h2>Hound.fm</h2>
       </div>
       <ul>
-        <SidebarLink icon={mdiMusic} label={"Music"} to={"/music"} />
-        <SidebarLink icon={mdiPodcast} label={"Podcasts"} to={"/podcasts"} />
+        <SidebarLink icon={mdiMusic} label={"Music"} to={"/music/latest"} />
+        <SidebarLink
+          icon={mdiPodcast}
+          label={"Podcasts"}
+          to={"/podcasts/latest"}
+        />
         <SidebarLink
           icon={mdiBookMusic}
           label={"Audiobooks"}
-          to={"/audiobooks"}
+          to={"/audiobooks/latest"}
         />
         <SidebarLink icon={mdiCog} label={"Settings"} to={"/settings"} />
       </ul>
