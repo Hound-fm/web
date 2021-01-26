@@ -47,6 +47,7 @@ svg {
   margin-left: var(--sidebar-width);
   padding-bottom: var(--player-height);
   padding-top: var(--nav-height);
+  position: relative;
 }
 
 .content {

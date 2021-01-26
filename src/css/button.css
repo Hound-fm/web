@@ -37,6 +37,14 @@
   border-radius: 0.4em;
 }
 
+.button--header-menu {
+  display: none;
+}
+
+.button.button--header-menu .button__icon {
+  height: 1em;
+}
+
 .button--menu-item:first-child {
   margin-top: 0.5em;
 }

@@ -1,6 +1,7 @@
 import Icon from "@mdi/react";
 import clsx from "clsx";
-import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog } from "@mdi/js";
+import { Button } from "components/button";
+import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog, mdiMenu } from "@mdi/js";
 import React from "react";
 import { Link, useRouteMatch, useLocation } from "react-router-dom";
 
@@ -11,7 +12,10 @@ function Nav({ innerRoutes, title }) {
 
   return (
     <header>
-      {title && <h3 className={"header__title"}>{title}</h3>}
+      <h3 className={"header__title"}>
+        <Button icon={mdiMenu} type={"icon button--header-menu"} />
+        {title && <span>{title}</span>}
+      </h3>
       <nav className="nav">
         {innerRoutes &&
           innerRoutes.length > 0 &&

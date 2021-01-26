@@ -24,6 +24,26 @@
   .rc-slider {
     min-width: 5rem;
   }
+
+  .sidebar {
+    left: -100%;
+  }
+
+  .page {
+    margin-left: 0;
+  }
+
+  header {
+    left: 0;
+  }
+
+  .header__title {
+    margin-left: 0;
+  }
+
+  .button--header-menu {
+    display: flex;
+  }
 }
 
 @media only screen and (max-width: 980px) {
