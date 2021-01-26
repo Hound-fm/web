@@ -11,10 +11,6 @@ header {
   left: var(--sidebar-width);
   height: var(--nav-height);
   background: var(--bg-color);
-  /*
-  transition: all 0.25s linear;
-  transition-property: box-shadow, border-color, background-color, color;
-  */
 }
 
 .header__title {
@@ -77,11 +73,11 @@ nav a::after,
   transition: width 0.25s linear;
 }
 
-nav .active {
+nav .nav__link--active {
   color: var(--text-color);
 }
 
-nav .active::after {
+nav .nav__link--active::after {
   background: var(--text-color);
 }
 
@@ -89,8 +85,8 @@ nav a::after {
   background-color: var(--subtitle-color);
 }
 
-nav .active::after,
-nav a:hover::after,
+nav .nav__link--active::after,
+nav .nav__link:hover::after,
 .content--side .title a:hover::after {
   width: 100%;
 }
