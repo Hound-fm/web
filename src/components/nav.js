@@ -3,12 +3,7 @@ import clsx from "clsx";
 import { Button } from "components/button";
 import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog, mdiMenu } from "@mdi/js";
 import React from "react";
-import {
-  Link,
-  NavLink as NavLinkBase,
-  useRouteMatch,
-  useLocation,
-} from "react-router-dom";
+import { useLocation, NavLink as NavLinkBase } from "react-router-dom";
 
 import {
   useDialogState,
