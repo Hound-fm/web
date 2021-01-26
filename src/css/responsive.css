@@ -1,9 +1,33 @@
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 1320px) {
   .content {
     flex-direction: column;
   }
 
   .player__controls {
-    margin: 0 1.25em;
+    margin: 0 1em;
+  }
+
+  .playlist-info {
+    min-width: 0;
+  }
+}
+
+@media only screen and (max-width: 1040px) {
+  .playlist-info {
+    display: none;
+  }
+
+  .player-control--alternative {
+    display: flex;
+  }
+
+  .rc-slider {
+    min-width: 5rem;
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .player__slider {
+    display: none;
   }
 }

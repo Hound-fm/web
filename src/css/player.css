@@ -24,6 +24,10 @@
   align-items: center;
 }
 
+.player-control--alternative {
+  display: none;
+}
+
 .player__controls {
   flex: 1;
   margin-right: 7.5rem;
@@ -86,13 +90,16 @@
   display: flex;
   align-items: center;
   font-size: 0.8em;
-  max-width: calc(var(--sidebar-width) + 7.5em);
   flex: 1;
 }
 
+.track-info {
+  max-width: calc(var(--sidebar-width) + 7.5em);
+}
 .playlist-info {
   color: var(--subtitle-color);
   justify-content: center;
+  max-width: calc(var(--sidebar-width) + 7.5em);
 }
 
 .track-info__thumbnail {

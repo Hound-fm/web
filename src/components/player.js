@@ -164,6 +164,11 @@ function Player() {
             type="player-control"
             onClick={toggleMuted}
           />
+          <Button
+            icon={mdiPlaylistMusic}
+            type="player-control player-control--alternative"
+            routeLink={"/queue"}
+          />
         </div>
       </div>
       <div className={"playlist-info"}>
