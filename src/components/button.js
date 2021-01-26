@@ -1,25 +1,28 @@
 import clsx from "clsx";
-import { memo, useCallback } from "react";
+import { memo, forwardRef, useCallback } from "react";
 import Icon from "@mdi/react";
 import { DownloadLink, ExternalLink } from "components/externalLink";
 import { Button as BaseButton } from "reakit/Button";
 import { Link } from "react-router-dom";
 import { useMenuState, Menu, MenuItem, MenuButton } from "reakit/Menu";
 
-export const Button = memo(
-  ({
-    label,
-    type,
-    icon,
-    active,
-    iconClassName,
-    externalLink,
-    downloadlLink,
-    className,
-    children,
-    routeLink,
-    ...props
-  }) => {
+const ForwardButton = forwardRef(
+  (
+    {
+      label,
+      type,
+      icon,
+      active,
+      iconClassName,
+      externalLink,
+      downloadlLink,
+      className,
+      children,
+      routeLink,
+      ...props
+    },
+    ref
+  ) => {
     const classNames = clsx(
       "button",
       type && `button--${type}`,
@@ -61,7 +64,13 @@ export const Button = memo(
     }
 
     return (
-      <BaseButton className={classNames} label={label} focusable {...props}>
+      <BaseButton
+        ref={ref}
+        className={classNames}
+        label={label}
+        focusable
+        {...props}
+      >
         {icon && (
           <Icon path={icon} className={clsx("button__icon", iconClassName)} />
         )}
@@ -72,6 +81,8 @@ export const Button = memo(
     );
   }
 );
+
+export const Button = memo(ForwardButton);
 
 const MENU_GUTTER = 20;
 
