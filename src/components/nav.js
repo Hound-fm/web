@@ -36,8 +36,7 @@ function Nav({ innerRoutes, title }) {
             <Button icon={mdiMenu} type={"icon button--header-menu"} />
           }
         >
-          {" "}
-          <Sidebar />{" "}
+          <Sidebar />
         </SidebarButton>
         {title && <span>{title}</span>}
       </h3>
