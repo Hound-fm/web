@@ -3,7 +3,7 @@ import { memo, forwardRef, useCallback } from "react";
 import Icon from "@mdi/react";
 import { DownloadLink, ExternalLink } from "components/externalLink";
 import { Button as BaseButton } from "reakit/Button";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useMenuState, Menu, MenuItem, MenuButton } from "reakit/Menu";
 
 const ForwardButton = forwardRef(
@@ -32,12 +32,16 @@ const ForwardButton = forwardRef(
 
     if (routeLink) {
       return (
-        <Link to={routeLink} className={classNames}>
+        <NavLink
+          to={routeLink}
+          className={classNames}
+          activeClassName={"button--active"}
+        >
           {icon && (
             <Icon path={icon} className={clsx("button__icon", iconClassName)} />
           )}
           {label && <span className="button__label">{label}</span>}
-        </Link>
+        </NavLink>
       );
     }
 

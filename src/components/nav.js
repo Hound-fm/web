@@ -3,7 +3,12 @@ import clsx from "clsx";
 import { Button } from "components/button";
 import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog, mdiMenu } from "@mdi/js";
 import React from "react";
-import { Link, useRouteMatch, useLocation } from "react-router-dom";
+import {
+  Link,
+  NavLink as NavLinkBase,
+  useRouteMatch,
+  useLocation,
+} from "react-router-dom";
 
 import {
   useDialogState,
@@ -18,7 +23,7 @@ function SidebarButton({ disclosure, ...props }) {
       <DialogDisclosure {...dialog} ref={disclosure.ref} {...disclosure.props}>
         {(disclosureProps) => React.cloneElement(disclosure, disclosureProps)}
       </DialogDisclosure>
-      <BaseDialog {...dialog} {...props} />
+      <BaseDialog {...dialog} {...props} preventBodyScroll={false} />
     </>
   );
 }
@@ -56,28 +61,24 @@ function Nav({ innerRoutes, title }) {
   );
 }
 
-const NavLink = React.memo(({ to, label, icon, exact }) => {
-  const match = useRouteMatch({ path: to, exact });
+const NavLink = React.memo(({ to, root, label, icon, exact }) => {
+  const isActive = (match, location) => {
+    const rootMatch = location.pathname.startsWith(root);
+    return match || rootMatch;
+  };
 
   return (
-    <Link to={to} className={clsx("nav__link", match && "active")}>
+    <NavLinkBase
+      to={to}
+      className={"nav__link"}
+      isActive={isActive}
+      activeClassName={"nav__link--active"}
+    >
       {icon && <Icon path={icon} className={"icon"} />}
       {label && <span>{label}</span>}
-    </Link>
+    </NavLinkBase>
   );
 });
-
-const SidebarLink = ({ to, label, icon, exact }) => {
-  let match = useRouteMatch({ path: to, exact });
-  return (
-    <li className={clsx("sidebar__link", match && "sidebar__link--active")}>
-      <Link to={to}>
-        <Icon path={icon} className={"icon"} />
-        <span>{label}</span>
-      </Link>
-    </li>
-  );
-};
 
 function Sidebar({ className }) {
   return (
@@ -86,18 +87,25 @@ function Sidebar({ className }) {
         <h2>Hound.fm</h2>
       </div>
       <ul>
-        <SidebarLink icon={mdiMusic} label={"Music"} to={"/music/latest"} />
-        <SidebarLink
+        <NavLink
+          icon={mdiMusic}
+          label={"Music"}
+          root={"/music"}
+          to={"/music/latest"}
+        />
+        <NavLink
           icon={mdiPodcast}
           label={"Podcasts"}
+          root="/podcasts"
           to={"/podcasts/latest"}
         />
-        <SidebarLink
+        <NavLink
           icon={mdiBookMusic}
           label={"Audiobooks"}
+          root={"/audiobooks"}
           to={"/audiobooks/latest"}
         />
-        <SidebarLink icon={mdiCog} label={"Settings"} to={"/settings"} />
+        <NavLink icon={mdiCog} label={"Settings"} to={"/settings"} />
       </ul>
     </div>
   );
