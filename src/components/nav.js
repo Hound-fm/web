@@ -74,6 +74,33 @@ const NavLink = React.memo(({ to, root, label, icon, exact }) => {
   );
 });
 
+const SidebarLinks = [
+  {
+    icon: mdiMusic,
+    label: "Music",
+    root: "/music",
+    to: "/music/latest",
+  },
+  {
+    icon: mdiPodcast,
+    label: "Podcast",
+    root: "/podcasts",
+    to: "/podcasts/latest",
+  },
+  {
+    icon: mdiBookMusic,
+    label: "Audiobooks",
+    root: "/audiobooks",
+    to: "/audiobooks/latest",
+  },
+  {
+    icon: mdiCog,
+    label: "Settings",
+    root: "/settings",
+    to: "/settings",
+  },
+];
+
 function Sidebar({ className }) {
   return (
     <div className={clsx("sidebar", className)}>
@@ -81,25 +108,9 @@ function Sidebar({ className }) {
         <h2>Hound.fm</h2>
       </div>
       <ul>
-        <NavLink
-          icon={mdiMusic}
-          label={"Music"}
-          root={"/music"}
-          to={"/music/latest"}
-        />
-        <NavLink
-          icon={mdiPodcast}
-          label={"Podcasts"}
-          root="/podcasts"
-          to={"/podcasts/latest"}
-        />
-        <NavLink
-          icon={mdiBookMusic}
-          label={"Audiobooks"}
-          root={"/audiobooks"}
-          to={"/audiobooks/latest"}
-        />
-        <NavLink icon={mdiCog} label={"Settings"} to={"/settings"} />
+        {SidebarLinks.map((itemProps) => (
+          <NavLink key={itemProps.to} {...itemProps} />
+        ))}
       </ul>
     </div>
   );
