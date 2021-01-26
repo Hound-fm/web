@@ -2,7 +2,7 @@ import Icon from "@mdi/react";
 import clsx from "clsx";
 import { Button } from "components/button";
 import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog, mdiMenu } from "@mdi/js";
-import React, { useState } from "react";
+import React from "react";
 import { Link, useRouteMatch, useLocation } from "react-router-dom";
 
 import {
