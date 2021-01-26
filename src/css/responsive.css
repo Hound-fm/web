@@ -3,6 +3,10 @@
     flex-direction: column;
   }
 
+  .content--side {
+    border: 0;
+  }
+
   .player__controls {
     margin: 0 1em;
   }
@@ -25,8 +29,8 @@
     min-width: 5rem;
   }
 
-  .sidebar {
-    left: -100%;
+  .sidebar--static {
+    display: none;
   }
 
   .page {

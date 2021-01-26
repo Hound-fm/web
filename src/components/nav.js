@@ -2,8 +2,26 @@ import Icon from "@mdi/react";
 import clsx from "clsx";
 import { Button } from "components/button";
 import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog, mdiMenu } from "@mdi/js";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useRouteMatch, useLocation } from "react-router-dom";
+
+import {
+  useDialogState,
+  Dialog as BaseDialog,
+  DialogDisclosure,
+} from "reakit/Dialog";
+
+function SidebarButton({ disclosure, ...props }) {
+  const dialog = useDialogState();
+  return (
+    <>
+      <DialogDisclosure {...dialog} ref={disclosure.ref} {...disclosure.props}>
+        {(disclosureProps) => React.cloneElement(disclosure, disclosureProps)}
+      </DialogDisclosure>
+      <BaseDialog {...dialog} {...props} />
+    </>
+  );
+}
 
 function Nav({ innerRoutes, title }) {
   const location = useLocation();
@@ -13,7 +31,14 @@ function Nav({ innerRoutes, title }) {
   return (
     <header>
       <h3 className={"header__title"}>
-        <Button icon={mdiMenu} type={"icon button--header-menu"} />
+        <SidebarButton
+          disclosure={
+            <Button icon={mdiMenu} type={"icon button--header-menu"} />
+          }
+        >
+          {" "}
+          <Sidebar />{" "}
+        </SidebarButton>
         {title && <span>{title}</span>}
       </h3>
       <nav className="nav">
@@ -54,9 +79,9 @@ const SidebarLink = React.memo(({ to, label, icon, exact }) => {
   );
 });
 
-function Sidebar() {
+function Sidebar({ className }) {
   return (
-    <div className="sidebar">
+    <div className={clsx("sidebar", className)}>
       <div className={"sidebar__header"}>
         <h2>Hound.fm</h2>
       </div>

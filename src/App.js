@@ -7,7 +7,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Sidebar />
+        <Sidebar className={"sidebar--static"} />
         <Routes />
       </div>
       <Player />
