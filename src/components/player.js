@@ -1,10 +1,10 @@
 import { Button } from "./button";
 import Slider from "rc-slider";
 import Thumbnail from "components/thumbnail";
-import { memo } from "react";
 import useAudioPlayer from "hooks/useAudioPlayer";
 import useQueueNavigation from "hooks/useQueueNavigation";
-import { useState, useEffect } from "react";
+import { memo, useState, useEffect } from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { durationTrackFormat } from "utils/format.js";
 
 import {
@@ -95,6 +95,29 @@ function PlayerSilder({ currentTime, seek, duration }) {
   );
 }
 
+const QueueToggler = (props) => {
+  const path = "/queue";
+  const match = useRouteMatch({ path });
+  const history = useHistory();
+
+  const toggle = () => {
+    if (match) {
+      history.goBack();
+    } else {
+      history.push(path);
+    }
+  };
+
+  return (
+    <Button
+      icon={mdiPlaylistMusic}
+      active={match}
+      onClick={toggle}
+      {...props}
+    />
+  );
+};
+
 function Player() {
   const {
     audioRef,
@@ -164,20 +187,11 @@ function Player() {
             type="player-control"
             onClick={toggleMuted}
           />
-          <Button
-            icon={mdiPlaylistMusic}
-            type="player-control player-control--alternative"
-            routeLink={"/queue"}
-          />
+          <QueueToggler type={"player-control player-control--alternative"} />
         </div>
       </div>
       <div className={"playlist-info"}>
-        <Button
-          icon={mdiPlaylistMusic}
-          label={"Queue"}
-          type={"large"}
-          routeLink={"/queue"}
-        />
+        <QueueToggler label={"Queue"} type={"large"} />
         {/* <Button icon={mdiDotsHorizontal} type={"icon-large"} /> */}
       </div>
     </div>
