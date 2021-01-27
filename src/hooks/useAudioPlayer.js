@@ -5,6 +5,7 @@ import {
   updateMediaMetadata,
   updatePlaybackState,
   updatePositionState,
+  registerMediaActions,
 } from "utils/mediaSession";
 import useGetTrack from "hooks/useGetTrack";
 
@@ -233,6 +234,7 @@ const useAudioPlayer = () => {
 
   useEffect(() => {
     const player = audioRef.current;
+    // Register audio player events
     player.addEventListener("error", handleErrors);
     player.addEventListener("canplay", handleReady);
     player.addEventListener("pause", handlePause);
@@ -241,6 +243,29 @@ const useAudioPlayer = () => {
     player.addEventListener("durationchange", handleDurationChange);
     player.addEventListener("timeupdate", handleTimeUpdate);
     player.addEventListener("ended", handleEnded);
+
+    /* Seek To (supported since Chrome 78) */
+    const seekHandler = [
+      "seekto",
+      (event) => {
+        if (event.fastSeek && "fastSeek" in player) {
+          return player.fastSeek(event.seekTime);
+        }
+        player.currentTime = event.seekTime;
+      },
+    ];
+
+    // Register mediaSession actions
+    const actions = [
+      seekHandler,
+      ["play", () => triggerPlay()],
+      ["pause", () => triggerPause()],
+      ["nexttrack", () => queueDispatch({ type: "setNextTrack" })],
+      ["previoustrack", () => queueDispatch({ type: "setPrevTrack" })],
+    ];
+
+    registerMediaActions(actions);
+
     // Unmount
     return () => {
       player.removeEventListener("error", handleErrors);

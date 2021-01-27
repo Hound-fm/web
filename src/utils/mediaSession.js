@@ -40,9 +40,9 @@ export const updatePlaybackState = (state) => {
   }
 };
 
-export const registerMediaHandlers = (handlers) => {
+export const registerMediaActions = (actions) => {
   if ("mediaSession" in navigator) {
-    for (const [action, handler] of handlers) {
+    for (const [action, handler] of actions) {
       try {
         navigator.mediaSession.setActionHandler(action, handler);
       } catch (error) {
