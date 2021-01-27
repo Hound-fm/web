@@ -1,8 +1,10 @@
+import { getThumbnailCdnUrl } from "utils/cdn";
+
 const DEFAULT_ARTWORK_TYPE = "image/png";
 const DEFAULT_ARTWORK_SIZES = "256X256";
 
-const getArtworkFromSrc = (src) => ({
-  src,
+const getArtworkFromSrc = (thumbnail) => ({
+  src: getThumbnailCdnUrl({ thumbnail }),
   type: DEFAULT_ARTWORK_TYPE,
   sizes: DEFAULT_ARTWORK_SIZES,
 });
