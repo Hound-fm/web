@@ -192,7 +192,6 @@ function Player() {
       </div>
       <div className={"playlist-info"}>
         <QueueToggler label={"Queue"} type={"large"} />
-        {/* <Button icon={mdiDotsHorizontal} type={"icon-large"} /> */}
       </div>
     </div>
   );

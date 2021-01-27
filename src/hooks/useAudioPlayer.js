@@ -1,6 +1,11 @@
 import { useRef, useState, useEffect } from "react";
 import { getStreamLink } from "utils/lbry";
 import { useQueueDispatch, useQueueState } from "store/queueContext";
+import {
+  updateMediaMetadata,
+  updatePlaybackState,
+  updatePositionState,
+} from "utils/mediaSession";
 import useGetTrack from "hooks/useGetTrack";
 
 const defaultPersistentState = {
@@ -80,11 +85,6 @@ const useAudioPlayer = () => {
   const triggerPause = () => {
     const player = audioRef.current;
     player.pause();
-    setState((prevState) => ({
-      ...prevState,
-      paused: player.paused,
-      playing: false,
-    }));
   };
 
   const triggerPlay = () => {
@@ -110,6 +110,7 @@ const useAudioPlayer = () => {
       ...prevState,
       duration: player.duration,
     }));
+    updatePositionState(player);
   };
 
   const handlePlaying = () => {
@@ -119,6 +120,7 @@ const useAudioPlayer = () => {
       playing: true,
       loading: false,
     }));
+    updatePlaybackState("playing");
   };
 
   const handleWaiting = () => {
@@ -136,6 +138,12 @@ const useAudioPlayer = () => {
       ...prevState,
       currentTime: player.currentTime,
     }));
+    updatePositionState(player);
+  };
+
+  const handlePause = () => {
+    updateState({ pause: true, playing: false });
+    updatePlaybackState("paused");
   };
 
   const handleEnded = () => {
@@ -189,6 +197,12 @@ const useAudioPlayer = () => {
   };
 
   useEffect(() => {
+    if (currentTrack) {
+      updateMediaMetadata(currentTrack);
+    }
+  }, [currentTrack]);
+
+  useEffect(() => {
     if (!currentTrack && nextQueue.length && !queue.length) {
       queueDispatch({ type: "loadNextQueue" });
       queueDispatch({ type: "setTrack", data: 0 });
@@ -221,6 +235,7 @@ const useAudioPlayer = () => {
     const player = audioRef.current;
     player.addEventListener("error", handleErrors);
     player.addEventListener("canplay", handleReady);
+    player.addEventListener("pause", handlePause);
     player.addEventListener("playing", handlePlaying);
     player.addEventListener("waiting", handleWaiting);
     player.addEventListener("durationchange", handleDurationChange);
@@ -230,6 +245,7 @@ const useAudioPlayer = () => {
     return () => {
       player.removeEventListener("error", handleErrors);
       player.removeEventListener("canplay", handleReady);
+      player.removeEventListener("pause", handlePause);
       player.removeEventListener("playing", handlePlaying);
       player.removeEventListener("waiting", handleWaiting);
       player.removeEventListener("timeupdate", handleTimeUpdate);
