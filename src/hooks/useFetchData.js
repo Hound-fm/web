@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 
-const API = "http://api.hound.fm";
+const API = "https://api.hound.fm";
 
 function useFetchData(category, group, genre) {
   const res = useQuery([`${category}-data`, group, genre], () => {
