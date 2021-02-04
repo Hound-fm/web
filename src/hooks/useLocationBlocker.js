@@ -9,11 +9,17 @@ export default function useLocationBlocker() {
   const history = useHistory();
   useEffect(
     () => {
-      history.block(
-        (location, action) =>
+      history.block((location, action) => {
+        const updated =
           action !== "PUSH" ||
-          getLocationId(location) !== getLocationId(history.location)
-      );
+          getLocationId(location) !== getLocationId(history.location);
+        if (!updated) {
+          // Reset scroll
+          // window.scrollTo(0, 0);
+        }
+
+        return updated;
+      });
     },
     [] // eslint-disable-line react-hooks/exhaustive-deps
   );

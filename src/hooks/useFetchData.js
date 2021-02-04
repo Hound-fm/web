@@ -1,18 +1,18 @@
 import { useQuery } from "react-query";
 
+const API = "http://api.hound.fm";
+
 function useFetchData(category, group, genre) {
   const res = useQuery([`${category}-data`, group, genre], () => {
     if (genre && genre.length > 2) {
       return fetch(
-        `http://localhost:3333/content/${category}?${
+        `${API}/content/${category}?${
           group ? `group=${group}&` : ""
         }genre=${genre}`
       ).then((res) => res.json());
     }
     return fetch(
-      `http://localhost:3333/content/${category}?${
-        group ? `group=${group}&` : ""
-      }`
+      `${API}/content/${category}?${group ? `group=${group}&` : ""}`
     ).then((res) => res.json());
   });
   return res;
