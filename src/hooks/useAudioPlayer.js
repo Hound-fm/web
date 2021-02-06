@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { getStreamLink } from "utils/lbry";
-import { triggerViewCount } from "utils/lbry";
 import { useQueueDispatch, useQueueState } from "store/queueContext";
 import {
   updateMediaMetadata,
@@ -200,9 +199,7 @@ const useAudioPlayer = () => {
 
   useEffect(() => {
     if (currentTrack) {
-      const { id, cannonical_url } = currentTrack;
       updateMediaMetadata(currentTrack);
-      triggerViewCount(id, cannonical_url);
     }
   }, [currentTrack]);
 
