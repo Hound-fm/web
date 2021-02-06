@@ -1,12 +1,11 @@
-import { Button } from "./button";
 import Slider from "rc-slider";
 import Thumbnail from "components/thumbnail";
 import useAudioPlayer from "hooks/useAudioPlayer";
 import useQueueNavigation from "hooks/useQueueNavigation";
+import { Button } from "components/button";
 import { memo, useState, useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { durationTrackFormat } from "utils/format.js";
-
+import { durationTrackFormat } from "utils/format";
 import {
   mdiSkipNext,
   mdiPlaylistMusic,
