@@ -1,4 +1,3 @@
-const LBRY_API = "https://api.lbry.com/";
 const STREAM_API = "https://cdn.lbryplayer.xyz/api/";
 const STREAM_API_VERSION = 4;
 
