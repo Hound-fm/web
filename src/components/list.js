@@ -15,7 +15,6 @@ import {
   mdiAntenna,
   mdiArrowDownBold,
   mdiDotsVertical,
-  mdiDotsHorizontal,
 } from "@mdi/js";
 
 const ItemPlayButton = ({
