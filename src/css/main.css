@@ -1,6 +1,6 @@
 body {
   overflow-y: scroll;
-  font-family: "Inter", sans-serif;
+  font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -207,6 +207,7 @@ svg {
   font-size: 0.84em;
   display: flex;
   align-items: center;
+  margin-right: 1.5rem;
 }
 
 .item-message__text span {
@@ -247,6 +248,7 @@ svg {
   border-radius: 1rem;
   text-transform: capitalize;
   transition: all 0.25s linear;
+  min-width: 1.75rem;
 }
 
 .tag-link:hover {
@@ -257,6 +259,23 @@ svg {
   background: var(--button-hover-bg-color);
   color: var(--text-color);
   cursor: pointer;
+}
+
+.text-overflow--short {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-overflow--long {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .menu {

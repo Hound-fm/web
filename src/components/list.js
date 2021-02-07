@@ -15,6 +15,7 @@ import {
   mdiAntenna,
   mdiArrowDownBold,
   mdiDotsVertical,
+  mdiDotsHorizontal,
 } from "@mdi/js";
 
 const ItemPlayButton = ({
@@ -100,7 +101,7 @@ const Item = memo(
         <div className="item-message">
           <div className="item-message__text">
             <Icon path={mdiAntenna} className="item-message__icon" />
-            <span>
+            <span className={"text-overflow--short"}>
               {`${action} by `}
               <ExternalLink to={getRedirectLink(userId)}>
                 {user}
@@ -118,10 +119,10 @@ const Item = memo(
             <Thumbnail className="thumbnail--medium" src={thumbnail} />
           </div>
           <div className="item-header">
-            <h3 className="item-title">
+            <h3 className="item-title text-overflow--short">
               <ExternalLink to={getRedirectLink(id)}>{title}</ExternalLink>
             </h3>
-            <h4 className="item-subtitle">
+            <h4 className="item-subtitle text-overflow--short">
               <ExternalLink to={getRedirectLink(publisherId)}>
                 {subtitle}
               </ExternalLink>

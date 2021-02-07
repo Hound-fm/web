@@ -18,7 +18,7 @@ export const TagLink = ({ tag, className, activeOnMatch }) => {
 
   return (
     <Link to={path} className={clsx("tag-link", className, match && "active")}>
-      {tag && <span>{tag}</span>}
+      {tag && <span className={"text-overflow--short"}>{tag}</span>}
     </Link>
   );
 };

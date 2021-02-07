@@ -2,7 +2,6 @@
   border: 0;
   background: 0;
   color: inherit;
-  font-size: inherit;
   border: 1px solid var(--button-border-color);
   padding: 0.3rem 0.75rem;
   margin-right: 1.25rem;
@@ -12,6 +11,8 @@
   justify-content: center;
   flex-direction: row;
   cursor: pointer;
+  font-family: inherit;
+  font-size: 0.75rem;
   /*
   transition: background 0.25s linear;\
   */
@@ -39,6 +40,10 @@
 
 .button--header-menu {
   display: none;
+}
+
+.button.button--header-menu {
+  margin: 0 1.5rem !important;
 }
 
 .button.button--header-menu .button__icon {
@@ -123,6 +128,7 @@
 .button--icon {
   margin: 0 0.5em;
   padding: 0.3em;
+  font-size: inherit;
   color: var(--subtitle-color);
 }
 

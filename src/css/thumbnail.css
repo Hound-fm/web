@@ -15,10 +15,6 @@
   border-radius: 0.35rem;
 }
 
-.thumbnail--row {
-  border-radius: 0.35rem;
-}
-
 .thumbnail--row img {
   border-radius: 0.35rem;
 }
@@ -26,12 +22,11 @@
 .thumbnail--medium {
   height: 5rem;
   width: 5rem;
-  border-radius: 0.25rem;
 }
 
 .thumbnail--medium,
 .thumbnail--medium img {
-  border-radius: 0.75rem;
+  border-radius: 0.64rem;
 }
 
 .thumbnail--small {
@@ -51,7 +46,7 @@
 
 .thumbnail--tiny,
 .thumbnail--tiny img {
-  border-radius: 0.75em;
+  border-radius: 0.5em;
 }
 
 .lazy-fade {
