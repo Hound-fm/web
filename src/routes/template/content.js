@@ -4,7 +4,7 @@ import { List, SimpleList } from "components/list";
 import { Nav } from "components/nav";
 import { useParams } from "react-router-dom";
 import useFetchData from "hooks/useFetchData";
-import useFetchKnowledge from "hooks/useFetchKnowledge";
+import useFetchStats from "hooks/useFetchStats";
 import useRouterQuery from "hooks/useRouterQuery";
 import { useQueueDispatch } from "store/queueContext";
 import { useScrollToTop } from "hooks/scroll";
@@ -38,7 +38,7 @@ function ContentPage({ title, category }) {
     isLoading: knowledgeIsLoading,
     error: knowledgeError,
     data: knowledge,
-  } = useFetchKnowledge(category, group);
+  } = useFetchStats(category, group);
 
   const dataReady = !error && !isLoading && data && data.data != null;
   const knowledgeReady =

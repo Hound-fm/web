@@ -12,7 +12,7 @@ import "./css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    staleTime: 100 * 60 * 15,
+    staleTime: 100 * 60 * 5,
   },
 });
 
