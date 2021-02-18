@@ -10,12 +10,7 @@ import { useQueueDispatch } from "store/queueContext";
 import { copyToClipboard } from "utils/clipboard";
 import { ExternalLink } from "components/externalLink";
 
-import {
-  mdiPlay,
-  mdiAntenna,
-  mdiArrowDownBold,
-  mdiDotsVertical,
-} from "@mdi/js";
+import { mdiPlay, mdiAntenna, mdiDotsVertical } from "@mdi/js";
 
 const ItemPlayButton = ({
   duration,
@@ -130,12 +125,6 @@ const Item = memo(
         </div>
         <div className="item-actions">
           <ItemPlayButton id={id} index={index} duration={duration} />
-          {/* <Button type="icon" icon={mdiShare} /> */}
-          <Button
-            externalLink={getStreamLink({ name, id }, true)}
-            type="icon"
-            icon={mdiArrowDownBold}
-          />
         </div>
       </div>
     );
