@@ -5,7 +5,7 @@ import { memo, useCallback } from "react";
 import { DateTime } from "luxon";
 import { TagLink } from "./tag";
 import { durationShortFormat } from "utils/format.js";
-import { getStreamLink, getReportLink, getRedirectLink } from "utils/lbry";
+import { getReportLink, getRedirectLink } from "utils/lbry";
 import { useQueueDispatch } from "store/queueContext";
 import { copyToClipboard } from "utils/clipboard";
 import { ExternalLink } from "components/externalLink";
