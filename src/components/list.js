@@ -89,7 +89,6 @@ const Item = memo(
     duration,
     defaultTag,
   }) => {
-    const tag = defaultTag || (tags.length ? tags[0] : false);
     const genres = tags.slice(0, 3);
 
     return (
