@@ -63,7 +63,7 @@
     padding: 1.25em 2rem;
   }
 
-  .item {
+  .item:not(.item--small) {
     padding: 0 2rem;
   }
 }
