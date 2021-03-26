@@ -6,9 +6,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  box-shadow: 0 -1em 1.4em var(--player-bg-color);
+  box-shadow: 0 -1em 1.4em var(--bg-color);
   z-index: 4;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--player-border-color);
   justify-content: space-between;
   /*
   transition: all 0.25s linear;

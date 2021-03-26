@@ -10,6 +10,7 @@
   --accent-color: #3498db;
 
   --player-bg-color: var(--bg-color);
+  --player-border-color: var(--border-color);
 
   --button-border-color: var(--subtitle-color);
   --button-hover-bg-color: #dfe4ea;
