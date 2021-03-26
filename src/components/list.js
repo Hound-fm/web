@@ -90,6 +90,8 @@ const Item = memo(
     defaultTag,
   }) => {
     const tag = defaultTag || (tags.length ? tags[0] : false);
+    const genres = tags.slice(0, 3);
+
     return (
       <div className="item" data-name={name} data-id={id}>
         <div className="item-message">
@@ -104,7 +106,6 @@ const Item = memo(
             </span>
           </div>
           <div className={"item-message__actions"}>
-            {tag && <TagLink tag={tag} />}
             <ItemMenuButton id={id} queueItem={queueItem} />
           </div>
         </div>
@@ -125,6 +126,9 @@ const Item = memo(
         </div>
         <div className="item-actions">
           <ItemPlayButton id={id} index={index} duration={duration} />
+          {genres.map((tag) => (
+            <TagLink key={tag} tag={tag} />
+          ))}
         </div>
       </div>
     );
