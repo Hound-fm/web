@@ -6,11 +6,8 @@ export const scrollToTop = () => {
 };
 
 export const useScrollToTop = () => {
-  const { pathname } = useLocation();
-
+  const { key } = useLocation();
   useEffect(() => {
     scrollToTop();
-  }, [pathname]);
-
-  return null;
+  }, [key]);
 };

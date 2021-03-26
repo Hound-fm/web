@@ -13,11 +13,6 @@ export default function useLocationBlocker() {
         const updated =
           action !== "PUSH" ||
           getLocationId(location) !== getLocationId(history.location);
-        if (!updated) {
-          // Reset scroll
-          // window.scrollTo(0, 0);
-        }
-
         return updated;
       });
     },
