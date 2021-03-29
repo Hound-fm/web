@@ -1,11 +1,9 @@
 import { Nav } from "components/nav";
-import { TagLink } from "components/tag";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Icon from "@mdi/react";
-import ContentPage from "routes/template/content";
 import useFetchStats from "hooks/useFetchStats";
 import { mdiFire, mdiTagMultiple } from "@mdi/js";
 
@@ -45,7 +43,7 @@ function Genres() {
   const { category } = useParams();
   const categoryName = useGetCategoryName(category);
   const [genres, setGenres] = useState({ popular: [], all: [] });
-  const { isLoading, error, data } = useFetchStats(`tags/${categoryName}`);
+  const { data } = useFetchStats(`tags/${categoryName}`);
 
   useEffect(() => {
     if (data && data.genres) {
