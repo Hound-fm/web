@@ -1,5 +1,4 @@
 import { Nav } from "components/nav";
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -25,27 +24,12 @@ function Genre({ name }) {
   );
 }
 
-function useGetCategoryName(category) {
-  if (category === "music") {
-    return category;
-  }
-
-  if (category === "podcasts") {
-    return "podcast";
-  }
-
-  if (category === "audiobooks") {
-    return "audiobook";
-  }
-}
-
 function Genres({ category, categoryTitle }) {
   const [genres, setGenres] = useState({ popular: [], all: [] });
   const { data } = useFetchStats(`tags/${category}`);
 
   useEffect(() => {
     if (data && data.genres) {
-      console.info(data);
       setGenres({
         all: [...data.genres.slice(4, data.genres.length)],
         popular: [...data.genres.slice(0, 4)],
