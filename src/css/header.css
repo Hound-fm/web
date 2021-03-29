@@ -21,11 +21,26 @@ header {
   align-items: center;
 }
 
+.header__title span:first-letter {
+  text-transform: uppercase;
+}
+
+.header__title > span {
+  display: flex;
+  align-items: center;
+}
+
+.header__title .slash {
+  margin: 0.64em;
+  font-size: 0.64em;
+  color: var(--border-color);
+}
+
 nav {
   padding: 0 1.5rem;
   box-sizing: border-box;
   display: flex;
-  width: 100%;
+  flex: 1;
   height: 100%;
 }
 

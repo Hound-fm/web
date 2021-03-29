@@ -59,6 +59,10 @@
     padding: 1.25rem 2rem;
   }
 
+  .content--center section {
+    margin: 1.5rem 2rem;
+  }
+
   .table__row {
     padding: 1.25em 2rem;
   }

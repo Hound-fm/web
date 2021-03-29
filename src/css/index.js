@@ -7,5 +7,6 @@ import "./sidebar.css";
 import "./thumbnail.css";
 import "./table.css";
 import "./radio.css";
+import "./cards.css";
 import "./main.css";
 import "./responsive.css";

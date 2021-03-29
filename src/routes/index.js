@@ -5,13 +5,18 @@ import Podcasts from "routes/pages/podcasts";
 import Audiobooks from "routes/pages/audiobooks";
 import Queue from "routes/pages/queue";
 import Settings from "routes/pages/settings";
-
+import Genres from "routes/pages/genres";
 import useLocationBlocker from "hooks/useLocationBlocker";
 
 const Routes = () => {
   useLocationBlocker();
+
   return (
     <Switch>
+      <Route path="/:category/genres">
+        <Genres />
+      </Route>
+
       <Route path="/music/:group">
         <Music />
       </Route>

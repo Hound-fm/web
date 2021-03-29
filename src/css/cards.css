@@ -1,0 +1,85 @@
+.card {
+  padding: 1rem;
+  border-radius: 0.64rem;
+  min-height: 4rem;
+  background: var(--button-hover-bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.card--long {
+  min-width: 14rem;
+  height: 8rem;
+  background: linear-gradient(salmon, tomato);
+  border: 0;
+  color: white;
+  margin-right: 1.4rem;
+}
+
+.card--long:nth-child(2) {
+  background: linear-gradient(orchid, darkviolet);
+}
+
+.card--long:nth-child(3) {
+  background: linear-gradient(Lightgreen, mediumseagreen);
+}
+
+.card--long:nth-child(4) {
+  background: linear-gradient(hotpink, MediumVioletRed);
+}
+
+.card--long .card__title {
+  font-size: 1.4em;
+}
+
+.card__title {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 0.64rem;
+}
+
+.card__title:first-letter {
+  text-transform: uppercase;
+}
+
+.cards--horizontal {
+  display: grid;
+  grid-auto-flow: column;
+  position: absolute;
+  top: 0;
+}
+
+.cards--grid {
+  display: grid;
+  grid-gap: 1.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 4fr));
+  justify-content: start;
+}
+
+.cards--horizontal .card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.row-scroll {
+  position: relative;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  display: block;
+  height: 11rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.row__container {
+  position: relative;
+}
+.row-scroll::-webkit-scrollbar {
+  display: none;
+}
