@@ -6,10 +6,15 @@ import Audiobooks from "routes/pages/audiobooks";
 import Queue from "routes/pages/queue";
 import Settings from "routes/pages/settings";
 import Genres from "routes/pages/genres";
+
+import { useScrollToTop } from "hooks/scroll";
 import useLocationBlocker from "hooks/useLocationBlocker";
 
 const Routes = () => {
+  // Prevent history spam
   useLocationBlocker();
+  // Restore scroll
+  useScrollToTop();
 
   return (
     <Switch>

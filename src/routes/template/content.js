@@ -7,7 +7,6 @@ import useFetchData from "hooks/useFetchData";
 import useFetchStats from "hooks/useFetchStats";
 import useRouterQuery from "hooks/useRouterQuery";
 import { useQueueDispatch } from "store/queueContext";
-import { useScrollToTop } from "hooks/scroll";
 
 const routes = [
   { label: "Latest", path: "latest" },
@@ -26,9 +25,6 @@ function ChannelsList({ title, data }) {
 }
 
 function ContentPage({ title, category }) {
-  // Restore scroll
-  useScrollToTop();
-
   const queueDispatch = useQueueDispatch();
   const params = useRouterQuery();
   const genre = params.get("genre");

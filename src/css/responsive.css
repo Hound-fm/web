@@ -5,6 +5,7 @@
 
   .content--side {
     border: 0;
+    width: auto;
   }
 
   .player__controls {
