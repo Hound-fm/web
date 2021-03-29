@@ -1,7 +1,7 @@
 const STREAM_API = "https://cdn.lbryplayer.xyz/api/";
 const STREAM_API_VERSION = 4;
 
-export const getRedirectLink = (id) => `https://lbry.tv/$/search?q=${id}`;
+export const getRedirectLink = (id) => `https://odysee.com/$/search?q=${id}`;
 
 export const getReportLink = (id) => `https://lbry.com/dmca/${id}`;
 
