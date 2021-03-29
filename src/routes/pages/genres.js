@@ -39,11 +39,9 @@ function useGetCategoryName(category) {
   }
 }
 
-function Genres() {
-  const { category } = useParams();
-  const categoryName = useGetCategoryName(category);
+function Genres({ category, categoryTitle }) {
   const [genres, setGenres] = useState({ popular: [], all: [] });
-  const { data } = useFetchStats(`tags/${categoryName}`);
+  const { data } = useFetchStats(`tags/${category}`);
 
   useEffect(() => {
     if (data && data.genres) {
@@ -55,18 +53,12 @@ function Genres() {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (genres) {
-      console.info(genres);
-    }
-  }, [genres]);
-
   return (
     <div className="page">
       <Nav
         title={
           <span>
-            {category}
+            {categoryTitle || category}
             <span className="slash">/</span>
             <span className="subpage">Genres</span>
           </span>

@@ -13,12 +13,16 @@ const Routes = () => {
 
   return (
     <Switch>
-      <Route path="/:category/genres">
-        <Genres />
+      <Route path="/music/genres">
+        <Genres category={"music"} />
       </Route>
 
       <Route path="/music/:group">
         <Music />
+      </Route>
+
+      <Route path="/podcasts/genres">
+        <Genres categoryTitle={"podcasts"} category={"podcast"} />
       </Route>
 
       <Route path="/podcasts/:group">

@@ -83,7 +83,7 @@ const SidebarLinks = [
   },
   {
     icon: mdiPodcast,
-    label: "Podcast",
+    label: "Podcasts",
     root: "/podcasts",
     to: "/podcasts/latest",
   },
