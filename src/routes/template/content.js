@@ -18,7 +18,7 @@ function ChannelsList({ title, data }) {
   return (
     <>
       <h3 className="title">
-        <a href="#title">{title}</a>
+        <span>{title}</span>
       </h3>
       <SimpleList dataItems={data} />
     </>

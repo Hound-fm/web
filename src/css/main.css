@@ -79,6 +79,21 @@ svg {
   padding: 0.75em 0;
   margin: 0;
   margin-top: 2.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content--side .title .sublink {
+  color: var(--subtitle-color);
+  font-size: 0.84em;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.sublink__icon {
+  height: 1rem;
 }
 
 .content--side .title a {

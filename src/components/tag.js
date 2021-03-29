@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { memo } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Icon from "@mdi/react";
+import { mdiChevronRight } from "@mdi/js";
 
 const formatPath = (pathname) => {
   let path = pathname;
@@ -26,8 +28,11 @@ export const TagLink = ({ tag, className, activeOnMatch = true }) => {
 export const TagsGroup = memo(({ title, tags }) => {
   return (
     <>
-      <h3 className="title">
-        <a href="#title">{title}</a>
+      <h3 className="title title--side">
+        <span>{title}</span>
+        <Link className={"sublink"} to="genres">
+          SEE ALL <Icon path={mdiChevronRight} className={"sublink__icon"} />{" "}
+        </Link>
       </h3>
       <div className="tags">
         {tags.map((tag) => (
