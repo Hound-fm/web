@@ -7,9 +7,9 @@ import useFetchData from "hooks/useFetchData";
 import useFetchStats from "hooks/useFetchStats";
 import useRouterQuery from "hooks/useRouterQuery";
 import { useQueueDispatch } from "store/queueContext";
-import { Link } from "react-router-dom";
-import Icon from "@mdi/react";
-import { mdiChevronRight } from "@mdi/js";
+// import { Link } from "react-router-dom";
+// import Icon from "@mdi/react";
+// import { mdiChevronRight } from "@mdi/js";
 
 const routes = [
   { label: "Latest", path: "latest" },
