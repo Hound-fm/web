@@ -21,9 +21,11 @@ function ChannelsList({ title, data }) {
     <>
       <h3 className="title">
         <span>{title}</span>
+        {/*
         <Link className={"sublink"} to="channels">
           SEE ALL <Icon path={mdiChevronRight} className={"sublink__icon"} />{" "}
         </Link>
+        */}
       </h3>
       <SimpleList dataItems={data} />
     </>
