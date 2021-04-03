@@ -1,11 +1,13 @@
 import { Route, Switch, Redirect } from "react-router-dom";
 
+import Sfx from "routes/pages/sfx";
 import Music from "routes/pages/music";
 import Podcasts from "routes/pages/podcasts";
 import Audiobooks from "routes/pages/audiobooks";
 import Queue from "routes/pages/queue";
 import Settings from "routes/pages/settings";
 import Genres from "routes/pages/genres";
+import Channels from "routes/pages/channels";
 
 import { useScrollToTop } from "hooks/scroll";
 import useLocationBlocker from "hooks/useLocationBlocker";
@@ -22,6 +24,10 @@ const Routes = () => {
         <Genres category={"music"} />
       </Route>
 
+      <Route path="/music/channels">
+        <Channels category={"music"} />
+      </Route>
+
       <Route path="/music/:group">
         <Music />
       </Route>
@@ -36,6 +42,10 @@ const Routes = () => {
 
       <Route path="/audiobooks/:group">
         <Audiobooks />
+      </Route>
+
+      <Route path="/sfx/:group">
+        <Sfx />
       </Route>
 
       <Route path="/queue">

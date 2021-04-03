@@ -7,6 +7,9 @@ import useFetchData from "hooks/useFetchData";
 import useFetchStats from "hooks/useFetchStats";
 import useRouterQuery from "hooks/useRouterQuery";
 import { useQueueDispatch } from "store/queueContext";
+import { Link } from "react-router-dom";
+import Icon from "@mdi/react";
+import { mdiChevronRight } from "@mdi/js";
 
 const routes = [
   { label: "Latest", path: "latest" },
@@ -18,6 +21,9 @@ function ChannelsList({ title, data }) {
     <>
       <h3 className="title">
         <span>{title}</span>
+        <Link className={"sublink"} to="channels">
+          SEE ALL <Icon path={mdiChevronRight} className={"sublink__icon"} />{" "}
+        </Link>
       </h3>
       <SimpleList dataItems={data} />
     </>

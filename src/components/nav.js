@@ -1,7 +1,14 @@
 import Icon from "@mdi/react";
 import clsx from "clsx";
 import { Button } from "components/button";
-import { mdiMusic, mdiPodcast, mdiBookMusic, mdiCog, mdiMenu } from "@mdi/js";
+import {
+  mdiMusic,
+  mdiWaveform,
+  mdiPodcast,
+  mdiBookMusic,
+  mdiCog,
+  mdiMenu,
+} from "@mdi/js";
 import React from "react";
 import { useLocation, NavLink as NavLinkBase } from "react-router-dom";
 
@@ -92,6 +99,12 @@ const SidebarLinks = [
     label: "Audiobooks",
     root: "/audiobooks",
     to: "/audiobooks/latest",
+  },
+  {
+    icon: mdiWaveform,
+    label: "SFX",
+    root: "/sfx",
+    to: "/sfx/latest",
   },
   {
     icon: mdiCog,
