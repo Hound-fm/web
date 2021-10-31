@@ -1,0 +1,41 @@
+.category-card {
+  aspect-ratio: 1;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(188, 43, 71);
+  color:  var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.category-card__thumbnail {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  mix-blend-mode: hard-light;
+  z-index: 0;
+}
+
+.category-card__title {
+  font-weight: 800;
+  padding: 8px 16px;
+  font-size: calc(1.75em - 0.5vw);
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 100%;
+  text-transform: capitalize;
+}
+
+.category-card__title span {
+  padding: 4px;
+  display: block;
+}

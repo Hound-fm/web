@@ -1,0 +1,9 @@
+.tracks-list .tracks-list__row {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.tracks-list__container {
+  margin: 0;
+  width: 100%;
+}

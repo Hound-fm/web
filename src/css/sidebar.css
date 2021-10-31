@@ -1,71 +1,154 @@
 .sidebar {
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  z-index: 3;
-  border-right: 1px solid var(--border-color);
   width: var(--sidebar-width);
-  background: var(--bg-color);
-  /*
-  transition: all 0.25s linear;
-  transition-property: box-shadow, border-color, background-color, color;
-  */
-}
-
-.sidebar .nav__link:hover {
-  color: var(--text-color);
-  text-decoration: none;
-}
-
-.sidebar .nav__link.nav__link--active {
-  background: var(--sidebar-link-bg-color);
-  color: var(--sidebar-link-text-color);
-}
-
-.sidebar .nav__link--active span,
-.sidebar .nav__link--active svg {
-  transition: none;
-}
-
-.sidebar .nav__link span {
-  margin: 0 0.625rem;
-  font-weight: 600;
-}
-
-.sidebar .nav__link .icon {
-  height: 1.4em;
-}
-
-.sidebar .nav__link {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin: 0 auto;
+  position: fixed;
+  padding-bottom: var(--player-height);
   display: flex;
-  align-items: center;
-  color: var(--subtitle-color);
-  text-decoration: none;
-  padding: 0.625em 1.25em;
-  border-radius: 2.5rem;
-  cursor: pointer;
-  margin: 1.25rem 2.5rem;
+  flex-direction: column;
+  overflow: auto;
+  background-color: rgba(12, 12, 12, 0.9);
 }
 
-.sidebar__header {
-  display: flex;
-  align-items: center;
+/* Border */
+.sidebar::after {
+  position: absolute;
+  right: 0;
+  top: 3vh;
+  bottom: calc(3vh + var(--player-height));
+  background: #1b1b1b;
+  content: "";
+  width: 1px;
+}
+
+.sidebar .logo {
+  height: 42px;
+  width: 42px;
+  margin-left: calc(var(--space-margin) * 0.86);
+  margin-right: 8px;
+}
+
+.app--compact .sidebar__header {
+  width: 0;
   justify-content: center;
-  height: var(--nav-height);
+  margin-top: 0;
 }
 
-.sidebar__header {
-  padding: 0 1.25rem;
+.app--compact .logo {
+  margin: 0;
+}
+
+.app--compact .sidebar {
+  width: var(--sidebar-min-width);
+  padding-bottom: var(--player-min-height);
+  align-items: center;
+  align-content: center;
+}
+.app--compact .sidebar ul {
+  margin: 0;
+}
+.app--compact .sidebar .sidebar__link a span {
+  display: none;
+}
+
+.app--compact .sidebar .sidebar__link {
+  padding: 0;
+}
+
+.app--compact .sidebar__link a {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 8px !important;
+}
+
+.app--compact .sidebar__link .link__icon {
+  margin: 0;
+  height: 1.52em;
+  width: 1.52em;
+}
+
+.app--compact .sidebar__header span {
+  display: none;
+}
+
+.app--compact .sidebar__message {
+  display: none;
+}
+
+.app--mobile .sidebar {
+  left: calc(-1 * var(--sidebar-width));
+  padding-bottom: var(--player-min-height);
+  z-index: 3;
 }
 
 .sidebar ul {
-  margin: 1.25em 0;
+  margin: 0 calc(var(--space-margin) * 0.85);
   padding: 0;
-  text-align: left;
 }
 
-ul li {
+.sidebar__header {
+  width: 100%;
+  min-height: var(--header-height);
+  display: flex;
+  align-items: center;
+  font-weight: 800;
+  font-size: 1.54em;
+  margin: 8px 0;
+}
+
+.sidebar__link {
   list-style: none;
+  width: 100%;
+  margin-bottom: calc(var(--space-margin) * 0.5);
+}
+
+.sidebar__link a {
+  color: var(--subtext-color);
+  justify-content: flex-start;
+  margin: 0;
+  padding: calc(var(--space-margin) * 0.25) calc(var(--space-margin) * 0.15);
+  border-radius: 0;
+  border-radius: 25em;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-property: color, background-color;
+}
+
+.sidebar__link a:hover {
+  color: var(--text-color);
+  background: var(--card-bg-color);
+}
+
+.sidebar__link a[aria-current="page"] {
+  color: var(--text-color);
+}
+
+.sidebar__message {
+  color: #808080;
+  font-size: 0.9em;
+  margin: 0 calc(var(--space-margin) * 0.85);
+  text-align: left;
+  word-wrap: break-word;
+  padding: 16px 14px;
+}
+
+.sidebar__message-link {
+  display: inline-block;
+  margin: calc(var(--space-margin) * 0.125);
+  padding: calc(var(--space-margin) * 0.05) calc(var(--space-margin) * 0.125);
+  border-radius: var(--border-radius);
+}
+
+.sidebar__message .icon {
+  margin: calc(var(--space-margin) * 0.25);
+}
+
+.sidebar__link .link__icon {
+  height: 1.25em;
+  width: 1.25em;
+  margin-left: calc(var(--space-margin) * 0.25);
+  margin-right: calc(var(--space-margin) * 0.5);
 }

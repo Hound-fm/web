@@ -1,0 +1,46 @@
+import clsx from "clsx";
+import { useEffect, useState } from "react";
+import { getThumbnailCdnUrl } from "util/thumbnailCDN";
+
+export default function Thumbnail({ src, rawSrc, width, height, className }) {
+  const [source, setSource] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleLoad = () => {
+    setLoaded(true);
+  };
+
+  const handleError = () => {
+    setError(true);
+  };
+
+  useEffect(() => {
+    if (rawSrc || src) {
+      setSource(
+        rawSrc || getThumbnailCdnUrl({ thumbnail: src, width, height })
+      );
+      // reset state
+      setLoaded(false);
+      setError(false);
+    } else {
+      // Reset state
+      setSource(null);
+      setLoaded(false);
+      setError(false);
+    }
+  }, [src, rawSrc, width, height, setSource, getThumbnailCdnUrl, setLoaded]);
+
+  return (
+    <div className={clsx("thumbnail", className)}>
+      {source && (
+        <img
+          src={source}
+          onLoad={handleLoad}
+          onError={handleError}
+          style={{ opacity: loaded && !error ? 1 : 0 }}
+        />
+      )}
+    </div>
+  );
+}
