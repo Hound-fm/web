@@ -6,7 +6,7 @@ import {
   SkipForward,
   Layers,
 } from "lucide-react";
-import { Play, Pause } from "component/customIcons";
+import { PlayCircle, Pause } from "component/customIcons";
 import Icon from "component/icon";
 import Button from "component/button";
 import Nouislider from "nouislider-react";
@@ -30,7 +30,7 @@ function MiniPlayer() {
       <StreamInfo />
       <div className="player__actions">
         <Button
-          icon={Play}
+          icon={PlayCircle}
           className={"player__main-action button--player-action"}
         />
       </div>
@@ -60,7 +60,7 @@ function MaximizedPlayer() {
           <Button icon={Shuffle} className={"button--player-action"} />
           <Button icon={SkipBack} className={"button--player-action"} />
           <Button
-            icon={Play}
+            icon={PlayCircle}
             className={"player__main-action button--player-action"}
           />
           <Button icon={SkipForward} className={"button--player-action"} />
@@ -88,7 +88,7 @@ export default function Player() {
           <Button icon={Shuffle} className={"button--player-action"} />
           <Button icon={SkipBack} className={"button--player-action"} />
           <Button
-            icon={Play}
+            icon={PlayCircle}
             className={"player__main-action button--player-action"}
           />
           <Button icon={SkipForward} className={"button--player-action"} />

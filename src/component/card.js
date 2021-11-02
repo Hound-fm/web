@@ -1,8 +1,14 @@
 import clsx from "clsx";
 import Icon from "component/icon";
+import Button from "component/button";
 import Thumbnail from "component/thumbnail";
 import { smoothGradient } from "util/core";
+import { Play } from "component/customIcons"
 import Link from "component/link"
+
+function PlayButton(props) {
+  return <Button icon={Play} className="card__play-button"/>
+}
 
 export function Card(props) {
   const {
@@ -24,8 +30,11 @@ export function Card(props) {
         )}
         rawSrc={rawThumbnail}
         src={thumbnail}
-      />
+      >
+          <PlayButton />
+      </Thumbnail>
       <div className="card__data">
+
         <div className="card__title text-overflow" tabIndex={0}>
           {title}
         </div>

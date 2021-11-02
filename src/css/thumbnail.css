@@ -13,4 +13,5 @@
 
 .thumbnail {
   aspect-ratio: 1;
+  position: relative;
 }

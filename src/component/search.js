@@ -1,7 +1,7 @@
 import Icon from "./icon";
 import useDebounce from "hooks/useDebounce";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatSearchQuery, getResultType } from "util/core";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -18,6 +18,13 @@ export default function SearchBar() {
   const handleType = (event) => {
     setQueryText(event.target.value);
   };
+
+  // Clear input
+  useEffect(() => {
+    if (!location.search) {
+      setQueryText("");
+    }
+  }, [location.search, setQueryText]);
 
   useDebounce(
     () => {

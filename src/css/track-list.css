@@ -1,9 +1,54 @@
 .tracks-list .tracks-list__row {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 .tracks-list__container {
   margin: 0;
   width: 100%;
+}
+
+.tracks-list .row__index {
+  min-width: 24px;
+  text-align: center;
+  color: var(--subtext-color);
+}
+
+.tracks-list .row__metadata {
+  margin: 0 24px;
+}
+
+.tracks-list__row:hover .row__index {
+  opacity: 0;
+}
+
+.row__data {
+  position: relative;
+}
+
+
+.button--play-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin:  auto;
+  opacity: 0;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+
+}
+
+.tracks-list__row:hover .button--play-row  {
+  opacity: 1;
+  z-index: 3;
+}
+.button--play-row svg {
+ width: 20px;
+ height: 20px;
+ margin: 0;
+ padding: 0;
 }

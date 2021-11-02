@@ -5,6 +5,8 @@ import Thumbnail from "component/thumbnail";
 import { FixedSizeList as List, areEqual } from "react-window";
 import { WindowScroller } from "react-virtualized";
 import useResizeObserver from "@react-hook/resize-observer";
+import Button from "component/button";
+import { Play, Pause } from "lucide-react";
 
 // If list items are expensive to render,
 // Consider using React.memo or shouldComponentUpdate to avoid unnecessary re-renders.
@@ -19,7 +21,10 @@ const Row = memo(({ data, index, style }) => {
   return (
     <div className="tracks-list__row" style={style}>
       <div className="row__cell">
-        <div className="row__data">{index + 1}</div>
+        <div className="row__data">
+          <Button icon={Play}  className={"button--play-row"}/>
+          <div className="row__index">{index + 1}</div>
+        </div>
         <Thumbnail className="row__thumbnail" src={item.thumbnail} />
         <div className="row__data">
           <div className="row__title text-overflow">{item.title}</div>

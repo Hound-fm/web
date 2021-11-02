@@ -1,4 +1,4 @@
-export function Play(props) {
+export function PlayCircle(props) {
   return (
     <svg
       version="1.1"
@@ -18,6 +18,15 @@ export function Play(props) {
       />
     </svg>
   );
+}
+
+
+export function Play(props) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+    </svg>
+  )
 }
 
 export function Pause(props) {

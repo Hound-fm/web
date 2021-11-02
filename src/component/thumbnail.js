@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { getThumbnailCdnUrl } from "util/thumbnailCDN";
 
-export default function Thumbnail({ src, rawSrc, width, height, className }) {
+export default function Thumbnail({ src, rawSrc, width, height, className, children }) {
   const [source, setSource] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -41,6 +41,7 @@ export default function Thumbnail({ src, rawSrc, width, height, className }) {
           style={{ opacity: loaded && !error ? 1 : 0 }}
         />
       )}
+      {children}
     </div>
   );
 }

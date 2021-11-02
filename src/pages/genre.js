@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
+import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
 import { useMediaQuery } from "react-responsive";
@@ -30,17 +31,15 @@ const categories = [
 
 const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
 
-export default function GenrePage() {
-  const collectionType = "Podcast";
+function ExplorePreview({ genre }) {
   const [resultsData, setResultsData] = useState([]);
-  const { genre, sortBy } = useParams()
   const { data, status } = useFetchExploreGenre(genre);
 
   useEffect(() => {
     if (status == "success" && data) {
       // Process results
       const res = data.data;
-      console.info(res)
+      console.info(res);
       setResultsData(res);
     }
   }, [data, status, setResultsData]);
@@ -58,5 +57,33 @@ export default function GenrePage() {
           />
         ))}
     </Page>
+  );
+}
+
+function ExploreList({ genre, sortBy }) {
+  const [resultsData, setResultsData] = useState([]);
+  const { data, status } = useFetchExploreGenre(genre, sortBy);
+
+  useEffect(() => {
+    if (status == "success" && data) {
+      // Process results
+      const res = data.data;
+      setResultsData(res.hits);
+    }
+  }, [data, status, setResultsData]);
+
+  return (
+    <Page title={genre}>
+      {resultsData && <TrackList trackData={resultsData} />}
+    </Page>
+  );
+}
+
+export default function GenrePage() {
+  const { genre, sortBy } = useParams();
+  return sortBy ? (
+    <ExploreList genre={genre} sortBy={sortBy} />
+  ) : (
+    <ExplorePreview genre={genre} />
   );
 }

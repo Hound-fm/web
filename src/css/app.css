@@ -38,13 +38,11 @@ main {
   padding-left: 0;
 }
 
-
-
 main h1 {
   font-size: 2.64em;
   margin: 0;
   padding: 0;
-  margin-bottom:  24px;
+  margin-bottom: 24px;
   text-transform: capitalize;
 }
 
@@ -82,7 +80,7 @@ button {
   background: transparent;
   border-radius: 100%;
   color: inherit;
-  color: #aaa;
+  color: var(--subtext-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,7 +94,7 @@ a:focus,
 a:hover,
 button:focus,
 button:hover {
-  color: white;
+  color: var(--text-color);
 }
 a:active,
 button:active {
@@ -105,12 +103,7 @@ button:active {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid #4bcffa;
-}
-
-a:focus-visible,
-button:focus-visible {
-  color: #4bcffa;
+  outline: 2px solid var(--accent-color);
 }
 
 .section__header {
@@ -148,7 +141,5 @@ button:focus-visible {
   height: 100% !important;
 }
 
-
 .page {
-
 }

@@ -23,8 +23,8 @@ export const useFetchResults = (searchQuery, searchType) =>
     }
   );
 
-const fetchExploreGenre = (genre) =>
-  fetch(API + `explore?genre=${genre}`)
+const fetchExploreGenre = (genre, sortBy) =>
+  fetch(API + `explore?genre=${genre}${sortBy ? `&sortBy=${sortBy}` : ""}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("HTTP error " + response.status);
@@ -35,7 +35,11 @@ const fetchExploreGenre = (genre) =>
       console.error(error);
     });
 
-export const useFetchExploreGenre = (genre) =>
-  useQuery(["explore-genre", genre], () => fetchExploreGenre(genre), {
-    notifyOnChangeProps: ["data", "error"],
-  });
+export const useFetchExploreGenre = (genre, sortBy) =>
+  useQuery(
+    ["explore-genre", genre, sortBy],
+    () => fetchExploreGenre(genre, sortBy),
+    {
+      notifyOnChangeProps: ["data", "error"],
+    }
+  );

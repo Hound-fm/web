@@ -20,7 +20,7 @@ function TrackRow({ title, subtitle, duration, thumbnail }) {
 
 export default function TrackListPreview({ tracksData }) {
   return (
-    <div className="tracks-list">
+    <div className="tracks-list-preview">
       {tracksData.map((data) => (
         <TrackRow
           key={data.id}
