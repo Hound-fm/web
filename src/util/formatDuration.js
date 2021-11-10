@@ -17,7 +17,7 @@ const getDurationShortFormat = (seconds = 0) => {
 export const durationShortFormat = memoizeOne(getDurationShortFormat);
 
 // Simplified version ( not leading zeros )
-const getDurationTrackFormat = (seconds) => {
+export const getDurationTrackFormat = (seconds) => {
   const duration = Duration.fromObject({ seconds });
   if (!seconds || seconds === 0) {
     return "0:00";

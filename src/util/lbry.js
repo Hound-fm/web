@@ -1,3 +1,22 @@
+// Links
+export const getRedirectLink = (id) => `https://odysee.com/$/search?q=${id}`;
+export const getReportLink = (id) => `https://lbry.com/dmca/${id}`;
+
+// Stream source
+const STREAM_API = "https://cdn.lbryplayer.xyz/api/";
+const STREAM_API_VERSION = 4;
+
+export const getStreamLink = ({ name, id }, download) => {
+  const downloadQuery = download ? "?download=true" : "";
+  return (
+    STREAM_API +
+    `v${STREAM_API_VERSION}/` +
+    `streams/free/${name}/${id}/test` +
+    downloadQuery
+  );
+};
+
+// Thubmnails
 const THUMBNAIL_CDN_URL = "https://image-optimizer.vanwanet.com/?address=";
 const THUMBNAIL_HEIGHT = 256;
 const THUMBNAIL_WIDTH = 256;

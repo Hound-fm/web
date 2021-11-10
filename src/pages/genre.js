@@ -30,6 +30,7 @@ const categories = [
 ];
 
 const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
+const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
 function ExplorePreview({ genre }) {
   const [resultsData, setResultsData] = useState([]);
@@ -53,7 +54,7 @@ function ExplorePreview({ genre }) {
             title={COLLECTION_TYPES_MAPPINGS[index]}
             collectionType={"music_recording"}
             collectionData={data.hits}
-            collectionLink={`/genre/${genre}/latest`}
+            collectionLink={`/genre/${genre}/${SORT_TYPES_MAPPINGS[index]}`}
           />
         ))}
     </Page>
@@ -73,7 +74,7 @@ function ExploreList({ genre, sortBy }) {
   }, [data, status, setResultsData]);
 
   return (
-    <Page title={genre}>
+    <Page title={`${genre} · ${sortBy}`}>
       {resultsData && <TrackList trackData={resultsData} />}
     </Page>
   );

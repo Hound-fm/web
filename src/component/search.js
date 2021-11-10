@@ -1,5 +1,5 @@
 import Icon from "./icon";
-import useDebounce from "hooks/useDebounce";
+import { useDebounce } from "hooks/useDebounce";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { formatSearchQuery, getResultType } from "util/core";

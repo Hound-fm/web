@@ -9,6 +9,8 @@ function CardsGrid({ gridData, gridType }) {
     <div className="cards--grid">
       {gridData.map((data, index) => {
         const metadata = data._source;
+        metadata.id = data._id;
+
         let subtitle = metadata.channel_title;
         if (metadata.channel_type) {
           if (metadata.channel_type == "artist") {
@@ -31,6 +33,8 @@ function CardsGrid({ gridData, gridType }) {
         return (
           <Card
             key={data._id}
+            id={data._id}
+            metadata={metadata}
             title={metadata.label || metadata.title || metadata.channel_title}
             subtitle={subtitle}
             thumbnail={metadata.thumbnail}
@@ -43,7 +47,7 @@ function CardsGrid({ gridData, gridType }) {
   );
 }
 
-function CardsGridRow({ rowType, rowsData, onResize }) {
+function CardsGridRow({ title, rowType, rowsData, onResize }) {
   const gridRef = useRef(null);
   const [columnCount, setColumnCount] = useState(rowsData.hits.length);
   const [cardsData, setCardsData] = useState(rowsData.hits);
@@ -77,6 +81,8 @@ function CardsGridRow({ rowType, rowsData, onResize }) {
     <div className="cards--grid-row" ref={gridRef}>
       {cardsData.map((data, index) => {
         const metadata = data._source;
+        metadata.id = data._id;
+
         let subtitle = metadata.channel_title;
         if (metadata.channel_type) {
           if (metadata.channel_type == "artist") {
@@ -98,7 +104,9 @@ function CardsGridRow({ rowType, rowsData, onResize }) {
         }
         return (
           <Card
-            key={data._id}
+            key={title + "-" + data._id}
+            id={data._id}
+            metadata={metadata}
             title={metadata.label || metadata.title || metadata.channel_title}
             subtitle={subtitle}
             thumbnail={metadata.thumbnail}
@@ -166,6 +174,7 @@ export function CollectionPreviewRow({
       </div>
       {collectionType && collectionData && (
         <CardsGridRow
+          title={title}
           rowType={collectionType}
           rowsData={collectionData}
           onResize={onResize}

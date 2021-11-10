@@ -3,7 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+.tracks-list__row--selected {
+  background: var(--card-active-bg-color);
+}
 .tracks-list__container {
   margin: 0;
   width: 100%;
@@ -19,6 +21,19 @@
   margin: 0 24px;
 }
 
+.row__metadata {
+  min-width: 32px;
+}
+.row__price {
+  text-align: center;
+  font-size: 0.85em;
+}
+
+.row__price--free {
+  color: var(--subtext-color);
+  border-color: transparent;
+}
+
 .tracks-list__row:hover .row__index {
   opacity: 0;
 }
@@ -27,28 +42,37 @@
   position: relative;
 }
 
-
 .button--play-row {
   position: absolute;
-  left: 0;
+  left: -4px;
   right: 0;
   bottom: 0;
   top: 0;
-  margin:  auto;
+  margin: auto;
   opacity: 0;
   padding: 4px;
   width: 32px;
   height: 32px;
-
+}
+.button--play-row.button--play-row--acive,
+.button--play-row:focus {
+  opacity: 1;
+  outline: none;
+  color: var(--text-color);
 }
 
-.tracks-list__row:hover .button--play-row  {
+.button--play-row.button--play-row--acive + .row__index,
+.button--play-row:focus + .row__index {
+  opacity: 0;
+}
+
+.tracks-list__row:hover .button--play-row {
   opacity: 1;
   z-index: 3;
 }
 .button--play-row svg {
- width: 20px;
- height: 20px;
- margin: 0;
- padding: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
 }

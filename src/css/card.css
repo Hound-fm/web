@@ -9,8 +9,13 @@
 }
 
 .card:hover .card__play-button,
-.card__play-button:focus {
+.card__play-button:focus,
+.card .card__play-button--active {
   opacity: 1;
+}
+
+.card__play-button:active {
+  background: var(--dark-accent-color) !important;
 }
 
 .card__play-button {
