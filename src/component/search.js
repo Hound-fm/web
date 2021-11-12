@@ -3,10 +3,10 @@ import { useDebounce } from "hooks/useDebounce";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { formatSearchQuery, getResultType } from "util/core";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SearchBar() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const initQuery = new URLSearchParams(location.search).get("q") || "";
   const [queryText, setQueryText] = useState(initQuery);
@@ -34,10 +34,10 @@ export default function SearchBar() {
       const search = formatSearchQuery(queryText);
 
       if (search !== prevSearch) {
-        history.push({ search });
+        navigate({ search });
       }
     },
-    [queryText, history.push, location.search, formatSearchQuery],
+    [queryText, navigate, location.search, formatSearchQuery],
     750
   );
 

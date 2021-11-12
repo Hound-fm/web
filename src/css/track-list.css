@@ -34,7 +34,7 @@
   border-color: transparent;
 }
 
-.tracks-list__row:hover .row__index {
+.tracks-list__row:hover .button--play-row + .row__index {
   opacity: 0;
 }
 

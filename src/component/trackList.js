@@ -28,9 +28,11 @@ const Row = memo(({ data, index, style }) => {
 
   const handleClick = () => {
     if (metadata && !currentTrack) {
+      // Select track ( first time )
       playerState.playbackState.set("paused");
       playerState.currentTrack.set(metadata);
     } else if (metadata && currentTrack && metadata.id !== currentTrack.id) {
+      // Select new track
       playerState.playbackState.set("paused");
       playerState.currentTrack.set(metadata);
     } else if (
@@ -38,6 +40,7 @@ const Row = memo(({ data, index, style }) => {
       metadata.id === currentTrack.id &&
       !playbackStateSync
     ) {
+      // Toggle play
       if (playbackState === "playing") {
         playerState.playbackStateSync.set("paused");
       } else if (playbackState == "paused") {
@@ -46,11 +49,9 @@ const Row = memo(({ data, index, style }) => {
     }
   };
 
-  let buttonIcon = Play;
 
-  if (playbackState === "playing" && selected) {
-    buttonIcon = Pause;
-  }
+  const buttonIcon = playbackState === "playing" && selected ? Pause : Play;
+  const showPlayButton = metadata && !metadata.fee_amount
 
   return (
     <div
@@ -62,14 +63,15 @@ const Row = memo(({ data, index, style }) => {
     >
       <div className="row__cell">
         <div className="row__data">
-          <Button
+          { showPlayButton && (<Button
             icon={buttonIcon}
             className={clsx(
               "button--play-row",
               selected && "button--play-row--acive"
             )}
             onClick={handleClick}
-          />
+          />)
+          }
           <div className="row__index">{index + 1}</div>
         </div>
         <Thumbnail className="row__thumbnail" src={metadata.thumbnail} />

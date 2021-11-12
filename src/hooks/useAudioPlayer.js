@@ -298,8 +298,6 @@ const useAudioPlayer = () => {
   }, [currentTrack, setState]);
 
   useEffect(() => {
-    console.info("requested: action", playbackStateSync);
-
     if (playbackStateSync === "playing") {
       triggerPlay();
     } else if (playbackStateSync === "paused") {

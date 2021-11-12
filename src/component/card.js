@@ -9,7 +9,7 @@ import Link from "component/link";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { globalPlayerState } from "store";
 
-function PlayButton({ metadata }) {
+function PlayButton({ index, metadata, queueTitle, queueData }) {
   const playerState = useHookState(globalPlayerState);
   const currentTrack = playerState.currentTrack.value;
   const playbackState = playerState.playbackState.value;
@@ -34,12 +34,17 @@ function PlayButton({ metadata }) {
         playerState.playbackStateSync.set("playing");
       }
     }
+
+    // Update queue
+
+    if (queueTitle && queueData && queueData.hits && queueData.hits.length) {
+      playerState.queueIndex.set(index);
+      playerState.queueData.set(queueData.hits);
+      playerState.queueTitle.set(queueTitle);
+    }
   };
 
   let buttonIcon = playbackState === "playing" && selected ? Pause : Play;
-  if (selected) {
-    console.info(playbackState);
-  }
 
   return (
     <Button
@@ -56,7 +61,10 @@ function PlayButton({ metadata }) {
 export function Card(props) {
   const {
     id,
+    index,
     title,
+    queueTitle,
+    queueData,
     label,
     metadata,
     subtitle,
@@ -81,7 +89,14 @@ export function Card(props) {
         rawSrc={rawThumbnail}
         src={thumbnail}
       >
-        {showPlayButton && <PlayButton metadata={metadata} />}
+        {showPlayButton && (
+          <PlayButton
+            index={index}
+            metadata={metadata}
+            queueTitle={queueTitle}
+            queueData={queueData}
+          />
+        )}
       </Thumbnail>
       <div className="card__data">
         <div className="card__title text-overflow" tabIndex={0}>
@@ -101,7 +116,7 @@ export function CategoryCard({ title, color }) {
   };
   const gradientOverlay = { background: smoothGradient(color) };
   return (
-    <Link className="category-card" style={cardStyle} to={`genre/${title}`}>
+    <Link className="category-card" style={cardStyle} to={`/genre/${title}`}>
       <div className="category-card__thumbnail" style={thumbnailStyle} />
       <div className="category-card__title" style={gradientOverlay}>
         <span>{title}</span>

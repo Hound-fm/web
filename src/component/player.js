@@ -16,9 +16,10 @@ import { PlayCircle, PauseCircle } from "component/customIcons";
 import Icon from "component/icon";
 import Button from "component/button";
 import Thumbnail from "component/thumbnail";
+import useAudioPlayer from "hooks/useAudioPlayer";
 import { useMediaQuery } from "react-responsive";
 import { globalPlayerState } from "store";
-import useAudioPlayer from "hooks/useAudioPlayer";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getDurationTrackFormat } from "util/formatDuration";
 import { useDebounceCallback } from "hooks/useDebounce";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
@@ -132,6 +133,12 @@ export default function Player() {
     toggleMuted,
   } = useAudioPlayer();
 
+  const navigate = useNavigate();
+
+  const toggleQueue = () => {
+    navigate("/queue");
+  };
+
   const playerState = useHookState(globalPlayerState);
   const playbackState = playerState.playbackState.attach(Downgraded).value;
 
@@ -179,6 +186,7 @@ export default function Player() {
       <div className="player__controls player__actions">
         <Button
           icon={Layers}
+          onClick={toggleQueue}
           className={"button--text button--player-action"}
         />
         <Button

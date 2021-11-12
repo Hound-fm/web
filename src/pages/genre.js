@@ -40,7 +40,6 @@ function ExplorePreview({ genre }) {
     if (status == "success" && data) {
       // Process results
       const res = data.data;
-      console.info(res);
       setResultsData(res);
     }
   }, [data, status, setResultsData]);
@@ -51,6 +50,7 @@ function ExplorePreview({ genre }) {
         resultsData.map((data, index) => (
           <CollectionPreviewRow
             key={`${genre}-${index}-${data.hits.total.value}`}
+            queueTitle={`${genre} * ${COLLECTION_TYPES_MAPPINGS[index]}`}
             title={COLLECTION_TYPES_MAPPINGS[index]}
             collectionType={"music_recording"}
             collectionData={data.hits}

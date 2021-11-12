@@ -1,10 +1,10 @@
 import Icon from "component/icon";
 
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 
 export default function CustomLink({ icon, children, to, exact, ...props }) {
-  let match = useRouteMatch({
-    path: to,
+  let match = useMatch({
+    path: to || "",
     exact,
   });
 

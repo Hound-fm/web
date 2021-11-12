@@ -5,9 +5,10 @@ import Player from "component/player";
 import HomePage from "pages/home";
 import SearchPage from "pages/search";
 import GenrePage from "pages/genre";
+import QueuePage from "pages/queue";
 import clsx from "clsx";
 import { useMediaQuery } from "react-responsive";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
   const isSmallScreen = useMediaQuery({
@@ -29,17 +30,14 @@ function App() {
       >
         <Header />
         <Sidebar />
-        <Switch>
-          <Route exact path="/">
-            <HomePage />
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route exact path="/genre/:genre" element={<GenrePage />}>
+            <Route exact path=":sortBy" element={<GenrePage />} />
           </Route>
-          <Route path="/search">
-            <SearchPage />
-          </Route>
-          <Route exact path="/genre/:genre/:sortBy?">
-            <GenrePage />
-          </Route>
-        </Switch>
+          <Route exact path="/queue" element={<QueuePage />} />
+        </Routes>
         <Player />
       </div>
     </Router>

@@ -32,8 +32,9 @@ function CardsGrid({ gridData, gridType }) {
         }
         return (
           <Card
-            key={data._id}
+            key={`${data._id}-${index}`}
             id={data._id}
+            index={index}
             metadata={metadata}
             title={metadata.label || metadata.title || metadata.channel_title}
             subtitle={subtitle}
@@ -47,7 +48,7 @@ function CardsGrid({ gridData, gridType }) {
   );
 }
 
-function CardsGridRow({ title, rowType, rowsData, onResize }) {
+function CardsGridRow({ title, queueTitle, rowType, rowsData, onResize }) {
   const gridRef = useRef(null);
   const [columnCount, setColumnCount] = useState(rowsData.hits.length);
   const [cardsData, setCardsData] = useState(rowsData.hits);
@@ -104,10 +105,13 @@ function CardsGridRow({ title, rowType, rowsData, onResize }) {
         }
         return (
           <Card
-            key={title + "-" + data._id}
+            key={`${title}-${data._id}-${index}`}
             id={data._id}
+            index={index}
             metadata={metadata}
             title={metadata.label || metadata.title || metadata.channel_title}
+            queueTitle={queueTitle}
+            queueData={queueTitle ? rowsData : null}
             subtitle={subtitle}
             thumbnail={metadata.thumbnail}
             rawThumbnail={metadata.rawThumbnail}
@@ -144,6 +148,7 @@ export function CollectionGrid({
 
 export function CollectionPreviewRow({
   title,
+  queueTitle,
   description,
   collectionLink = "/search",
   collectionType = "artist",
@@ -174,6 +179,7 @@ export function CollectionPreviewRow({
       </div>
       {collectionType && collectionData && (
         <CardsGridRow
+          queueTitle={queueTitle}
           title={title}
           rowType={collectionType}
           rowsData={collectionData}
