@@ -2,16 +2,21 @@ import Icon from "component/icon";
 
 import { Link, useMatch } from "react-router-dom";
 
-export default function CustomLink({ icon, children, to, exact, ...props }) {
+const Anchor = ({ children, ...props }) => {
+  return <a {...props}>{children}</a>;
+};
+
+export default function CustomLink({ icon, children, exact, ...props }) {
   let match = useMatch({
-    path: to || "",
+    path: props.to || "",
     exact,
   });
 
+  const Wrapper = props.to ? Link : Anchor;
   return (
-    <Link to={to || "/"} aria-current={match ? "page" : null} {...props}>
+    <Wrapper aria-current={match ? "page" : null} {...props}>
       {icon && <Icon icon={icon} className={"icon link__icon"} />}
       {children && <span>{children}</span>}
-    </Link>
+    </Wrapper>
   );
 }

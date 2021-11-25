@@ -43,3 +43,53 @@ export const useFetchExploreGenre = (genre, sortBy) =>
       notifyOnChangeProps: ["data", "error"],
     }
   );
+
+const fetchExploreChannel = (channel_id, sortBy) =>
+  fetch(
+    API + `explore?channel_id=${channel_id}${sortBy ? `&sortBy=${sortBy}` : ""}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+export const useFetchExploreChannel = (channel_id, sortBy) =>
+  useQuery(
+    ["explore-channel", channel_id, sortBy],
+    () => fetchExploreChannel(channel_id, sortBy),
+    {
+      notifyOnChangeProps: ["data", "error"],
+    }
+  );
+
+const fetchResolve = (resolveData) =>
+  fetch(API + `resolve`, {
+    // Adding method type
+    method: "POST",
+    // Adding body or contents to send
+    body: JSON.stringify(resolveData),
+    // Adding headers to the request
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.info(response);
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+export const useFetchResolve = (resolveData) =>
+  useQuery(["resolve-ids", resolveData], () => fetchResolve(resolveData), {
+    keepPreviousData: true,
+  });

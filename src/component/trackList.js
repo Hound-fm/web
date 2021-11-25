@@ -1,15 +1,17 @@
 import clsx from "clsx";
 import React, { memo, useRef, useState } from "react";
-import { durationTrackFormat } from "util/formatDuration";
+import { durationTrackFormat, durationShortFormat } from "util/formatDuration";
 import memoize from "memoize-one";
 import Thumbnail from "component/thumbnail";
 import { FixedSizeList as List, areEqual } from "react-window";
 import { WindowScroller } from "react-virtualized";
 import useResizeObserver from "@react-hook/resize-observer";
-import Button from "component/button";
-import { Play, Pause } from "component/customIcons";
+import Link from "component/link";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { globalPlayerState } from "store";
+import { WEB_DOMAIN } from "constants.js";
+import StreamPlayButton from "component/streamPlayButton";
+import FavoriteButton from "component/favoriteButton";
 
 // If list items are expensive to render,
 // Consider using React.memo or shouldComponentUpdate to avoid unnecessary re-renders.
@@ -18,41 +20,14 @@ import { globalPlayerState } from "store";
 
 const Row = memo(({ data, index, style }) => {
   // Data passed to List as "itemData" is available as props.data
-  const { items, toggleItemActive } = data;
+  const { items, queueTitle } = data;
   const metadata = items[index];
   const playerState = useHookState(globalPlayerState);
   const currentTrack = playerState.currentTrack.value;
-  const playbackState = playerState.playbackState.value;
-  const playbackStateSync = playerState.playbackStateSync.value;
   const selected = currentTrack && metadata && metadata.id === currentTrack.id;
-
-  const handleClick = () => {
-    if (metadata && !currentTrack) {
-      // Select track ( first time )
-      playerState.playbackState.set("paused");
-      playerState.currentTrack.set(metadata);
-    } else if (metadata && currentTrack && metadata.id !== currentTrack.id) {
-      // Select new track
-      playerState.playbackState.set("paused");
-      playerState.currentTrack.set(metadata);
-    } else if (
-      metadata &&
-      metadata.id === currentTrack.id &&
-      !playbackStateSync
-    ) {
-      // Toggle play
-      if (playbackState === "playing") {
-        playerState.playbackStateSync.set("paused");
-      } else if (playbackState == "paused") {
-        playerState.playbackStateSync.set("playing");
-      }
-    }
-  };
-
-
-  const buttonIcon = playbackState === "playing" && selected ? Pause : Play;
-  const showPlayButton = metadata && !metadata.fee_amount
-
+  const showPlayButton = metadata && !metadata.fee_amount;
+  const streamUrl = metadata ? `${WEB_DOMAIN}/${metadata.url}` : "";
+  const queueData = queueTitle ? items : null;
   return (
     <div
       className={clsx(
@@ -63,23 +38,33 @@ const Row = memo(({ data, index, style }) => {
     >
       <div className="row__cell">
         <div className="row__data">
-          { showPlayButton && (<Button
-            icon={buttonIcon}
-            className={clsx(
-              "button--play-row",
-              selected && "button--play-row--acive"
-            )}
-            onClick={handleClick}
-          />)
-          }
+          {showPlayButton && (
+            <StreamPlayButton
+              index={index}
+              className={"button--play-row"}
+              classNameActive={"button--play-row--active"}
+              metadata={metadata}
+              queueTitle={queueTitle}
+              queueData={queueData}
+            />
+          )}
           <div className="row__index">{index + 1}</div>
         </div>
         <Thumbnail className="row__thumbnail" src={metadata.thumbnail} />
         <div className="row__data">
-          <div className="row__title text-overflow">{metadata.title}</div>
-          <div className="row__subtitle text-overflow">
+          <Link
+            className="row__title text-overflow"
+            href={streamUrl}
+            target={"_blank"}
+          >
+            {metadata.title}
+          </Link>
+          <Link
+            className="row__subtitle text-overflow"
+            to={`/artist/${metadata.channel_id}`}
+          >
             {metadata.channel_title}
-          </div>
+          </Link>
         </div>
       </div>
       <div className="row__cell">
@@ -90,10 +75,19 @@ const Row = memo(({ data, index, style }) => {
           )}
         >
           {metadata && metadata.fee_amount
-            ? `${metadata.fee_amount} ${metadata.fee_currency}`
+            ? `${metadata.fee_amount.toFixed(2)} ${metadata.fee_currency}`
             : ""}
         </div>
         <div className="row__metadata">
+          <FavoriteButton
+            id={metadata.id}
+            className={
+              "button--text button--favorite  button--player-action  button--row-action"
+            }
+            favoriteType={metadata.stream_type}
+          />
+        </div>
+        <div className="row__metadata row__end">
           {durationTrackFormat(metadata.duration)}
         </div>
       </div>
@@ -107,15 +101,15 @@ const Row = memo(({ data, index, style }) => {
 // If we were only passing a single, stable value (e.g. items),
 // We could just pass the value directly.
 
-const createItemData = memoize((items, toggleItemActive) => ({
+const createItemData = memoize((items, queueTitle) => ({
   items,
-  toggleItemActive,
+  queueTitle,
 }));
 
 // In this example, "items" is an Array of objects to render,
 // and "toggleItemActive" is a function that updates an item's state.
 
-export default function TrackList({ trackData, toggleItemActive }) {
+export default function TrackList({ trackData, queueTitle }) {
   const listRef = useRef();
   const containerRef = useRef();
   const [width, setWidth] = useState(100);
@@ -124,11 +118,14 @@ export default function TrackList({ trackData, toggleItemActive }) {
   // Memoize this data to avoid bypassing shouldComponentUpdate().
   const itemData = createItemData(
     trackData.map((track) => {
-      const data = track._source;
-      data.id = track._id;
-      return data;
+      if (track && track._source && track._id) {
+        const data = track._source;
+        data.id = track._id;
+        return data;
+      }
+      return track;
     }),
-    toggleItemActive
+    queueTitle
   );
   const handleScroll = ({ scrollTop }) => {
     if (listRef && listRef.current) {

@@ -93,7 +93,8 @@ button {
 a:focus,
 a:hover,
 button:focus,
-button:hover {
+button:hover,
+button[aria-pressed="true"] {
   color: var(--text-color);
 }
 a:active,

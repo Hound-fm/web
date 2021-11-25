@@ -179,6 +179,19 @@
   font-weight: 600;
   margin: 4px 0;
   text-transform: capitalize;
+  padding: 0;
+  border-radius: 0;
+  color: var(--title-color);
+}
+
+.card__title:hover,
+.card__title:focus {
+  background: transparent;
+  color: var(--title-color);
+}
+
+.card__title:hover {
+  text-decoration: underline;
 }
 
 .card__label {
@@ -197,7 +210,21 @@
 
 .card__subtitle {
   font-size: 0.84em;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  border-radius: 0;
   color: var(--subtext-color);
+}
+
+a.card__subtitle:hover {
+  color: var(--subtext-color);
+  text-decoration: underline;
+}
+
+a.card__subtitle:focus,
+a.card__subtitle:active {
+  background: transparent;
 }
 
 .card__thumbnail {

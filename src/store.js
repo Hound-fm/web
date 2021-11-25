@@ -3,9 +3,15 @@ import { createState } from "@hookstate/core";
 const defaultAppState = {
   theme: "dark",
   searchQuery: null,
+  favorites: {
+    artist: [],
+    music_recording: [],
+    podcast_series: [],
+    podcast_episode: [],
+  },
 };
 
-export const appState = createState(defaultAppState);
+export const globalAppState = createState(defaultAppState);
 
 const defaultPlayerState = {
   // Playback state
@@ -15,7 +21,7 @@ const defaultPlayerState = {
   // Queue state
   queueData: [],
   queueTitle: "",
-  queueIndex: null,
+  queueIndex: -1,
 };
 
 export const globalPlayerState = createState(defaultPlayerState);

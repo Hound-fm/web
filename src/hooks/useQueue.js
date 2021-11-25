@@ -1,23 +1,79 @@
 import { useRef, useState, useEffect } from "react";
+import { clamp } from "util/core";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
+import { globalPlayerState } from "store";
 
-function useQueueNavigation() {
+export function useQueueLoad() {
+  /*
+  const { data, refetch } = useQuery("key", emulateFetch, {
+    refetchOnWindowFocus: false,
+    enabled: false, // turned off by default, manual refetch is needed
+  });
+  const loadQueue = () => {
+    refetch();
+  };
+  return loadQueue;
+  */
+}
+
+export function useQueueUpdate() {
   const playerState = useHookState(globalPlayerState);
-  // Use downgraded pluging to interact with array
   const queueData = playerState.queueData.attach(Downgraded).get();
   const queueTitle = playerState.queueTitle.value;
-  const queueIndex = playerState.queueIndex.attach(Downgraded).get();
-  const hasData = queueData && queueData.length;
-  const nextDisabled = !hasData || queueIndex <= 0;
-  const prevDisabled = !hasData || queueIndex >= queueData.length - 1;
 
-  const queueNavigate = (step) => {
-    const limit = queueData.length;
-    const newIndex = queueIndex + step;
-    if (newIndex < limit && newIndex > -1) {
-      playerState.queueIndex.set(newIndex);
+  const updateQueue = ({ title, data, index }) => {
+    if (title) {
+      // Update queue data and title
+      if (title != queueTitle) {
+        if (data && data.length) {
+          playerState.queueData.set(data);
+          playerState.queueTitle.set(title);
+        }
+        // Update queue data
+      } else if (title === queueTitle) {
+        if (data && data.length && data.length != queueData.length) {
+          playerState.queueData.set(data);
+        }
+      }
+    }
+
+    // Update queue index
+    if (index >= 0) {
+      if (data && data.length) {
+        playerState.queueIndex.set(index);
+      } else if (queueData && queueData.length) {
+        playerState.queueIndex.set(index);
+      }
     }
   };
+
+  return updateQueue;
+}
+
+export function useQueueNavigation() {
+  const playerState = useHookState(globalPlayerState);
+
+  function queueNavigate(step) {
+    const prevQueueData = playerState.queueData.attach(Downgraded).value;
+    playerState.queueIndex.set((prev) => {
+      const min = 0;
+      const max = prevQueueData ? prevQueueData.length - 1 : 0;
+      const index = clamp(prev + step, min, max);
+
+      if (prevQueueData && prevQueueData.length) {
+        const item = prevQueueData[index];
+        if (item && item._id && item._source) {
+          const track = item._source;
+          track.id = item._id;
+          playerState.currentTrack.set(track);
+        } else if (item && item.id) {
+          playerState.currentTrack.set(item);
+        }
+        return index;
+      }
+      return prev;
+    });
+  }
 
   // Next track on queue
   const queueNext = () => {
@@ -29,5 +85,5 @@ function useQueueNavigation() {
     queueNavigate(-1);
   };
 
-  return { queuePrev, queueNext, nextDisabled, prevDisabled };
+  return { queuePrev, queueNext };
 }

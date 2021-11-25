@@ -3,6 +3,7 @@ import {
   Volume1,
   VolumeX,
   Repeat,
+  Repeat1,
   Shuffle,
   SkipBack,
   SkipForward,
@@ -16,10 +17,11 @@ import { PlayCircle, PauseCircle } from "component/customIcons";
 import Icon from "component/icon";
 import Button from "component/button";
 import Thumbnail from "component/thumbnail";
+import FavoriteButton from "component/favoriteButton";
 import useAudioPlayer from "hooks/useAudioPlayer";
 import { useMediaQuery } from "react-responsive";
 import { globalPlayerState } from "store";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useMatch } from "react-router-dom";
 import { getDurationTrackFormat } from "util/formatDuration";
 import { useDebounceCallback } from "hooks/useDebounce";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
@@ -121,26 +123,42 @@ function TrackSlider({ currentTime, duration, seek, disabled }) {
 
 export default function Player() {
   const {
+    loop,
+    seek,
     ready,
+    volume,
     duration,
     currentTime,
-    player,
-    togglePlay,
-    seek,
     muted,
-    volume,
     updateVolume,
+    togglePlay,
+    toggleLoop,
     toggleMuted,
+    // currentTrack,
+    queuePrev,
+    queueNext,
   } = useAudioPlayer();
 
   const navigate = useNavigate();
 
+  let onQueuePage = useMatch({
+    path: "/queue",
+    exact: false,
+  });
+
   const toggleQueue = () => {
-    navigate("/queue");
+    if (onQueuePage) {
+      // Go back
+      navigate(-1);
+    } else {
+      // Go to queue page
+      navigate("/queue");
+    }
   };
 
   const playerState = useHookState(globalPlayerState);
   const playbackState = playerState.playbackState.attach(Downgraded).value;
+  const currentTrack = playerState.currentTrack.value;
 
   const showMiniPlayer = useMediaQuery({
     query: "(max-width: 900px)",
@@ -166,14 +184,27 @@ export default function Player() {
       <div className="player__main-controls">
         <div className="player__actions">
           <Button icon={Shuffle} className={"button--player-action"} />
-          <Button icon={SkipBack} className={"button--player-action"} />
+          <Button
+            icon={SkipBack}
+            className={"button--player-action"}
+            onClick={queuePrev}
+          />
           <Button
             icon={playIcon}
             onClick={togglePlay}
             className={"player__main-action button--player-action"}
           />
-          <Button icon={SkipForward} className={"button--player-action"} />
-          <Button icon={Repeat} className={"button--player-action"} />
+          <Button
+            icon={SkipForward}
+            className={"button--player-action"}
+            onClick={queueNext}
+          />
+          <Button
+            aria-pressed={loop ? true : false}
+            icon={loop === "once" ? Repeat1 : Repeat}
+            className={"button--player-action"}
+            onClick={toggleLoop}
+          />
         </div>
         <TrackSlider
           disabled={!ready || !duration}
@@ -184,10 +215,18 @@ export default function Player() {
       </div>
 
       <div className="player__controls player__actions">
+        {currentTrack && (
+          <FavoriteButton
+            id={currentTrack.id}
+            favoriteType={currentTrack.stream_type || currentTrack.channel_type}
+            className={"button--text button--favorite button--player-action"}
+          />
+        )}
         <Button
           icon={Layers}
           onClick={toggleQueue}
           className={"button--text button--player-action"}
+          aria-pressed={onQueuePage ? true : false}
         />
         <Button
           icon={volumeIcon}

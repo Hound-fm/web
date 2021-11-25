@@ -38,6 +38,7 @@ function SearchTopResults({
         <div className={"top-result"} style={topResultStyle}>
           <SectionHeader title="Top result" />
           <Card
+            metadata={topResult}
             style={cardStyle}
             layout="horizontal"
             circularThumbnail={topResult.result_type === "Artist"}
@@ -151,6 +152,11 @@ function SearchAllResults({ searchQuery }) {
           <CollectionPreviewRow
             key={`${key}-${index}-${value.hits[0]._id}-${value.total.value}`}
             title={COLLECTION_TYPES_MAPPINGS[key]}
+            queueTitle={
+              key === "Songs" || key === "Episodes"
+                ? `Search Results · ${key}`
+                : null
+            }
             collectionType={key}
             collectionData={value}
             collectionLink={`/search?${formatSearchQuery(searchQuery, key)}`}

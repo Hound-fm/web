@@ -18,7 +18,7 @@
 }
 
 .tracks-list .row__metadata {
-  margin: 0 24px;
+  margin: 0 16px;
 }
 
 .row__metadata {
@@ -32,6 +32,39 @@
 .row__price--free {
   color: var(--subtext-color);
   border-color: transparent;
+}
+
+.row__subtitle {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  display: inline-block;
+}
+
+.row__title {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  color: var(--title-color);
+}
+
+.row__end {
+  min-width: 64px;
+}
+
+.row__title:hover {
+  text-decoration: underline;
+}
+
+a.row__subtitle:hover {
+  color: var(--subtext-color);
+  text-decoration: underline;
+}
+.row__title:focus,
+.row__title:active,
+a.row__subtitle:focus,
+s.row__subtitle:active {
+  background: transparent;
 }
 
 .tracks-list__row:hover .button--play-row + .row__index {
@@ -54,14 +87,14 @@
   width: 32px;
   height: 32px;
 }
-.button--play-row.button--play-row--acive,
+.button--play-row--active,
 .button--play-row:focus {
   opacity: 1;
   outline: none;
   color: var(--text-color);
 }
 
-.button--play-row.button--play-row--acive + .row__index,
+.button--play-row--active + .row__index,
 .button--play-row:focus + .row__index {
   opacity: 0;
 }
@@ -75,4 +108,38 @@
   height: 20px;
   margin: 0;
   padding: 0;
+  opacity: 1;
+}
+
+.button--row-action {
+  margin: 0;
+}
+
+.thumbnail__play-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 0;
+  background: rgba(32, 32, 32, 0.64);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  color: var(--text-color);
+}
+.thumbnail__play-button--active,
+.tracks-list__row:hover .thumbnail__play-button {
+  opacity: 1;
+}
+
+.thumbnail__play-button:hover,
+.thumbnail__play-button:active,
+.thumbnail__play-button:focus {
+  background: rgba(40, 40, 40, 0.64);
 }

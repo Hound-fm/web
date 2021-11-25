@@ -42,9 +42,13 @@ export default function Sidebar() {
       </ul>
       <p className={"sidebar__message"}>
         Powered by
-        <a className="sidebar__message-link" href={"https://lbry.com"}>
+        <Link
+          className="sidebar__message-link"
+          href={"https://lbry.com"}
+          target="_blank"
+        >
           LBRY
-        </a>
+        </Link>
       </p>
     </div>
   );

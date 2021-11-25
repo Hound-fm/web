@@ -6,9 +6,10 @@
   margin: 0;
   object-fit: cover;
   object-position: center;
-  transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  /*transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); */
   border-radius: inherit;
   display: grid;
+  overflow: hidden;
 }
 
 .thumbnail {

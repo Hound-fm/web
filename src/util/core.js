@@ -13,6 +13,11 @@ export function getRandomGreetings() {
   return GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
 }
 
+export const clamp = (num, min, max) => {
+  if (min === max) return min;
+  return Math.min(Math.max(num, min), max);
+};
+
 export function getColumnCount(grid) {
   const gridComputedStyle = window.getComputedStyle(grid);
   const gridColumnCount = gridComputedStyle

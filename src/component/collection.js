@@ -50,6 +50,9 @@ function CardsGrid({ gridData, gridType }) {
 
 function CardsGridRow({ title, queueTitle, rowType, rowsData, onResize }) {
   const gridRef = useRef(null);
+  const [prevRowDataCount, setPrevRowDataCount] = useState(
+    rowsData.hits.length
+  );
   const [columnCount, setColumnCount] = useState(rowsData.hits.length);
   const [cardsData, setCardsData] = useState(rowsData.hits);
   const handleResize = useCallback(
@@ -69,14 +72,16 @@ function CardsGridRow({ title, queueTitle, rowType, rowsData, onResize }) {
   );
 
   useEffect(() => {
-    if (columnCount != cardsData.length) {
+    if (
+      columnCount != cardsData.length ||
+      prevRowDataCount != rowsData.total.value
+    ) {
       setCardsData(rowsData.hits.slice(0, columnCount));
+      setPrevRowDataCount(rowsData.total.value);
     }
-  }, [cardsData.length, rowsData.hits, columnCount, setCardsData]);
+  }, [cardsData, rowsData, columnCount, setCardsData, setPrevRowDataCount]);
 
-  useResizeObserver(gridRef, (entry) => {
-    handleResize();
-  });
+  useResizeObserver(gridRef, handleResize);
 
   return (
     <div className="cards--grid-row" ref={gridRef}>
@@ -159,12 +164,11 @@ export function CollectionPreviewRow({
   const showLink =
     overflowed || (collectionLink && total && total.value > hits.length);
 
-  const onResize = useCallback(
-    (columnCount) => {
+  const onResize = (columnCount) => {
+    if (hits && hits.length) {
       setOverflowed(columnCount < hits.length);
-    },
-    [hits, setOverflowed]
-  );
+    }
+  };
 
   return (
     <div className={"collection"}>

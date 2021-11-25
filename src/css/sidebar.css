@@ -151,4 +151,5 @@
   width: 1.25em;
   margin-left: calc(var(--space-margin) * 0.25);
   margin-right: calc(var(--space-margin) * 0.5);
+  transition: none;
 }

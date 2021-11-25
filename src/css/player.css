@@ -98,6 +98,10 @@
   margin: calc(var(--space-margin) * 0.25);
 }
 
+.button--player-action[aria-pressed="true"] {
+  color: var(--accent-color);
+}
+
 .button--player-action .icon {
   width: 18px;
   height: 18px;

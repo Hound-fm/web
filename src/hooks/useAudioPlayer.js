@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { getStreamLink } from "util/lbry";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
+import { useQueueNavigation } from "hooks/useQueue";
 import { globalPlayerState } from "store";
 
 import {
@@ -11,13 +12,14 @@ import {
 } from "util/mediaSession";
 
 const defaultState = {
-  loop: false,
   ready: false,
+  ended: false,
   duration: 0,
   currentTime: 0,
 };
 
 const cachedState = {
+  loop: false,
   muted: false,
   volume: 0.5,
   lastVolume: 0.5,
@@ -35,6 +37,7 @@ const isPlaying = (audio) => {
 
 const useAudioPlayer = () => {
   const player = useRef(new Audio());
+  const { queueNext, queuePrev } = useQueueNavigation();
   const playerState = useHookState(globalPlayerState);
   const currentTrack = playerState.currentTrack.attach(Downgraded).value;
   const playbackState = playerState.playbackState.attach(Downgraded).value;
@@ -56,18 +59,21 @@ const useAudioPlayer = () => {
   };
 
   const toggleLoop = () => {
-    // Loop current playlist
-    if (!state.loop) {
-      setState((prevState) => ({ ...prevState, loop: "playlist" }));
-    }
-    // Loop current track
-    if (state.loop === "playlist") {
-      setState((prevState) => ({ ...prevState, loop: "once" }));
-    }
-    // No loop
-    if (state.loop === "once") {
-      setState((prevState) => ({ ...prevState, loop: "false" }));
-    }
+    setState((prevState) => {
+      // Loop current playlist
+      if (!prevState.loop) {
+        return { ...prevState, loop: "playlist" };
+      }
+      // Loop current track
+      else if (prevState.loop === "playlist") {
+        return { ...prevState, loop: "once" };
+      }
+      // No loop
+      else if (prevState.loop === "once") {
+        return { ...prevState, loop: false };
+      }
+      return prevState;
+    });
   };
 
   const toggleMuted = () => {
@@ -92,11 +98,6 @@ const useAudioPlayer = () => {
 
   const handleReady = () => {
     setState((prevState) => ({ ...prevState, ready: true }));
-    console.info(
-      "ready",
-      player.current.readyState,
-      player.current.networkState
-    );
     triggerPlay();
   };
 
@@ -171,10 +172,8 @@ const useAudioPlayer = () => {
   };
 
   const handleEnded = () => {
-    if (state.loop === "playlist") {
-      // queueDispatch({ type: "setNextTrack" });
-    }
     playerState.playbackState.set("paused");
+    setState((prevState) => ({ ...prevState, ended: true }));
   };
 
   const togglePlay = () => {
@@ -243,10 +242,10 @@ const useAudioPlayer = () => {
     // Register mediaSession actions
     const actions = [
       seekHandler,
-      ["play", () => triggerPlay()],
-      ["pause", () => player.current.pause()],
-      // ["nexttrack", () => queueDispatch({ type: "setNextTrack" })],
-      // ["previoustrack", () => queueDispatch({ type: "setPrevTrack" })],
+      ["play", triggerPlay],
+      ["pause", player.current.pause],
+      ["nexttrack", queueNext],
+      ["previoustrack", queuePrev],
     ];
 
     registerMediaActions(actions);
@@ -273,11 +272,17 @@ const useAudioPlayer = () => {
     if (player.current) {
       player.current.loop = state.loop === "once";
     }
-  }, [state.loop]);
+  }, [state.loop, player.current]);
+
+  useEffect(() => {
+    if (state.ended && state.loop === "playlist") {
+      queueNext();
+    }
+  }, [state.ended, state.loop]);
 
   useEffect(() => {
     if (currentTrack) {
-      const { id, name, duration } = currentTrack;
+      const { id, name, duration, title } = currentTrack;
       const source = getStreamLink({ id, name });
 
       // Reload player
@@ -289,7 +294,6 @@ const useAudioPlayer = () => {
       setState((prevState) => ({
         ...prevState,
         ...defaultState,
-        ready: false,
         duration,
       }));
 
@@ -303,7 +307,7 @@ const useAudioPlayer = () => {
     } else if (playbackStateSync === "paused") {
       player.current.pause();
     }
-  }, [playbackStateSync]);
+  }, [playbackStateSync, player.current]);
 
   return {
     seek,
@@ -312,6 +316,9 @@ const useAudioPlayer = () => {
     toggleMuted,
     toggleLoop,
     updateVolume,
+    currentTrack,
+    queueNext,
+    queuePrev,
     ...state,
   };
 };

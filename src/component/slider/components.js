@@ -21,7 +21,7 @@ const railInnerStyle = {
   transform: "translate(0%, -50%)",
   borderRadius: 5,
   pointerEvents: "none",
-  backgroundColor: "rgba(150,150,150, 0.3)",
+  backgroundColor: "rgba(150,150,150, 0.2)",
 };
 
 export function SliderRail({ getRailProps, onSlideStart, onSlideEnd }) {

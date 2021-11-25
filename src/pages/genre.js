@@ -33,7 +33,7 @@ const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
 const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
 function ExplorePreview({ genre }) {
-  const [resultsData, setResultsData] = useState([]);
+  const [resultsData, setResultsData] = useState({});
   const { data, status } = useFetchExploreGenre(genre);
 
   useEffect(() => {
@@ -46,17 +46,24 @@ function ExplorePreview({ genre }) {
 
   return (
     <Page title={genre}>
-      {resultsData &&
-        resultsData.map((data, index) => (
-          <CollectionPreviewRow
-            key={`${genre}-${index}-${data.hits.total.value}`}
-            queueTitle={`${genre} * ${COLLECTION_TYPES_MAPPINGS[index]}`}
-            title={COLLECTION_TYPES_MAPPINGS[index]}
-            collectionType={"music_recording"}
-            collectionData={data.hits}
-            collectionLink={`/genre/${genre}/${SORT_TYPES_MAPPINGS[index]}`}
-          />
-        ))}
+      {resultsData && resultsData.latest && (
+        <CollectionPreviewRow
+          queueTitle={`${genre} · Latest`}
+          title={"Latest"}
+          collectionType={"music_recording"}
+          collectionData={resultsData.latest}
+          collectionLink={`/genre/${genre}/latest`}
+        />
+      )}
+      {resultsData && resultsData.popular && (
+        <CollectionPreviewRow
+          queueTitle={`${genre} · Popular`}
+          title={"Popular"}
+          collectionType={"music_recording"}
+          collectionData={resultsData.popular}
+          collectionLink={`/genre/${genre}/popular`}
+        />
+      )}
     </Page>
   );
 }
@@ -75,7 +82,7 @@ function ExploreList({ genre, sortBy }) {
 
   return (
     <Page title={`${genre} · ${sortBy}`}>
-      {resultsData && <TrackList trackData={resultsData} />}
+      {resultsData && <TrackList trackData={resultsData} queueTitle={`${genre} · ${sortBy}`}/>}
     </Page>
   );
 }
