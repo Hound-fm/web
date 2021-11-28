@@ -1,0 +1,27 @@
+.page__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 24px;
+}
+
+.header__thumbnail {
+  height: 124px;
+  width: 124px;
+  padding: 0;
+  margin: 0 8px;
+  background: #353535;
+  border-radius: var(--card-border-radius);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.page__metadata .page__title {
+  margin: 0;
+}
+.page__metadata {
+  margin: 0 24px;
+}
+
+.header__thumbnail--circle {
+  border-radius: 100%;
+}

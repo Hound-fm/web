@@ -7,6 +7,7 @@ import SearchPage from "pages/search";
 import GenrePage from "pages/genre";
 import ArtistPage from "pages/artist";
 import FavoritesPage from "pages/favorites";
+import PodcastsPage from "pages/podcasts";
 import QueuePage from "pages/queue";
 import clsx from "clsx";
 import { useMediaQuery } from "react-responsive";
@@ -45,6 +46,9 @@ function App() {
             <Route exact path=":favoriteType" element={<FavoritesPage />} />
           </Route>
           <Route exact path="/queue" element={<QueuePage />} />
+          <Route exact path="/podcasts" element={<PodcastsPage />}>
+            <Route exact path=":sortBy" element={<PodcastsPage />} />
+          </Route>
         </Routes>
         <Player />
       </div>

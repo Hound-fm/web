@@ -1,3 +1,7 @@
+.tracks-list {
+  overflow-y: hidden !important; 
+}
+
 .tracks-list .tracks-list__row {
   margin: 0;
   padding: 0;

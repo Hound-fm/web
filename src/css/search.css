@@ -6,7 +6,7 @@
 
 .search input {
   border: 0;
-  background-color: var(--card-bg-color);
+  background-color: var(--card-active-bg-color);
   border-radius: 24px;
   flex-grow: 1;
   padding: 8px 32px;

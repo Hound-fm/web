@@ -80,6 +80,7 @@ export function Card(props) {
           className="card__title text-overflow"
           to={linkTo}
           href={href}
+          title={title}
           target={href ? "_blank" : null}
         >
           {title}
@@ -107,8 +108,9 @@ export function CategoryCard({ title, color }) {
       "url(http://localhost:3000/images/" + title.replace(/\s/g, "-") + ".jpg)",
   };
   const gradientOverlay = { background: smoothGradient(color) };
+  const linkTo = title === "podcasts" ? "/podcasts" : `/genre/${title}`;
   return (
-    <Link className="category-card" style={cardStyle} to={`/genre/${title}`}>
+    <Link className="category-card" style={cardStyle} to={linkTo}>
       <div className="category-card__thumbnail" style={thumbnailStyle} />
       <div className="category-card__title" style={gradientOverlay}>
         <span>{title}</span>

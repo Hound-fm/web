@@ -18,7 +18,7 @@ const categories = [
   { title: "trap", color: "99, 55, 79" },
   { title: "chill", color: "76, 18, 111" },
   { title: "reggae", color: "187, 106, 45" },
-  // { title: "jungle", color: "116, 63, 46" },
+  { title: "jungle", color: "116, 63, 46" },
   { title: "edm", color: "9, 143, 82" },
   { title: "industrial", color: "228, 170, 7" },
   { title: "psychedelic", color: "48, 123, 113" },

@@ -5,15 +5,15 @@ import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useParams } from "react-router-dom";
-import { useFetchExploreGenre } from "api";
+import { useFetchExplorePodcasts } from "api";
 import { CollectionGrid, CollectionPreviewRow } from "component/collection";
 
 const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
 const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
-function ExplorePreview({ genre }) {
+function ExplorePreview({ sortBy }) {
   const [resultsData, setResultsData] = useState({});
-  const { data, status } = useFetchExploreGenre(genre);
+  const { data, status } = useFetchExplorePodcasts(sortBy);
 
   useEffect(() => {
     if (status == "success" && data) {
@@ -24,32 +24,32 @@ function ExplorePreview({ genre }) {
   }, [data, status, setResultsData]);
 
   return (
-    <Page title={genre}>
+    <Page title={"Podcasts"}>
       {resultsData && resultsData.latest && (
         <CollectionPreviewRow
-          queueTitle={`${genre} · Latest`}
+          queueTitle={`Podcasts · Latest`}
           title={"Latest"}
-          collectionType={"music_recording"}
+          collectionType={"podcast_episode"}
           collectionData={resultsData.latest}
-          collectionLink={`/genre/${genre}/latest`}
+          collectionLink={`/podcasts/latest`}
         />
       )}
       {resultsData && resultsData.popular && (
         <CollectionPreviewRow
-          queueTitle={`${genre} · Popular`}
+          queueTitle={`Podcasts · Popular`}
           title={"Popular"}
-          collectionType={"music_recording"}
+          collectionType={"podcast_episode"}
           collectionData={resultsData.popular}
-          collectionLink={`/genre/${genre}/popular`}
+          collectionLink={`/podcasts/popular`}
         />
       )}
     </Page>
   );
 }
 
-function ExploreList({ genre, sortBy }) {
+function ExploreList({ sortBy }) {
   const [resultsData, setResultsData] = useState([]);
-  const { data, status } = useFetchExploreGenre(genre, sortBy);
+  const { data, status } = useFetchExplorePodcasts(sortBy);
 
   useEffect(() => {
     if (status == "success" && data) {
@@ -60,22 +60,18 @@ function ExploreList({ genre, sortBy }) {
   }, [data, status, setResultsData]);
 
   return (
-    <Page title={`${genre} · ${sortBy}`}>
+    <Page title={`Podcasts · ${sortBy}`}>
       {resultsData && (
         <TrackList
           trackData={resultsData}
-          queueTitle={`${genre} · ${sortBy}`}
+          queueTitle={`Podcasts · ${sortBy}`}
         />
       )}
     </Page>
   );
 }
 
-export default function GenrePage() {
-  const { genre, sortBy } = useParams();
-  return sortBy ? (
-    <ExploreList genre={genre} sortBy={sortBy} />
-  ) : (
-    <ExplorePreview genre={genre} />
-  );
+export default function PodcastsPage() {
+  const { sortBy } = useParams();
+  return sortBy ? <ExploreList sortBy={sortBy} /> : <ExplorePreview />;
 }

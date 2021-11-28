@@ -1,6 +1,6 @@
 .header {
   height: var(--header-height);
-  background: rgba(12, 12, 12, 0.9);
+  background: rgba(12, 12, 12, 0.94);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -61,7 +61,15 @@
 .header__actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+}
+
+.header__favorite-button {
+}
+
+.header__label {
+  border-radius: 24px;
+  margin-right: 12px;
+  color: var(--subtext-color);
 }
 
 .header__title {

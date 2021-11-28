@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
+import PageHeader from "component/pageHeader";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
+import Button from "component/button";
+import FavoriteButton from "component/favoriteButton";
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useParams } from "react-router-dom";
 import { useFetchExploreChannel } from "api";
+import { Link, Share2 } from "lucide-react";
 import { CollectionGrid, CollectionPreviewRow } from "component/collection";
 
 const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
 const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
 function ArtistPreview({ channel_id }) {
-  const [resultsData, setResultsData] = useState([]);
+  const [resultsData, setResultsData] = useState({});
   const { data, status } = useFetchExploreChannel(channel_id);
-  const title =
-    resultsData && resultsData.channel ? resultsData.channel.channel_title : "";
+  const channelData = resultsData ? resultsData.channel : null;
+  const title = channelData ? channelData.channel_title : "";
 
   useEffect(() => {
     if (status == "success" && data) {
@@ -27,7 +31,22 @@ function ArtistPreview({ channel_id }) {
   }, [data, status, setResultsData]);
 
   return (
-    <Page title={title}>
+    <Page>
+      {channelData && (
+        <PageHeader
+          title={channelData.channel_title}
+          thumbnail={channelData.thumbnail}
+          circularThumbnail={true}
+        >
+          <div className={"header__actions"}>
+            <FavoriteButton
+              id={channelData.id}
+              favoriteType={channelData.channel_type}
+              className={"button--favorite"}
+            />
+          </div>
+        </PageHeader>
+      )}
       {resultsData && resultsData.latest && (
         <CollectionPreviewRow
           queueTitle={`${title} · Latest`}

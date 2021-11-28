@@ -10,3 +10,4 @@ import "./track-list.css";
 import "./category-card.css";
 import "./thumbnail.css";
 import "./favorite.css";
+import "./page.css";

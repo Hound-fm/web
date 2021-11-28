@@ -16,6 +16,31 @@ export function useQueueLoad() {
   */
 }
 
+
+export function useSliceQueue() {
+  const playerState = useHookState(globalPlayerState);
+  const [state, setState] = useState({
+    next: [],
+    current: [],
+  })
+
+  const queueData = playerState.queueData.attach(Downgraded).get();
+  useEffect(() => {
+    if (!queueData || !queueData.length) {
+      setState({
+        next: [],
+        current: [],
+      })
+    } else if (queueData && queueData.length) {
+      // Slice queue fisrt and next
+      setState({
+        next: [],
+        current: [],
+      })
+    }
+  }, [queueData])
+
+}
 export function useQueueUpdate() {
   const playerState = useHookState(globalPlayerState);
   const queueData = playerState.queueData.attach(Downgraded).get();

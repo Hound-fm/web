@@ -77,7 +77,7 @@ function FavoritesPreview({ favorites }) {
               key={`${key}-${value.hits.length}`}
               queueTitle={`${title} · ${key}`}
               title={COLLECTION_TYPES_MAPPINGS[key]}
-              collectionType={"music_recording"}
+              collectionType={key}
               collectionData={value}
               collectionLink={`/favorites/${key}`}
             />

@@ -67,6 +67,25 @@ export const useFetchExploreChannel = (channel_id, sortBy) =>
     }
   );
 
+const fetchExplorePodcasts = (sortBy) =>
+  fetch(
+    API + `explore?type=podcast_episode${sortBy ? `&sortBy=${sortBy}` : ""}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+export const useFetchExplorePodcasts = (sortBy) =>
+  useQuery(["explore-channel", sortBy], () => fetchExplorePodcasts(sortBy), {
+    notifyOnChangeProps: ["data", "error"],
+  });
+
 const fetchResolve = (resolveData) =>
   fetch(API + `resolve`, {
     // Adding method type
