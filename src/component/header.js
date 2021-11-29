@@ -78,9 +78,11 @@ export default function Header(props) {
       </div>
       {!isTabletOrMobile && (
         <div className={"header__actions"}>
-          <Button icon={Sun} className={"button--nav button--label"}>
-            Light
+          {/*
+          <Button icon={Github} className={"button--nav button--label"}>
+            GitHub
           </Button>
+          */}
         </div>
       )}
     </header>

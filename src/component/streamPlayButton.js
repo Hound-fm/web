@@ -22,6 +22,7 @@ export default function StreamPlayButton({
   const updateQueue = useQueueUpdate();
 
   const handleClick = (e) => {
+    e.stopPropagation();
     if (metadata && !currentTrack) {
       playerState.playbackState.set("paused");
       playerState.currentTrack.set(metadata);

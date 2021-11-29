@@ -7,6 +7,7 @@ import SearchPage from "pages/search";
 import GenrePage from "pages/genre";
 import ArtistPage from "pages/artist";
 import FavoritesPage from "pages/favorites";
+import PodcastPage from "pages/podcast";
 import PodcastsPage from "pages/podcasts";
 import QueuePage from "pages/queue";
 import clsx from "clsx";
@@ -46,6 +47,9 @@ function App() {
             <Route exact path=":favoriteType" element={<FavoritesPage />} />
           </Route>
           <Route exact path="/queue" element={<QueuePage />} />
+          <Route exact path="/podcast/:channel_id" element={<PodcastPage />}>
+            <Route exact path=":sortBy" element={<PodcastPage />} />
+          </Route>
           <Route exact path="/podcasts" element={<PodcastsPage />}>
             <Route exact path=":sortBy" element={<PodcastsPage />} />
           </Route>

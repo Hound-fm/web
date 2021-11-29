@@ -31,19 +31,32 @@ export function Card(props) {
   const showPlayButton =
     metadata && metadata.stream_type && !metadata.fee_amount;
   const isChannel = metadata && !metadata.stream_type && metadata.channel_type;
+  const isStream = metadata && metadata.stream_type && metadata.channel_type;
   const isGenre = metadata && metadata.category_type;
 
   let href;
   let linkTo;
+  let subLinkTo;
+
+  if (isStream) {
+    if (metadata.channel_type === "artist") {
+      subLinkTo = `/artist/${metadata.channel_id}`;
+    } else if (metadata.channel_type === "podcast_series") {
+      subLinkTo = `/podcast/${metadata.channel_id}`;
+    }
+  }
+
   if (isChannel && metadata.channel_type === "artist") {
     linkTo = `/artist/${id || metadata.id}`;
+  } else if (isChannel && metadata.channel_type === "podcast_series") {
+    linkTo = `/podcast/${id || metadata.id}`;
   } else if (isGenre) {
     linkTo = `/genre/${metadata.label}`;
   } else if (metadata && metadata.stream_type) {
     href = `${WEB_DOMAIN}/${metadata.url}`;
   }
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     if (linkTo) {
       navigate(linkTo);
     }
@@ -85,11 +98,8 @@ export function Card(props) {
         >
           {title}
         </Link>
-        {!isChannel && !isGenre ? (
-          <Link
-            className={"card__subtitle text-overflow"}
-            to={`/artist/${metadata.channel_id}`}
-          >
+        {subLinkTo ? (
+          <Link className={"card__subtitle text-overflow"} to={subLinkTo}>
             {subtitle}
           </Link>
         ) : (

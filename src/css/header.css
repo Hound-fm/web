@@ -58,6 +58,10 @@
   margin: 0;
 }
 
+.header__thumbnail {
+  border-radius: 8px;
+}
+
 .header__actions {
   display: flex;
   align-items: center;
