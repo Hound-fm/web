@@ -56,8 +56,6 @@ export default function HomePage() {
       if (data.data) {
         setHomeData(data.data);
       }
-    } else {
-      console.info("clear");
     }
   }, [data, status, setHomeData]);
 

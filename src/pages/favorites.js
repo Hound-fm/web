@@ -86,8 +86,6 @@ function FavoritesPreview({ favorites }) {
       if (data.data) {
         setFavoritesData(data.data);
       }
-    } else {
-      console.info("clear");
     }
   }, [data, status, setFavoritesData]);
 

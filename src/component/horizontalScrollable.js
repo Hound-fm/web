@@ -11,7 +11,7 @@ var smoothScroll = function (element, direction = "left") {
   var MIN_PIXELS_PER_STEP = 1;
   var MAX_SCROLL_STEPS = 1000;
   var scrollContainer = element;
-  console.info(element);
+
   let targetX, targetStep;
 
   if (direction === "left") {

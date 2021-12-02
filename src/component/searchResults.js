@@ -117,7 +117,6 @@ function SearchAllResults({ searchQuery }) {
   useEffect(() => {
     if (status == "success" && data) {
       const res = data.data;
-      console.info(res.topResult);
       if (res.topResult) {
         // Process search topResults
         const topResult = res.topResult._source;

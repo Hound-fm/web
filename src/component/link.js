@@ -6,15 +6,32 @@ const Anchor = ({ children, ...props }) => {
   return <a {...props}>{children}</a>;
 };
 
-export default function CustomLink({ icon, children, exact, ...props }) {
+export default function CustomLink({
+  icon,
+  children,
+  exact,
+  onClick,
+  ...props
+}) {
   let match = useMatch({
     path: props.to || "",
     exact,
   });
 
+  const handleClick = (e) => {
+    e.stopPropagation();
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   const Wrapper = props.to ? Link : Anchor;
   return (
-    <Wrapper aria-current={match ? "page" : null} {...props}>
+    <Wrapper
+      onClick={handleClick}
+      aria-current={match ? "page" : null}
+      {...props}
+    >
       {icon && <Icon icon={icon} className={"icon link__icon"} />}
       {children && <span>{children}</span>}
     </Wrapper>
