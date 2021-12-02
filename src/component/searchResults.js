@@ -32,7 +32,9 @@ function SearchTopResults({
   const cardStyle = expanded ? { flexGrow: "0" } : {};
   const tracksListType = getTrackListType(topTracks);
   const rawThumbnail = topResult.label
-    ? "http://localhost:3000/images/" + topResult.label.toLowerCase() + ".jpg"
+    ? "http://localhost:3000/images/" +
+      topResult.label.replace(/\s+/g, "-").trim().toLowerCase() +
+      ".jpg"
     : false;
 
   return (
