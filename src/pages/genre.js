@@ -5,7 +5,7 @@ import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
 import { useMediaQuery } from "react-responsive";
-import { useLocation, useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchExploreGenre } from "api";
 import { CollectionGrid, CollectionPreviewRow } from "component/collection";
 import { GENRES } from "constants.js";
@@ -85,7 +85,7 @@ export default function GenrePage() {
   }
 
   if (genre) {
-    if (GENRES.findIndex((item) => item.title === genre) === -1) {
+    if (!GENRES.includes(genre)) {
       return <ErrorPage />;
     }
   }

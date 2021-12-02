@@ -21,9 +21,13 @@ const categories = [
   { title: "jungle", color: "116, 63, 46" },
   { title: "edm", color: "9, 143, 82" },
   { title: "industrial", color: "228, 170, 7" },
+  { title: "soul", color: "91, 92, 94" },
   { title: "psychedelic", color: "48, 123, 113" },
-  { title: "pop", color: "100, 81, 159" },
+  { title: "funk", color: "217, 72, 44" },
+  { title: "metal", color: "106, 83, 66" },
+  { title: "jazz", color: "190, 104, 69" },
   { title: "folk", color: "98, 115, 61" },
+  { title: "pop", color: "131, 72, 141" },
 ];
 
 const ExploreCategories = () => (
