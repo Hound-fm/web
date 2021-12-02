@@ -31,6 +31,9 @@ function SearchTopResults({
   const gridColumnStyle = expanded ? { gridColumn: "1/-1" } : {};
   const cardStyle = expanded ? { flexGrow: "0" } : {};
   const tracksListType = getTrackListType(topTracks);
+  const rawThumbnail = topResult.label
+    ? "http://localhost:3000/images/" + topResult.label.toLowerCase() + ".jpg"
+    : false;
 
   return (
     <div className="search__top-results" style={gridStyle}>
@@ -44,6 +47,7 @@ function SearchTopResults({
             circularThumbnail={topResult.result_type === "Artist"}
             title={topResult.result_title}
             thumbnail={topResult.thumbnail}
+            rawThumbnail={rawThumbnail}
             subtitle={topResult.stream_type && topResult.channel_title}
             label={topResult.result_type}
           />
