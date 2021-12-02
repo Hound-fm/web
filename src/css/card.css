@@ -18,6 +18,21 @@
   background: var(--dark-accent-color) !important;
 }
 
+.card__price-label {
+  background: rgba(246, 229, 141, 0.9);
+  text-align: center;
+  color: var(--bg-color);
+  font-size: 0.8em;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px 8px;
+  margin: 12px;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
 .card__play-button {
   display: flex;
   align-items: center;

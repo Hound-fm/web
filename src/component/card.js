@@ -77,6 +77,11 @@ export function Card(props) {
         rawSrc={rawThumbnail}
         src={thumbnail}
       >
+        {metadata && metadata.fee_amount > 0 && (
+          <div className={"card__price-label"}>
+            {`${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`}
+          </div>
+        )}
         {showPlayButton && (
           <StreamPlayButton
             index={index}
