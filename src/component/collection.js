@@ -1,7 +1,13 @@
 import Link from "component/link";
 import { Card } from "component/card";
 import { getColumnCount } from "util/core";
-import { useState, useRef, useEffect, useCallback } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import useResizeObserver from "@react-hook/resize-observer";
 
 function CardsGrid({ gridData, gridType }) {
@@ -48,40 +54,44 @@ function CardsGrid({ gridData, gridType }) {
   );
 }
 
+const useSize = (target) => {
+  const [size, setSize] = useState();
+
+  useLayoutEffect(() => {
+    setSize(target.current.getBoundingClientRect());
+  }, [target]);
+
+  // Where the magic happens
+  useResizeObserver(target, (entry) => setSize(entry.contentRect));
+  return size;
+};
+
 function CardsGridRow({ title, queueTitle, rowType, rowsData, onResize }) {
   const gridRef = useRef(null);
   const [prevRowDataCount, setPrevRowDataCount] = useState(
     rowsData.hits.length
   );
+  const size = useSize(gridRef);
   const [columnCount, setColumnCount] = useState(rowsData.hits.length);
   const [cardsData, setCardsData] = useState(rowsData.hits);
-  const handleResize = useCallback(
-    (e) => {
-      if (gridRef.current) {
-        setColumnCount((prevColumnCount) => {
-          const nextColumnCount = getColumnCount(gridRef.current);
-          if (prevColumnCount != nextColumnCount) {
-            onResize(nextColumnCount);
-            return nextColumnCount;
-          }
-          return prevColumnCount;
-        });
-      }
-    },
-    [getColumnCount, onResize, setColumnCount, gridRef.current]
-  );
 
   useEffect(() => {
-    if (
-      columnCount != cardsData.length ||
-      prevRowDataCount != rowsData.total.value
-    ) {
-      setCardsData(rowsData.hits.slice(0, columnCount));
-      setPrevRowDataCount(rowsData.total.value);
-    }
-  }, [cardsData, rowsData, columnCount, setCardsData, setPrevRowDataCount]);
+    setColumnCount((prevColumnCount) => {
+      const nextColumnCount = getColumnCount(gridRef.current);
+      if (prevColumnCount != nextColumnCount) {
+        return nextColumnCount;
+      }
+      return prevColumnCount;
+    });
+  }, [gridRef.current, setColumnCount, size]);
 
-  useResizeObserver(gridRef, handleResize);
+  useEffect(() => {
+    onResize(columnCount);
+  }, [onResize, columnCount]);
+
+  useEffect(() => {
+    setCardsData(rowsData.hits.slice(0, columnCount));
+  }, [rowsData, columnCount, setCardsData]);
 
   return (
     <div className="cards--grid-row" ref={gridRef}>

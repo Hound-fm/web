@@ -92,6 +92,18 @@ function SearchTypeResults({ searchQuery, searchType = "" }) {
   );
 }
 
+function SearchEmptyState() {
+  return (
+    <div className={"empty-state"}>
+      <h1 className={"empty-state__title"}>No results found.</h1>
+      <p className={"empty-state__message"}>
+        Please make sure your words are spelled correctly or use less or
+        different keywords.
+      </p>
+    </div>
+  );
+}
+
 function SearchAllResults({ searchQuery }) {
   const title = "Browse all";
   const description = " ";
@@ -99,10 +111,13 @@ function SearchAllResults({ searchQuery }) {
   const [resultsData, setResultsData] = useState({});
   const [topTracksData, setTopTracksData] = useState([]);
   const [topTracksCount, setTopTracksCount] = useState(0);
-  const { data, status } = useFetchResults(searchQuery);
+  const { data, isLoading, status } = useFetchResults(searchQuery);
+  const [isEmpty, setIsEmpty] = useState(null);
+
   useEffect(() => {
     if (status == "success" && data) {
       const res = data.data;
+      console.info(res.topResult);
       if (res.topResult) {
         // Process search topResults
         const topResult = res.topResult._source;
@@ -110,6 +125,8 @@ function SearchAllResults({ searchQuery }) {
         topResult.result_type = getResultType(topResult);
         topResult.result_title =
           topResult.title || topResult.channel_title || topResult.label;
+
+        setIsEmpty(false);
         setTopResultData(topResult);
         // Process top tracks
         if (res.topTracks) {
@@ -125,6 +142,8 @@ function SearchAllResults({ searchQuery }) {
         if (res.results) {
           setResultsData(res.results);
         }
+      } else {
+        setIsEmpty(true);
       }
     }
   }, [
@@ -135,11 +154,20 @@ function SearchAllResults({ searchQuery }) {
     setTopResultData,
     setTopTracksData,
     setTopTracksCount,
+    setIsEmpty,
   ]);
+
+  useEffect(() => {
+    if (status == "success" && data && !isLoading) {
+    } else if (!isLoading) {
+      setIsEmpty(true);
+    }
+  }, [data, isLoading, status]);
 
   return (
     <>
-      {topResultData && (
+      {isEmpty && !isLoading && <SearchEmptyState />}
+      {!isEmpty && topResultData && (
         <SearchTopResults
           searchQuery={searchQuery}
           topResult={topResultData}
@@ -147,7 +175,8 @@ function SearchAllResults({ searchQuery }) {
           topTracks={topTracksData}
         />
       )}
-      {resultsData &&
+      {!isEmpty &&
+        resultsData &&
         Object.entries(resultsData).map(([key, value], index) => (
           <CollectionPreviewRow
             key={`${key}-${index}-${value.hits[0]._id}-${value.total.value}`}

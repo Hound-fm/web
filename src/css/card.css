@@ -144,7 +144,6 @@
   margin-bottom: 32px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
-  box-sizing: border-box;
 }
 
 .cards--grid-row .card {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
 import PageHeader from "component/pageHeader";
+import ErrorPage from "pages/error";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
@@ -95,6 +96,11 @@ function PodcastList({ channel_id, sortBy }) {
 
 export default function PodcastPage() {
   const { channel_id, sortBy } = useParams();
+  if (sortBy) {
+    if (sortBy != "latest" && sortBy != "popular") {
+      return <ErrorPage />;
+    }
+  }
   return sortBy ? (
     <PodcastList channel_id={channel_id} sortBy={sortBy} />
   ) : (

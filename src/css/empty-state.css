@@ -1,0 +1,35 @@
+.empty-state {
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  bottom: var(--player-height);
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 0;
+}
+
+.empty-state__title {
+  margin: 0;
+}
+
+.empty-state img {
+  margin: 24px !important;
+}
+.empty-state__message {
+  color: var(--subtext-color);
+  margin: 4px;
+}
+
+.app--compact .empty-state {
+  left: var(--sidebar-min-width);
+}
+
+.app--mobile .empty-state {
+  left: 0;
+  margin: 24px;
+}

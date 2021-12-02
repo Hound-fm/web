@@ -10,11 +10,25 @@ import FavoritesPage from "pages/favorites";
 import PodcastPage from "pages/podcast";
 import PodcastsPage from "pages/podcasts";
 import QueuePage from "pages/queue";
+import ErrorPage from "pages/error";
+
 import clsx from "clsx";
 import { useMediaQuery } from "react-responsive";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useMatch,
+} from "react-router-dom";
 
 function App() {
+  const pageNotFound = useMatch({
+    path: "/404",
+    exact: false,
+  });
+
   const isSmallScreen = useMediaQuery({
     query: "(max-width: 1200px)",
   });
@@ -24,39 +38,38 @@ function App() {
   });
 
   return (
-    <Router>
-      <div
-        className={clsx(
-          "app",
-          isSmallScreen && "app--compact",
-          isTabletOrMobile && "app--mobile"
-        )}
-      >
-        <Header />
-        <Sidebar />
-        <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route exact path="/genre/:genre" element={<GenrePage />}>
-            <Route exact path=":sortBy" element={<GenrePage />} />
-          </Route>
-          <Route exact path="/artist/:channel_id" element={<ArtistPage />}>
-            <Route exact path=":sortBy" element={<ArtistPage />} />
-          </Route>
-          <Route exact path="/favorites" element={<FavoritesPage />}>
-            <Route exact path=":favoriteType" element={<FavoritesPage />} />
-          </Route>
-          <Route exact path="/queue" element={<QueuePage />} />
-          <Route exact path="/podcast/:channel_id" element={<PodcastPage />}>
-            <Route exact path=":sortBy" element={<PodcastPage />} />
-          </Route>
-          <Route exact path="/podcasts" element={<PodcastsPage />}>
-            <Route exact path=":sortBy" element={<PodcastsPage />} />
-          </Route>
-        </Routes>
-        <Player />
-      </div>
-    </Router>
+    <div
+      className={clsx(
+        "app",
+        isSmallScreen && "app--compact",
+        isTabletOrMobile && "app--mobile"
+      )}
+    >
+      <Header />
+      <Sidebar />
+      <Routes>
+        <Route index element={<HomePage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route exact path="/genre/:genre" element={<GenrePage />}>
+          <Route exact path=":sortBy" element={<GenrePage />} />
+        </Route>
+        <Route exact path="/artist/:channel_id" element={<ArtistPage />}>
+          <Route exact path=":sortBy" element={<ArtistPage />} />
+        </Route>
+        <Route exact path="/favorites" element={<FavoritesPage />}>
+          <Route exact path=":favoriteType" element={<FavoritesPage />} />
+        </Route>
+        <Route exact path="/queue" element={<QueuePage />} />
+        <Route exact path="/podcast/:channel_id" element={<PodcastPage />}>
+          <Route exact path=":sortBy" element={<PodcastPage />} />
+        </Route>
+        <Route exact path="/podcasts" element={<PodcastsPage />}>
+          <Route exact path=":sortBy" element={<PodcastsPage />} />
+        </Route>
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+      <Player />
+    </div>
   );
 }
 

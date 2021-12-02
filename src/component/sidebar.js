@@ -2,6 +2,7 @@ import Icon from "./icon";
 import Logo from "../logo.svg";
 import clsx from "clsx";
 import Link from "component/link";
+
 import { useMediaQuery } from "react-responsive";
 import {
   Home,

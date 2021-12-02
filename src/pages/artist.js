@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
 import PageHeader from "component/pageHeader";
+import ErrorPage from "pages/error";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
@@ -9,7 +10,7 @@ import FavoriteButton from "component/favoriteButton";
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useParams } from "react-router-dom";
 import { useFetchExploreChannel } from "api";
-import { Link, Share2 } from "lucide-react";
+import { ExternalLink, Rss, Link2, Flag, MoreHorizontal } from "lucide-react";
 import { CollectionGrid, CollectionPreviewRow } from "component/collection";
 
 const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
@@ -42,8 +43,10 @@ function ArtistPreview({ channel_id }) {
             <FavoriteButton
               id={channelData.id}
               favoriteType={channelData.channel_type}
-              className={"button--favorite"}
+              className={"button--favorite button--header"}
             />
+
+            <Button icon={Rss} className={"button--header"} />
           </div>
         </PageHeader>
       )}
@@ -96,6 +99,13 @@ function ArtistList({ channel_id, sortBy }) {
 
 export default function ArtistPage() {
   const { channel_id, sortBy } = useParams();
+
+  if (sortBy) {
+    if (sortBy != "latest" && sortBy != "popular") {
+      return <ErrorPage />;
+    }
+  }
+
   return sortBy ? (
     <ArtistList channel_id={channel_id} sortBy={sortBy} />
   ) : (

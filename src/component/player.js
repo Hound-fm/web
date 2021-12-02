@@ -10,6 +10,8 @@ import {
   Layers,
 } from "lucide-react";
 
+import Link from "component/link";
+
 import Slider from "component/slider";
 
 import { useState, useEffect } from "react";
@@ -33,22 +35,25 @@ function StreamInfo() {
     <div className="stream-info">
       <Thumbnail className="stream-info__thumbnail" src={metadata.thumbnail} />
       <div className="stream-info__text">
-        <div className="stream-info__title text-overflow">{metadata.title}</div>
-        <div className="stream-info__subtitle text-overflow">
+        <Link className="stream-info__title text-overflow">
+          {metadata.title}
+        </Link>
+        <Link className="stream-info__subtitle text-overflow">
           {metadata.channel_title}
-        </div>
+        </Link>
       </div>
     </div>
   );
 }
 
-function MiniPlayer() {
+function MiniPlayer({ togglePlay, playIcon }) {
   return (
     <div className="player player--mini">
       <StreamInfo />
       <div className="player__actions">
         <Button
-          icon={PlayCircle}
+          icon={playIcon}
+          onClick={togglePlay}
           className={"player__main-action button--player-action"}
         />
       </div>
@@ -134,7 +139,7 @@ export default function Player() {
     togglePlay,
     toggleLoop,
     toggleMuted,
-    // currentTrack,
+    currentTrack,
     queuePrev,
     queueNext,
   } = useAudioPlayer();
@@ -158,15 +163,10 @@ export default function Player() {
 
   const playerState = useHookState(globalPlayerState);
   const playbackState = playerState.playbackState.attach(Downgraded).value;
-  const currentTrack = playerState.currentTrack.value;
 
   const showMiniPlayer = useMediaQuery({
     query: "(max-width: 900px)",
   });
-
-  if (showMiniPlayer) {
-    return <MiniPlayer />;
-  }
 
   let playIcon = PlayCircle;
   if (playbackState === "playing") {
@@ -178,8 +178,15 @@ export default function Player() {
 
   let volumeIcon = muted ? VolumeX : Volume1;
 
+  if (showMiniPlayer) {
+    return <MiniPlayer togglePlay={togglePlay} playIcon={playIcon} />;
+  }
+
   return (
-    <div className="player">
+    <div
+      className="player"
+      aria-hidden={currentTrack && currentTrack.id ? false : true}
+    >
       <StreamInfo />
       <div className="player__main-controls">
         <div className="player__actions">

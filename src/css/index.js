@@ -11,3 +11,4 @@ import "./category-card.css";
 import "./thumbnail.css";
 import "./favorite.css";
 import "./page.css";
+import "./empty-state.css";

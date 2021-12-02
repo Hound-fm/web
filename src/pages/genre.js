@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
+import ErrorPage from "pages/error";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
 import { useMediaQuery } from "react-responsive";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, Navigate } from "react-router-dom";
 import { useFetchExploreGenre } from "api";
 import { CollectionGrid, CollectionPreviewRow } from "component/collection";
+import { GENRES } from "constants.js";
 
 const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
 const SORT_TYPES_MAPPINGS = ["latest", "popular"];
@@ -55,7 +57,9 @@ function ExploreList({ genre, sortBy }) {
     if (status == "success" && data) {
       // Process results
       const res = data.data;
-      setResultsData(res.hits);
+      if (res && res.hits && res.hits.length) {
+        setResultsData(res.hits);
+      }
     }
   }, [data, status, setResultsData]);
 
@@ -73,6 +77,19 @@ function ExploreList({ genre, sortBy }) {
 
 export default function GenrePage() {
   const { genre, sortBy } = useParams();
+
+  if (sortBy) {
+    if (sortBy != "latest" && sortBy != "popular") {
+      return <ErrorPage />;
+    }
+  }
+
+  if (genre) {
+    if (GENRES.findIndex((item) => item.title === genre) === -1) {
+      return <ErrorPage />;
+    }
+  }
+
   return sortBy ? (
     <ExploreList genre={genre} sortBy={sortBy} />
   ) : (

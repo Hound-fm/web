@@ -10,6 +10,7 @@
   flex-direction: column;
   overflow: auto;
   background-color: rgba(12, 12, 12, 0.9);
+  z-index: 1;
 }
 
 /* Border */

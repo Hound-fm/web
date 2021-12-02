@@ -20,14 +20,14 @@ body {
 }
 
 main {
-  margin: 24px;
-  padding-left: var(--sidebar-width);
-  padding-top: var(--header-height);
-  padding-bottom: var(--player-height);
+  padding: 24px;
+  margin-left: var(--sidebar-width);
+  margin-top: var(--header-height);
+  margin-bottom: var(--player-height);
 }
 
 .app--compact main {
-  padding-left: var(--sidebar-min-width);
+  margin-left: var(--sidebar-min-width);
 }
 
 .app--mobile {
@@ -35,7 +35,7 @@ main {
 }
 
 .app--mobile main {
-  padding-left: 0;
+  margin-left: 0;
 }
 
 main h1 {

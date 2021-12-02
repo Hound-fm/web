@@ -6,7 +6,7 @@ export default function FavoriteButton({ id, favoriteType, className }) {
   return (
     <Button
       icon={Heart}
-      onClick={toggleFavorite}
+      onClick={() => toggleFavorite()}
       className={className}
       aria-pressed={isFavorite ? true : false}
     />

@@ -6,31 +6,27 @@ import { globalAppState } from "store";
 export default function useFavorite(id, favoriteType) {
   const appState = useHookState(globalAppState);
   const favorites =
-    appState.favorites[favoriteType].attach(Downgraded).get() || [];
+    appState.favorites[favoriteType].attach(Downgraded).value || [];
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = () => {
     if (id && favoriteType) {
-      if (favorites.length && favorites.includes(id)) {
-        // Remove from favorites (delete)
-        const index = favorites.findIndex((favorite) => favorite === id);
-        appState.favorites[favoriteType].set((prev) => {
-          if (prev && prev.splice) {
-            prev.splice(index, 1);
+      appState.favorites[favoriteType].set((prevFavorites) => {
+        if (prevFavorites.length && prevFavorites.includes(id)) {
+          const index = prevFavorites.findIndex((favorite) => favorite === id);
+          // Remove from favorites (delete)
+          if (index > -1) {
+            prevFavorites.splice(index, 1);
           }
-          return prev;
-        });
-      } else {
-        // Add to favorites (append)
-        appState.favorites[favoriteType].set((prev) => {
-          if (prev && prev.splice) {
-            prev.splice(0, 0, id);
-          }
-          return prev;
-        });
-      }
+        } else {
+          // Add to favorites (append)
+          prevFavorites.splice(0, 0, id);
+        }
+        return prevFavorites;
+      });
     }
   };
+
   useEffect(() => {
     if (id && favoriteType) {
       if (favorites.length) {

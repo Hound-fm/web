@@ -243,7 +243,7 @@ const useAudioPlayer = () => {
     const actions = [
       seekHandler,
       ["play", triggerPlay],
-      ["pause", player.current.pause],
+      ["pause", () => player.current.pause()],
       ["nexttrack", queueNext],
       ["previoustrack", queuePrev],
     ];

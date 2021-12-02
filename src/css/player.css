@@ -12,6 +12,12 @@
   align-content: center;
   justify-content: space-between;
   align-items: center;
+  transform: translate(0, 0);
+  transition: transform 0.3s ease;
+}
+
+.player[aria-hidden="true"] {
+  transform: translate(0, var(--player-height));
 }
 
 .player__actions {
@@ -38,12 +44,34 @@
 .stream-info__title {
   font-weight: 600;
   font-size: 0.96em;
+  color: var(--text-color);
+}
+
+.stream-info__title,
+.stream-info__subtitle {
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  background: 0;
 }
 
 .stream-info__subtitle {
-  color: #aaa;
+  color: var(--subtext-color);
   margin: 0.25em 0;
   font-size: 0.84em;
+}
+
+.stream-info__title:active,
+.stream-info__subtitle:active {
+  background: 0;
+}
+.stream-info__title:hover,
+.stream-info__subtitle:hover {
+  text-decoration: underline;
+}
+
+.stream-info__subtitle:hover {
+  color: var(--subtext-color);
 }
 
 .stream-info__thumbnail {

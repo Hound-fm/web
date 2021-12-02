@@ -3,6 +3,8 @@ import Page from "component/page";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
+import ErrorPage from "pages/error";
+
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useParams } from "react-router-dom";
 import { useFetchResolve } from "api";
@@ -19,6 +21,27 @@ const COLLECTION_TYPES_MAPPINGS = {
   podcast_episode: "Episodes",
 };
 const SORT_TYPES_MAPPINGS = ["latest", "popular"];
+
+const FAVORITE_TYPES = [
+  "genre",
+  "artist",
+  "music_recording",
+  "podcast_series",
+  "podcast_episode",
+];
+
+function FavoritesEmptyState() {
+  return (
+    <Page>
+      <div className={"empty-state"}>
+        <h1 className={"empty-state__title"}>No favorites yet!</h1>
+        <p className={"empty-state__message"}>
+          Save content by tapping the heart icon.
+        </p>
+      </div>
+    </Page>
+  );
+}
 
 function FavoritesList({ favoriteType, favorites }) {
   const fetchData = {};
@@ -63,6 +86,8 @@ function FavoritesPreview({ favorites }) {
       if (data.data) {
         setFavoritesData(data.data);
       }
+    } else {
+      console.info("clear");
     }
   }, [data, status, setFavoritesData]);
 
@@ -89,11 +114,40 @@ function FavoritesPreview({ favorites }) {
 
 export default function FavoritesPage() {
   const appState = useHookState(globalAppState);
-  const favorites = appState.favorites.attach(Downgraded).get();
+  const favorites = appState.favorites.attach(Downgraded).value;
   const { favoriteType } = useParams();
-  return favoriteType ? (
-    <FavoritesList favoriteType={favoriteType} favorites={favorites} />
-  ) : (
-    <FavoritesPreview favorites={favorites} />
-  );
+  const [isEmpty, setIsEmpty] = useState(null);
+
+  useEffect(() => {
+    const favoritesEntries = Object.entries(favorites);
+    let empty = true;
+    for (let [key, value] of favoritesEntries) {
+      if (value && value.length) {
+        empty = false;
+        break;
+      }
+    }
+    setIsEmpty(empty);
+  }, [
+    favorites,
+    favorites.music_recording.length,
+    favorites.podcast_episode.length,
+  ]);
+
+  if (favoriteType) {
+    if (!FAVORITE_TYPES.includes(favoriteType)) {
+      return <ErrorPage />;
+    }
+  }
+
+  if (isEmpty) {
+    return <FavoritesEmptyState />;
+  } else if (isEmpty === false) {
+    return favoriteType ? (
+      <FavoritesList favoriteType={favoriteType} favorites={favorites} />
+    ) : (
+      <FavoritesPreview favorites={favorites} />
+    );
+  }
+  return null;
 }
