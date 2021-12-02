@@ -1,5 +1,5 @@
 .tracks-list {
-  overflow-y: hidden !important; 
+  overflow-y: hidden !important;
 }
 
 .tracks-list .tracks-list__row {
@@ -31,11 +31,19 @@
 .row__price {
   text-align: center;
   font-size: 0.85em;
+  background: rgba(246, 229, 141, 0.9);
+  text-align: center;
+  color: var(--bg-color);
+  padding: 2px 8px;
+  border-radius: 16px;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .row__price--free {
   color: var(--subtext-color);
   border-color: transparent;
+  background: transparent;
 }
 
 .row__subtitle {
