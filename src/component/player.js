@@ -27,18 +27,30 @@ import { useNavigate, useMatch } from "react-router-dom";
 import { getDurationTrackFormat } from "util/formatDuration";
 import { useDebounceCallback } from "hooks/useDebounce";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
+import { WEB_DOMAIN } from "constants.js";
 
 function StreamInfo() {
+  let subLinkTo;
   const playerState = useHookState(globalPlayerState);
   const metadata = playerState.currentTrack.value || {};
+
+  if (metadata) {
+    if (metadata.channel_type === "artist") {
+      subLinkTo = `/artist/${metadata.channel_id}`;
+    } else if (metadata.channel_type === "podcast_series") {
+      subLinkTo = `/podcast/${metadata.channel_id}`;
+    }
+  }
+
+  const href = metadata && metadata.url && `${WEB_DOMAIN}/${metadata.url}`;
   return (
     <div className="stream-info">
       <Thumbnail className="stream-info__thumbnail" src={metadata.thumbnail} />
       <div className="stream-info__text">
-        <Link className="stream-info__title text-overflow">
+        <Link className="stream-info__title text-overflow" href={href}>
           {metadata.title}
         </Link>
-        <Link className="stream-info__subtitle text-overflow">
+        <Link className="stream-info__subtitle text-overflow" to={subLinkTo}>
           {metadata.channel_title}
         </Link>
       </div>
