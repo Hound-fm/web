@@ -13,7 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 const GITHUB_LINK = "https://github.com/hound-fm/web";
 const MAX_SCROLL = 35;
@@ -48,11 +48,20 @@ export default function Header(props) {
   const { title } = props;
   const overlay = useIsOverlay();
   const location = useLocation();
+  const navigate = useNavigate();
   const showSearch = location.pathname === "/search";
 
   const isTabletOrMobile = useMediaQuery({
     query: "(max-width: 720px)",
   });
+
+  const navigateNext = () => {
+    navigate(1);
+  };
+
+  const navigatePrev = () => {
+    navigate(-1);
+  };
 
   return (
     <header
@@ -68,10 +77,18 @@ export default function Header(props) {
         )}
 
         {!isTabletOrMobile && (
-          <Button className={"button--nav"} icon={ChevronLeft} />
+          <Button
+            className={"button--nav"}
+            icon={ChevronLeft}
+            onClick={navigatePrev}
+          />
         )}
         {!isTabletOrMobile && (
-          <Button className={"button--nav"} icon={ChevronRight} />
+          <Button
+            className={"button--nav"}
+            icon={ChevronRight}
+            onClick={navigateNext}
+          />
         )}
         {title && <h1 className={"header__title"}>{title}</h1>}
         {showSearch && <Search />}

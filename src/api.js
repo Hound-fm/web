@@ -99,7 +99,6 @@ const fetchResolve = (resolveData) =>
   })
     .then((response) => {
       if (!response.ok) {
-        console.info(response);
         throw new Error("HTTP error " + response.status);
       }
       return response.json();
