@@ -44,6 +44,7 @@ export default function SearchBar() {
   return (
     <form role="search" className="search" onSubmit={handleSubmit}>
       <input
+        autoFocus={true}
         type="search"
         placeholder="Search..."
         value={queryText}

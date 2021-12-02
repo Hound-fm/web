@@ -5,6 +5,8 @@ import { CollectionPreviewRow } from "component/collection";
 
 const FEATURE_CONTENT = {
   music_recording: [
+    "943974dad05701664246aadd0334fb58c4835a08",
+    "bf7344fe7191bc40b742bd49a60b3965d0bd3626",
     "e8381767409945de9cf5427e3fcc5bbfafebe05f",
     "0f7c47e2bd55b4816151219156576ef8d74d7d87",
     "faafa7e8dfc9f0b13987adde4cb5d5b1d5369ff2",
