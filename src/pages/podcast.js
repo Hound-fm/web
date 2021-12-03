@@ -9,6 +9,7 @@ import FavoriteButton from "component/favoriteButton";
 import { useParams } from "react-router-dom";
 import { useFetchExploreChannel } from "api";
 import { CollectionPreviewRow } from "component/collection";
+import { Rss } from "lucide-react";
 
 const PodcastPreview = memo(({ channel_id }) => {
   const [resultsData, setResultsData] = useState({});
@@ -47,6 +48,7 @@ const PodcastPreview = memo(({ channel_id }) => {
               favoriteType={channelData.channel_type}
               className={"button--favorite"}
             />
+            <Button icon={Rss} className={"button--header"} />
           </div>
         </PageHeader>
       )}

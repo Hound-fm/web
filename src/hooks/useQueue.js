@@ -55,6 +55,7 @@ export function useQueueSlice() {
         return prevQueueData;
       });
     }
+    // eslint-disable-next-line
   }, [queueData, queueIndex]);
   return state;
 }

@@ -10,5 +10,7 @@ export function useDebounce(
     return () => {
       clearTimeout(timer);
     };
+    
+  // eslint-disable-next-line
   }, monitoringVariables);
 }

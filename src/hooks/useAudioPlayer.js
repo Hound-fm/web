@@ -263,8 +263,10 @@ const useAudioPlayer = () => {
         "durationchange",
         handleDurationChange
       );
+      // eslint-disable-next-line
       player.current.removeEventListener("ended", handleEnded);
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
