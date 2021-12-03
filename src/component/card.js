@@ -119,7 +119,7 @@ export function CategoryCardItem({ title, color }) {
   const cardStyle = { backgroundColor: `rgb(${color})` };
   const thumbnailStyle = {
     backgroundImage:
-      "url(http://localhost:3000/images/" + title.replace(/\s/g, "-") + ".jpg)",
+      "url(/images/" + title.replace(/\s/g, "-") + ".jpg)",
   };
   const gradientOverlay = { background: smoothGradient(color) };
   const linkTo = title === "podcasts" ? "/podcasts" : `/genre/${title}`;
