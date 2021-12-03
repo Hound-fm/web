@@ -56,9 +56,9 @@ function StreamInfo() {
   );
 }
 
-const MiniPlayer = memo(({ togglePlay, playIcon }) => {
+const MiniPlayer = memo(({ hidden, togglePlay, playIcon }) => {
   return (
-    <div className="player player--mini">
+    <div className="player player--mini" aria-hidden={hidden}>
       <StreamInfo />
       <div className="player__actions">
         <Button
@@ -173,6 +173,7 @@ export default function Player() {
 
   const playbackState = useHookState(globalPlaybackState);
   const playback = playbackState.playback.attach(Downgraded).value;
+  const hidden =  currentTrack && currentTrack.id ? false : true
 
   const showMiniPlayer = useMediaQuery({
     query: "(max-width: 900px)",
@@ -189,13 +190,13 @@ export default function Player() {
   let volumeIcon = muted ? VolumeX : Volume1;
 
   if (showMiniPlayer) {
-    return <MiniPlayer togglePlay={togglePlay} playIcon={playIcon} />;
+    return <MiniPlayer hidden={hidden} togglePlay={togglePlay} playIcon={playIcon} />;
   }
 
   return (
     <div
       className="player"
-      aria-hidden={currentTrack && currentTrack.id ? false : true}
+      aria-hidden={hidden}
     >
       <StreamInfo />
       <div className="player__main-controls">

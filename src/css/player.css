@@ -97,6 +97,10 @@
   min-width: auto;
 }
 
+.player-mini[aria-hidden="true"] {
+  transform: translate(0, var(--player-min-height));
+}
+
 .player--mini .stream-info {
   margin-left: 0;
 }

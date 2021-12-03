@@ -24,13 +24,18 @@ function App() {
     query: "(max-width: 720px)",
   });
 
+  const showMiniPlayer = useMediaQuery({
+    query: "(max-width: 900px)",
+  });
+
   return (
     <Router>
       <div
         className={clsx(
           "app",
           isSmallScreen && "app--compact",
-          isTabletOrMobile && "app--mobile"
+          isTabletOrMobile && "app--mobile",
+          showMiniPlayer && "app--min-player"
         )}
       >
         <Header />

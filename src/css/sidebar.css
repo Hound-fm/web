@@ -43,10 +43,10 @@
 
 .app--compact .sidebar {
   width: var(--sidebar-min-width);
-  padding-bottom: var(--player-min-height);
   align-items: center;
   align-content: center;
 }
+
 .app--compact .sidebar ul {
   margin: 0;
 }
@@ -81,8 +81,20 @@
 
 .app--mobile .sidebar {
   left: calc(-1 * var(--sidebar-width));
-  padding-bottom: var(--player-min-height);
   z-index: 3;
+}
+
+.app--min-player .sidebar {
+  padding-bottom: var(--player-min-height);
+}
+
+.app--min-player .sidebar::after {
+  bottom: calc(3vh + var(--player-min-height));
+}
+
+
+.app--mobile .sidebar::after {
+  display: none;
 }
 
 .sidebar ul {

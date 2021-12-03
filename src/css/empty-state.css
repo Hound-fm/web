@@ -39,3 +39,7 @@
   left: 0;
   margin: 24px;
 }
+
+.app--min-player .empty-state {
+  bottom: var(--player-min-height);
+}
