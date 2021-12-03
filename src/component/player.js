@@ -22,7 +22,7 @@ import Thumbnail from "component/thumbnail";
 import FavoriteButton from "component/favoriteButton";
 import useAudioPlayer from "hooks/useAudioPlayer";
 import { useMediaQuery } from "react-responsive";
-import { globalPlayerState } from "store";
+import { globalPlayerState, globalPlaybackState } from "store";
 import { useNavigate, useMatch } from "react-router-dom";
 import { getDurationTrackFormat } from "util/formatDuration";
 import { useDebounceCallback } from "hooks/useDebounce";
@@ -173,18 +173,18 @@ export default function Player() {
     }
   };
 
-  const playerState = useHookState(globalPlayerState);
-  const playbackState = playerState.playbackState.attach(Downgraded).value;
+  const playbackState = useHookState(globalPlaybackState);
+  const playback = playbackState.playback.attach(Downgraded).value;
 
   const showMiniPlayer = useMediaQuery({
     query: "(max-width: 900px)",
   });
 
   let playIcon = PlayCircle;
-  if (playbackState === "playing") {
+  if (playback === "playing") {
     playIcon = PauseCircle;
   }
-  if (playbackState === "paused") {
+  if (playback === "paused") {
     playIcon = PlayCircle;
   }
 

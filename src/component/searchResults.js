@@ -2,6 +2,8 @@ import SectionHeader from "component/sectionHeader";
 import { CollectionGrid, CollectionPreviewRow } from "component/collection";
 import TrackListPreview from "component/trackListPreview";
 import TrackList from "component/trackList";
+import LoadingPage from "pages/loading";
+import { ErrorAPIPage } from "pages/error";
 
 import { Card } from "component/card";
 import { useEffect, useState } from "react";
@@ -117,7 +119,7 @@ function SearchAllResults({ searchQuery }) {
   const [resultsData, setResultsData] = useState({});
   const [topTracksData, setTopTracksData] = useState([]);
   const [topTracksCount, setTopTracksCount] = useState(0);
-  const { data, isLoading, status } = useFetchResults(searchQuery);
+  const { data, isLoading, isError, status } = useFetchResults(searchQuery);
   const [isEmpty, setIsEmpty] = useState(null);
 
   useEffect(() => {
@@ -169,9 +171,17 @@ function SearchAllResults({ searchQuery }) {
     }
   }, [data, isLoading, status]);
 
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
+
   return (
     <>
-      {isEmpty && !isLoading && <SearchEmptyState />}
+      {isEmpty && <SearchEmptyState />}
       {!isEmpty && topResultData && (
         <SearchTopResults
           searchQuery={searchQuery}

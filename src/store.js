@@ -1,4 +1,5 @@
 import { createState } from "@hookstate/core";
+import { Persistence } from "@hookstate/persistence";
 
 const defaultAppState = {
   theme: "dark",
@@ -12,16 +13,24 @@ const defaultAppState = {
 };
 
 export const globalAppState = createState(defaultAppState);
+// Persistence for currentTrack (Last track played)
+globalAppState.favorites.attach(Persistence("hound-local-store-favorites"));
 
 const defaultPlayerState = {
   // Playback state
   currentTrack: null,
-  playbackState: "paused",
-  playbackStateSync: "",
   // Queue state
   queueData: [],
   queueTitle: "",
   queueIndex: -1,
 };
-
 export const globalPlayerState = createState(defaultPlayerState);
+// Persistence for currentTrack (Last track played)
+globalPlayerState.currentTrack.attach(Persistence("hound-local-store-track"));
+
+const defaultPlaybackState = {
+  playback: "paused",
+  playbackSync: "",
+};
+
+export const globalPlaybackState = createState(defaultPlaybackState);

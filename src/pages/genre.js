@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
-import ErrorPage from "pages/error";
+import LoadingPage from "pages/loading";
+import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
@@ -15,7 +16,7 @@ const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
 function ExplorePreview({ genre }) {
   const [resultsData, setResultsData] = useState({});
-  const { data, status } = useFetchExploreGenre(genre);
+  const { data, status, isError, isLoading } = useFetchExploreGenre(genre);
 
   useEffect(() => {
     if (status == "success" && data) {
@@ -24,6 +25,14 @@ function ExplorePreview({ genre }) {
       setResultsData(res);
     }
   }, [data, status, setResultsData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page title={genre}>
@@ -51,7 +60,10 @@ function ExplorePreview({ genre }) {
 
 function ExploreList({ genre, sortBy }) {
   const [resultsData, setResultsData] = useState([]);
-  const { data, status } = useFetchExploreGenre(genre, sortBy);
+  const { data, status, isLoading, isError } = useFetchExploreGenre(
+    genre,
+    sortBy
+  );
 
   useEffect(() => {
     if (status == "success" && data) {
@@ -62,6 +74,14 @@ function ExploreList({ genre, sortBy }) {
       }
     }
   }, [data, status, setResultsData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page title={`${genre} · ${sortBy}`}>
@@ -80,13 +100,13 @@ export default function GenrePage() {
 
   if (sortBy) {
     if (sortBy != "latest" && sortBy != "popular") {
-      return <ErrorPage />;
+      return <ErrorNotFoundPage />;
     }
   }
 
   if (genre) {
     if (!GENRES.includes(genre)) {
-      return <ErrorPage />;
+      return <ErrorNotFoundPage />;
     }
   }
 

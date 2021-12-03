@@ -10,7 +10,7 @@ import FavoritesPage from "pages/favorites";
 import PodcastPage from "pages/podcast";
 import PodcastsPage from "pages/podcasts";
 import QueuePage from "pages/queue";
-import ErrorPage from "pages/error";
+import { ErrorNotFoundPage } from "pages/error";
 
 import clsx from "clsx";
 import { useMediaQuery } from "react-responsive";
@@ -61,7 +61,7 @@ function App() {
           <Route exact path="/podcasts" element={<PodcastsPage />}>
             <Route exact path=":sortBy" element={<PodcastsPage />} />
           </Route>
-          <Route path="*" element={<ErrorPage />} />
+          <Route path="*" element={<ErrorNotFoundPage />} />
         </Routes>
         <Player />
       </div>

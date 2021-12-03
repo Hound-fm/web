@@ -4,7 +4,7 @@ import Button from "component/button";
 import { Play, Pause } from "component/customIcons";
 import { useQueueUpdate } from "hooks/useQueue";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
-import { globalPlayerState } from "store";
+import { globalPlayerState, globalPlaybackState } from "store";
 
 export default function StreamPlayButton({
   index,
@@ -15,29 +15,26 @@ export default function StreamPlayButton({
   classNameActive,
 }) {
   const playerState = useHookState(globalPlayerState);
+  const playbackState = useHookState(globalPlaybackState);
   const currentTrack = playerState.currentTrack.value;
-  const playbackState = playerState.playbackState.value;
-  const playbackStateSync = playerState.playbackStateSync.value;
+  const playback = playbackState.playback.value;
+  const playbackSync = playbackState.playbackSync.value;
   const selected = currentTrack && metadata && metadata.id == currentTrack.id;
   const updateQueue = useQueueUpdate();
 
   const handleClick = (e) => {
     e.stopPropagation();
     if (metadata && !currentTrack) {
-      playerState.playbackState.set("paused");
+      playbackState.playback.set("paused");
       playerState.currentTrack.set(metadata);
     } else if (metadata && currentTrack && metadata.id !== currentTrack.id) {
-      playerState.playbackState.set("paused");
+      playbackState.playback.set("paused");
       playerState.currentTrack.set(metadata);
-    } else if (
-      metadata &&
-      metadata.id === currentTrack.id &&
-      !playbackStateSync
-    ) {
-      if (playbackState === "playing") {
-        playerState.playbackStateSync.set("paused");
-      } else if (playbackState == "paused") {
-        playerState.playbackStateSync.set("playing");
+    } else if (metadata && metadata.id === currentTrack.id && !playbackSync) {
+      if (playback === "playing") {
+        playbackState.playbackSync.set("paused");
+      } else if (playback == "paused") {
+        playbackState.playbackSync.set("playing");
       }
     }
 
@@ -49,7 +46,7 @@ export default function StreamPlayButton({
     }
   };
 
-  let buttonIcon = playbackState === "playing" && selected ? Pause : Play;
+  let buttonIcon = playback === "playing" && selected ? Pause : Play;
 
   return (
     <Button

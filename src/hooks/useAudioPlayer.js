@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { getStreamLink } from "util/lbry";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { useQueueNavigation } from "hooks/useQueue";
-import { globalPlayerState } from "store";
+import { globalPlayerState, globalPlaybackState } from "store";
 
 import {
   updateMediaMetadata,
@@ -39,10 +39,10 @@ const useAudioPlayer = () => {
   const player = useRef(new Audio());
   const { queueNext, queuePrev } = useQueueNavigation();
   const playerState = useHookState(globalPlayerState);
+  const playbackState = useHookState(globalPlaybackState);
   const currentTrack = playerState.currentTrack.attach(Downgraded).value;
-  const playbackState = playerState.playbackState.attach(Downgraded).value;
-  const playbackStateSync =
-    playerState.playbackStateSync.attach(Downgraded).value;
+  const playback = playbackState.playback.attach(Downgraded).value;
+  const playbackSync = playbackState.playbackSync.attach(Downgraded).value;
 
   const [state, setState] = useState({ ...defaultState, ...cachedState });
 
@@ -143,8 +143,8 @@ const useAudioPlayer = () => {
 
   const handlePlaying = () => {
     if (player.current.networkState == player.current.NETWORK_IDLE) {
-      playerState.playbackState.set("playing");
-      playerState.playbackStateSync.set("");
+      playbackState.playback.set("playing");
+      playbackState.playbackSync.set("");
     }
   };
 
@@ -158,21 +158,21 @@ const useAudioPlayer = () => {
       currentTime: player.current.currentTime,
     }));
 
-    if (playerState.playbackState.value === "paused") {
-      playerState.playbackStateSync.set("");
-      playerState.playbackState.set("playing");
+    if (playbackState.playback.value === "paused") {
+      playbackState.playbackSync.set("");
+      playbackState.playback.set("playing");
     }
 
     updatePositionState(player.current);
   };
 
   const handlePause = () => {
-    playerState.playbackStateSync.set("");
-    playerState.playbackState.set("paused");
+    playbackState.playback.set("paused");
+    playbackState.playbackSync.set("");
   };
 
   const handleEnded = () => {
-    playerState.playbackState.set("paused");
+    playbackState.playback.set("paused");
     setState((prevState) => ({ ...prevState, ended: true }));
   };
 
@@ -213,7 +213,7 @@ const useAudioPlayer = () => {
       ready: false,
       error: true,
     }));
-    playerState.playbackState.set("paused");
+    playbackState.playback.set("paused");
   };
 
   useEffect(() => {
@@ -302,12 +302,24 @@ const useAudioPlayer = () => {
   }, [currentTrack, setState]);
 
   useEffect(() => {
-    if (playbackStateSync === "playing") {
+    if (playbackSync === "playing") {
       triggerPlay();
-    } else if (playbackStateSync === "paused") {
+    } else if (playbackSync === "paused") {
       player.current.pause();
     }
-  }, [playbackStateSync, player.current]);
+  }, [playbackSync, player.current]);
+
+  useEffect(() => {
+    if (currentTrack && currentTrack.id) {
+      if (playback === "playing") {
+        // Set current track as page title
+        document.title = `${currentTrack.title} - ${currentTrack.channel_title}`;
+      } else if (playback === "paused") {
+        // TODO: Use previous document title
+        document.title = "hound.fm";
+      }
+    }
+  }, [playback, currentTrack]);
 
   return {
     seek,

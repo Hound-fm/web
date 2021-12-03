@@ -44,6 +44,8 @@
   color: var(--subtext-color);
   border-color: transparent;
   background: transparent;
+  box-shadow: none;
+  display: none;
 }
 
 .row__subtitle {

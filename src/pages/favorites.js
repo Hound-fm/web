@@ -3,7 +3,8 @@ import Page from "component/page";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
-import ErrorPage from "pages/error";
+import LoadingPage from "pages/loading";
+import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
 
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useParams } from "react-router-dom";
@@ -47,7 +48,7 @@ function FavoritesList({ favoriteType, favorites }) {
   const fetchData = {};
   const [resultsData, setResultsData] = useState([]);
   fetchData[favoriteType] = favorites[favoriteType];
-  const { data, status } = useFetchResolve(fetchData);
+  const { data, status, isLoading, isError } = useFetchResolve(fetchData);
 
   useEffect(() => {
     if (status == "success" && data) {
@@ -56,6 +57,14 @@ function FavoritesList({ favoriteType, favorites }) {
       setResultsData(res[favoriteType].hits);
     }
   }, [data, status, favoriteType, resultsData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page title={`Favorites · ${COLLECTION_TYPES_MAPPINGS[favoriteType]}`}>
@@ -77,7 +86,7 @@ function FavoritesPreview({ favorites }) {
     podcast_episode: null,
   });
 
-  const { data, status } = useFetchResolve(favorites);
+  const { data, status, isLoading, isError } = useFetchResolve(favorites);
   const title = "Favorites";
 
   useEffect(() => {
@@ -88,6 +97,14 @@ function FavoritesPreview({ favorites }) {
       }
     }
   }, [data, status, setFavoritesData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page title={title}>
@@ -134,13 +151,15 @@ export default function FavoritesPage() {
 
   if (favoriteType) {
     if (!FAVORITE_TYPES.includes(favoriteType)) {
-      return <ErrorPage />;
+      return <ErrorNotFoundPage />;
     }
   }
 
   if (isEmpty) {
     return <FavoritesEmptyState />;
-  } else if (isEmpty === false) {
+  }
+
+  if (isEmpty === false) {
     return favoriteType ? (
       <FavoritesList favoriteType={favoriteType} favorites={favorites} />
     ) : (

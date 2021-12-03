@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
 import PageHeader from "component/pageHeader";
-import ErrorPage from "pages/error";
+import LoadingPage from "pages/loading";
+import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
@@ -18,7 +19,8 @@ const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
 function PodcastPreview({ channel_id }) {
   const [resultsData, setResultsData] = useState({});
-  const { data, status } = useFetchExploreChannel(channel_id);
+  const { data, status, isLoading, isError } =
+    useFetchExploreChannel(channel_id);
   const channelData = resultsData ? resultsData.channel : null;
   const title = channelData ? channelData.channel_title : "";
 
@@ -30,6 +32,14 @@ function PodcastPreview({ channel_id }) {
       }
     }
   }, [data, status, setResultsData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page>
@@ -72,7 +82,10 @@ function PodcastPreview({ channel_id }) {
 function PodcastList({ channel_id, sortBy }) {
   const [resultsData, setResultsData] = useState([]);
   const [channelData, setChannelData] = useState();
-  const { data, status } = useFetchExploreChannel(channel_id, sortBy);
+  const { data, status, isError, isLoading } = useFetchExploreChannel(
+    channel_id,
+    sortBy
+  );
   const title =
     resultsData && resultsData.channel
       ? `${resultsData.channel.channel_title} · ${sortBy}`
@@ -84,6 +97,14 @@ function PodcastList({ channel_id, sortBy }) {
       setResultsData(data.data);
     }
   }, [data, status, setResultsData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page title={title}>
@@ -98,7 +119,7 @@ export default function PodcastPage() {
   const { channel_id, sortBy } = useParams();
   if (sortBy) {
     if (sortBy != "latest" && sortBy != "popular") {
-      return <ErrorPage />;
+      return <ErrorNotFoundPage />;
     }
   }
   return sortBy ? (

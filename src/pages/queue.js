@@ -12,7 +12,13 @@ export default function Queue(props) {
 
   return (
     <Page title={"Queue"}>
-      {queueData && <TrackList title={queueTitle} trackData={queueData} queueTitle={queueTitle} />}
+      {queueData && (
+        <TrackList
+          title={queueTitle}
+          trackData={queueData}
+          queueTitle={queueTitle}
+        />
+      )}
     </Page>
   );
 }

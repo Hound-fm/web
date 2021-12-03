@@ -18,6 +18,12 @@
 }
 
 .empty-state img {
+  width: 10vw;
+  height: 10vw;
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 140px;
+  max-height: 140px;
   margin: 24px !important;
 }
 .empty-state__message {

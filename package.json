@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@hookstate/core": "^3.0.13",
+    "@hookstate/persistence": "^3.0.0",
     "@react-hook/resize-observer": "^1.2.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

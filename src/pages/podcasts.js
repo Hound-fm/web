@@ -3,6 +3,8 @@ import Page from "component/page";
 import TrackList from "component/trackList";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
+import LoadingPage from "pages/loading";
+import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
 import { useMediaQuery } from "react-responsive";
 import { useLocation, useParams } from "react-router-dom";
 import { useFetchExplorePodcasts } from "api";
@@ -13,7 +15,7 @@ const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
 function ExplorePreview({ sortBy }) {
   const [resultsData, setResultsData] = useState({});
-  const { data, status } = useFetchExplorePodcasts(sortBy);
+  const { data, status, isLoading, isError } = useFetchExplorePodcasts(sortBy);
 
   useEffect(() => {
     if (status == "success" && data) {
@@ -22,6 +24,14 @@ function ExplorePreview({ sortBy }) {
       setResultsData(res);
     }
   }, [data, status, setResultsData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page title={"Podcasts"}>
@@ -49,7 +59,7 @@ function ExplorePreview({ sortBy }) {
 
 function ExploreList({ sortBy }) {
   const [resultsData, setResultsData] = useState([]);
-  const { data, status } = useFetchExplorePodcasts(sortBy);
+  const { data, status, isLoading, isError } = useFetchExplorePodcasts(sortBy);
 
   useEffect(() => {
     if (status == "success" && data) {
@@ -58,6 +68,14 @@ function ExploreList({ sortBy }) {
       setResultsData(res.hits);
     }
   }, [data, status, setResultsData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page title={`Podcasts · ${sortBy}`}>
@@ -73,5 +91,10 @@ function ExploreList({ sortBy }) {
 
 export default function PodcastsPage() {
   const { sortBy } = useParams();
+  if (sortBy) {
+    if (sortBy != "latest" && sortBy != "popular") {
+      return <ErrorNotFoundPage />;
+    }
+  }
   return sortBy ? <ExploreList sortBy={sortBy} /> : <ExplorePreview />;
 }

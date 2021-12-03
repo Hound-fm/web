@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useFetchResolve } from "api";
 import Page from "component/page";
 import { CollectionPreviewRow } from "component/collection";
+import LoadingPage from "pages/loading";
+import { ErrorAPIPage } from "pages/error";
 
 const FEATURE_CONTENT = {
   music_recording: [
@@ -47,7 +49,7 @@ const FEATURE_CONTENT = {
 };
 
 export default function HomePage() {
-  const { data, status } = useFetchResolve(FEATURE_CONTENT);
+  const { data, status, isLoading, isError } = useFetchResolve(FEATURE_CONTENT);
   const [homeData, setHomeData] = useState({});
 
   useEffect(() => {
@@ -58,6 +60,14 @@ export default function HomePage() {
       }
     }
   }, [data, status, setHomeData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page>
