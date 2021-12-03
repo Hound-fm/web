@@ -3,23 +3,17 @@ import Page from "component/page";
 import LoadingPage from "pages/loading";
 import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
 import TrackList from "component/trackList";
-import SectionHeader from "component/sectionHeader";
-import SearchResults from "component/searchResults";
-import { useMediaQuery } from "react-responsive";
 import { useParams } from "react-router-dom";
 import { useFetchExploreGenre } from "api";
-import { CollectionGrid, CollectionPreviewRow } from "component/collection";
+import { CollectionPreviewRow } from "component/collection";
 import { GENRES } from "constants.js";
-
-const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
-const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
 function ExplorePreview({ genre }) {
   const [resultsData, setResultsData] = useState({});
   const { data, status, isError, isLoading } = useFetchExploreGenre(genre);
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       const res = data.data;
       setResultsData(res);
@@ -66,7 +60,7 @@ function ExploreList({ genre, sortBy }) {
   );
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       const res = data.data;
       if (res && res.hits && res.hits.length) {
@@ -99,7 +93,7 @@ export default function GenrePage() {
   const { genre, sortBy } = useParams();
 
   if (sortBy) {
-    if (sortBy != "latest" && sortBy != "popular") {
+    if (sortBy !== "latest" && sortBy !== "popular") {
       return <ErrorNotFoundPage />;
     }
   }

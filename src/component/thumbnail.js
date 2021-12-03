@@ -36,12 +36,13 @@ export default function Thumbnail({
       setLoaded(false);
       setError(false);
     }
-  }, [src, rawSrc, width, height, setSource, getThumbnailCdnUrl, setLoaded]);
+  }, [src, rawSrc, width, height, setSource, setLoaded]);
 
   return (
     <div className={clsx("thumbnail", className)}>
       {source && (
         <img
+          alt=""
           src={source}
           onLoad={handleLoad}
           onError={handleError}

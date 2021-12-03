@@ -1,9 +1,8 @@
 import clsx from "clsx";
-import Icon from "component/icon";
 import Button from "component/button";
 import { Play, Pause } from "component/customIcons";
 import { useQueueUpdate } from "hooks/useQueue";
-import { useState as useHookState, Downgraded } from "@hookstate/core";
+import { useState as useHookState } from "@hookstate/core";
 import { globalPlayerState, globalPlaybackState } from "store";
 
 export default function StreamPlayButton({
@@ -19,7 +18,7 @@ export default function StreamPlayButton({
   const currentTrack = playerState.currentTrack.value;
   const playback = playbackState.playback.value;
   const playbackSync = playbackState.playbackSync.value;
-  const selected = currentTrack && metadata && metadata.id == currentTrack.id;
+  const selected = currentTrack && metadata && metadata.id === currentTrack.id;
   const updateQueue = useQueueUpdate();
 
   const handleClick = (e) => {
@@ -33,7 +32,7 @@ export default function StreamPlayButton({
     } else if (metadata && metadata.id === currentTrack.id && !playbackSync) {
       if (playback === "playing") {
         playbackState.playbackSync.set("paused");
-      } else if (playback == "paused") {
+      } else if (playback === "paused") {
         playbackState.playbackSync.set("playing");
       }
     }

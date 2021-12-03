@@ -1,13 +1,9 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
 import StreamPlayButton from "component/streamPlayButton";
 import Thumbnail from "component/thumbnail";
 import { smoothGradient } from "util/core";
 import Link from "component/link";
-import { useQueueUpdate } from "hooks/useQueue";
-import { useState as useHookState, Downgraded } from "@hookstate/core";
-import { globalPlayerState } from "store";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { WEB_DOMAIN } from "constants.js";
 
 export function Card(props) {

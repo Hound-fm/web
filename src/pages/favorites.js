@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
 import TrackList from "component/trackList";
-import SectionHeader from "component/sectionHeader";
-import SearchResults from "component/searchResults";
 import LoadingPage from "pages/loading";
 import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
-
-import { useMediaQuery } from "react-responsive";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchResolve } from "api";
-import { useState as useHookState, none, Downgraded } from "@hookstate/core";
+import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { globalAppState } from "store";
-
-import { CollectionGrid, CollectionPreviewRow } from "component/collection";
+import { CollectionPreviewRow } from "component/collection";
 
 const COLLECTION_TYPES_MAPPINGS = {
   genre: "Genres",
@@ -21,7 +16,6 @@ const COLLECTION_TYPES_MAPPINGS = {
   podcast_series: "Podcasts",
   podcast_episode: "Episodes",
 };
-const SORT_TYPES_MAPPINGS = ["latest", "popular"];
 
 const FAVORITE_TYPES = [
   "genre",
@@ -51,7 +45,7 @@ function FavoritesList({ favoriteType, favorites }) {
   const { data, status, isLoading, isError } = useFetchResolve(fetchData);
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       const res = data.data;
       setResultsData(res[favoriteType].hits);
@@ -90,7 +84,7 @@ function FavoritesPreview({ favorites }) {
   const title = "Favorites";
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       if (data.data) {
         setFavoritesData(data.data);
@@ -136,7 +130,7 @@ export default function FavoritesPage() {
   useEffect(() => {
     const favoritesEntries = Object.entries(favorites);
     let empty = true;
-    for (let [key, value] of favoritesEntries) {
+    for (let [, value] of favoritesEntries) {
       if (value && value.length) {
         empty = false;
         break;

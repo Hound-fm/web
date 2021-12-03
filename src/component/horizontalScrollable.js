@@ -26,11 +26,11 @@ var smoothScroll = function (element, direction = "left") {
 
   var stepFunc = function (timestamp) {
     scrollContainer.scrollLeft += targetStep;
-    if (direction == "left" && scrollContainer.scrollLeft <= targetX) {
+    if (direction === "left" && scrollContainer.scrollLeft <= targetX) {
       return;
     }
     if (
-      direction == "right" &&
+      direction === "right" &&
       scrollContainer.scrollLeft >= scrollContainer.scrollLeftMax
     ) {
       return;

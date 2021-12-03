@@ -4,18 +4,11 @@ import PageHeader from "component/pageHeader";
 import LoadingPage from "pages/loading";
 import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
 import TrackList from "component/trackList";
-import SectionHeader from "component/sectionHeader";
-import SearchResults from "component/searchResults";
 import Button from "component/button";
 import FavoriteButton from "component/favoriteButton";
-import { useMediaQuery } from "react-responsive";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchExploreChannel } from "api";
-import { Link, Share2 } from "lucide-react";
-import { CollectionGrid, CollectionPreviewRow } from "component/collection";
-
-const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
-const SORT_TYPES_MAPPINGS = ["latest", "popular"];
+import { CollectionPreviewRow } from "component/collection";
 
 function PodcastPreview({ channel_id }) {
   const [resultsData, setResultsData] = useState({});
@@ -25,7 +18,7 @@ function PodcastPreview({ channel_id }) {
   const title = channelData ? channelData.channel_title : "";
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       if (data.data) {
         setResultsData(data.data);
@@ -80,8 +73,7 @@ function PodcastPreview({ channel_id }) {
 }
 
 function PodcastList({ channel_id, sortBy }) {
-  const [resultsData, setResultsData] = useState([]);
-  const [channelData, setChannelData] = useState();
+  const [resultsData, setResultsData] = useState({});
   const { data, status, isError, isLoading } = useFetchExploreChannel(
     channel_id,
     sortBy
@@ -92,7 +84,7 @@ function PodcastList({ channel_id, sortBy }) {
       : "";
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       setResultsData(data.data);
     }
@@ -118,7 +110,7 @@ function PodcastList({ channel_id, sortBy }) {
 export default function PodcastPage() {
   const { channel_id, sortBy } = useParams();
   if (sortBy) {
-    if (sortBy != "latest" && sortBy != "popular") {
+    if (sortBy !== "latest" && sortBy !== "popular") {
       return <ErrorNotFoundPage />;
     }
   }

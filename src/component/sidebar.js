@@ -1,18 +1,7 @@
-import Icon from "./icon";
 import Logo from "../logo.svg";
-import clsx from "clsx";
 import Link from "component/link";
 
-import { useMediaQuery } from "react-responsive";
-import {
-  Home,
-  Music,
-  Search,
-  Heart,
-  Podcast,
-  BookOpen,
-  Library,
-} from "lucide-react";
+import { Home, Heart, Search } from "lucide-react";
 
 function SidebarLink({ label, icon, ...props }) {
   return (
@@ -28,7 +17,7 @@ export default function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <img src={Logo} className={"logo"} aria-hidden />
+        <img alt="" src={Logo} className={"logo"} aria-hidden />
         <span>Hound.fm</span>
       </div>
       <ul>

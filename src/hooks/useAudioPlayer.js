@@ -6,7 +6,6 @@ import { globalPlayerState, globalPlaybackState } from "store";
 
 import {
   updateMediaMetadata,
-  updatePlaybackState,
   updatePositionState,
   registerMediaActions,
 } from "util/mediaSession";
@@ -142,7 +141,7 @@ const useAudioPlayer = () => {
   };
 
   const handlePlaying = () => {
-    if (player.current.networkState == player.current.NETWORK_IDLE) {
+    if (player.current.networkState === player.current.NETWORK_IDLE) {
       playbackState.playback.set("playing");
       playbackState.playbackSync.set("");
     }
@@ -272,17 +271,17 @@ const useAudioPlayer = () => {
     if (player.current) {
       player.current.loop = state.loop === "once";
     }
-  }, [state.loop, player.current]);
+  }, [state.loop]);
 
   useEffect(() => {
     if (state.ended && state.loop === "playlist") {
       queueNext();
     }
-  }, [state.ended, state.loop]);
+  }, [state.ended, state.loop, queueNext]);
 
   useEffect(() => {
     if (currentTrack) {
-      const { id, name, duration, title } = currentTrack;
+      const { id, name, duration } = currentTrack;
       const source = getStreamLink({ id, name });
 
       // Reload player
@@ -307,12 +306,12 @@ const useAudioPlayer = () => {
     } else if (playbackSync === "paused") {
       player.current.pause();
     }
-  }, [playbackSync, player.current]);
+  }, [playbackSync]);
 
   useEffect(() => {
     if (currentTrack && currentTrack.id) {
       if (playback === "playing") {
-        // Set current track as page title
+        // Set current track as page
         document.title = `${currentTrack.title} - ${currentTrack.channel_title}`;
       } else if (playback === "paused") {
         // TODO: Use previous document title

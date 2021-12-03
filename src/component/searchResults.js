@@ -80,14 +80,14 @@ function SearchTypeResults({ searchQuery, searchType = "" }) {
   const { data, status } = useFetchResults(searchQuery, searchType);
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       const res = data.data;
       setResultsData(res.hits.hits);
     }
   }, [data, status, setResultsData]);
 
-  if (searchType == "music_recording" || searchType === "podcast_episode") {
+  if (searchType === "music_recording" || searchType === "podcast_episode") {
     return <TrackList trackData={resultsData} title={title} />;
   }
 
@@ -113,8 +113,6 @@ function SearchEmptyState() {
 }
 
 function SearchAllResults({ searchQuery }) {
-  const title = "Browse all";
-  const description = " ";
   const [topResultData, setTopResultData] = useState(null);
   const [resultsData, setResultsData] = useState({});
   const [topTracksData, setTopTracksData] = useState([]);
@@ -123,7 +121,7 @@ function SearchAllResults({ searchQuery }) {
   const [isEmpty, setIsEmpty] = useState(null);
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       const res = data.data;
       if (res.topResult) {
         // Process search topResults
@@ -156,7 +154,6 @@ function SearchAllResults({ searchQuery }) {
   }, [
     data,
     status,
-    getResultType,
     setResultsData,
     setTopResultData,
     setTopTracksData,
@@ -165,7 +162,7 @@ function SearchAllResults({ searchQuery }) {
   ]);
 
   useEffect(() => {
-    if (status == "success" && data && !isLoading) {
+    if (status === "success" && data && !isLoading) {
     } else if (!isLoading) {
       setIsEmpty(true);
     }

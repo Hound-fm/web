@@ -1,12 +1,10 @@
-import { useRef, useState, useEffect } from "react";
-import { clamp } from "util/core";
-import { useState as useHookState, none, Downgraded } from "@hookstate/core";
+import { useState, useEffect } from "react";
+import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { globalAppState } from "store";
 
 export default function useFavorite(id, favoriteType) {
   const appState = useHookState(globalAppState);
-  const favorites =
-    appState.favorites[favoriteType].attach(Downgraded).value || [];
+  const favorites = appState.favorites[favoriteType].attach(Downgraded).value;
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = () => {
@@ -37,7 +35,7 @@ export default function useFavorite(id, favoriteType) {
       }
     }
     setIsFavorite(false);
-  }, [id, favoriteType, favorites.length]);
+  }, [id, favoriteType, favorites, favorites.length]);
 
   return { isFavorite, toggleFavorite };
 }

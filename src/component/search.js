@@ -2,7 +2,7 @@ import Icon from "./icon";
 import { useDebounce } from "hooks/useDebounce";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
-import { formatSearchQuery, getResultType } from "util/core";
+import { formatSearchQuery } from "util/core";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SearchBar() {

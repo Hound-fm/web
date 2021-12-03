@@ -1,4 +1,3 @@
-import Search from "component/search";
 import Sidebar from "component/sidebar";
 import Header from "component/header";
 import Player from "component/player";
@@ -14,13 +13,7 @@ import { ErrorNotFoundPage } from "pages/error";
 
 import clsx from "clsx";
 import { useMediaQuery } from "react-responsive";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const isSmallScreen = useMediaQuery({

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { clamp } from "util/core";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { globalPlayerState } from "store";
@@ -27,7 +27,6 @@ export function useQueueSlice() {
   const queueIndex = playerState.queueIndex.attach(Downgraded).value;
 
   useEffect(() => {
-    console.info(queueData.length);
     if (!queueData || !queueData.length) {
       setState({
         next: null,
@@ -67,14 +66,14 @@ export function useQueueUpdate() {
   const updateQueue = ({ title, data, index }) => {
     if (title) {
       // Update queue data and title
-      if (title != queueTitle) {
+      if (title !== queueTitle) {
         if (data && data.length) {
           playerState.queueData.set(data);
           playerState.queueTitle.set(title);
         }
         // Update queue data
       } else if (title === queueTitle) {
-        if (data && data.length && data.length != queueData.length) {
+        if (data && data.length && data.length !== queueData.length) {
           playerState.queueData.set(data);
         }
       }

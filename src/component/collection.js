@@ -1,13 +1,7 @@
 import Link from "component/link";
 import { Card } from "component/card";
 import { getColumnCount } from "util/core";
-import {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import useResizeObserver from "@react-hook/resize-observer";
 
 function CardsGrid({ gridData, gridType }) {
@@ -19,10 +13,10 @@ function CardsGrid({ gridData, gridType }) {
 
         let subtitle = metadata.channel_title;
         if (metadata.channel_type) {
-          if (metadata.channel_type == "artist") {
+          if (metadata.channel_type === "artist") {
             subtitle = "Artist";
           }
-          if (metadata.channel_type == "podcast_series") {
+          if (metadata.channel_type === "podcast_series") {
             subtitle = "Podcast";
           }
         }
@@ -68,9 +62,6 @@ const useSize = (target) => {
 
 function CardsGridRow({ title, queueTitle, rowType, rowsData, onResize }) {
   const gridRef = useRef(null);
-  const [prevRowDataCount, setPrevRowDataCount] = useState(
-    rowsData.hits.length
-  );
   const size = useSize(gridRef);
   const [columnCount, setColumnCount] = useState(rowsData.hits.length);
   const [cardsData, setCardsData] = useState(rowsData.hits);
@@ -78,12 +69,12 @@ function CardsGridRow({ title, queueTitle, rowType, rowsData, onResize }) {
   useEffect(() => {
     setColumnCount((prevColumnCount) => {
       const nextColumnCount = getColumnCount(gridRef.current);
-      if (prevColumnCount != nextColumnCount) {
+      if (prevColumnCount !== nextColumnCount) {
         return nextColumnCount;
       }
       return prevColumnCount;
     });
-  }, [gridRef.current, setColumnCount, size]);
+  }, [setColumnCount, size]);
 
   useEffect(() => {
     onResize(columnCount);
@@ -101,10 +92,10 @@ function CardsGridRow({ title, queueTitle, rowType, rowsData, onResize }) {
 
         let subtitle = metadata.channel_title;
         if (metadata.channel_type) {
-          if (metadata.channel_type == "artist") {
+          if (metadata.channel_type === "artist") {
             subtitle = "Artist";
           }
-          if (metadata.channel_type == "podcast_series") {
+          if (metadata.channel_type === "podcast_series") {
             subtitle = "Podcast";
           }
         }
@@ -144,8 +135,6 @@ export function CollectionGrid({
   collectionType = "artist",
   collectionData = [],
 }) {
-  const { hits, total } = collectionData;
-
   return (
     <div className={"collection"}>
       <div className="section__header">

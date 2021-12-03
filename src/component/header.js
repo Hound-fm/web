@@ -1,21 +1,11 @@
-import Link from "component/link";
 import Search from "component/search";
 import Button from "component/button";
 import clsx from "clsx";
-import {
-  Sun,
-  Menu,
-  Settings,
-  Github,
-  ChevronLeft,
-  ChevronRight,
-  ArrowLeft,
-  ArrowRight,
-} from "lucide-react";
+import { Menu, ChevronLeft, ChevronRight } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
-const GITHUB_LINK = "https://github.com/hound-fm/web";
+
 const MAX_SCROLL = 35;
 
 const useIsOverlay = () => {

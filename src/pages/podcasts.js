@@ -1,24 +1,18 @@
 import { useEffect, useState } from "react";
 import Page from "component/page";
 import TrackList from "component/trackList";
-import SectionHeader from "component/sectionHeader";
-import SearchResults from "component/searchResults";
 import LoadingPage from "pages/loading";
 import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
-import { useMediaQuery } from "react-responsive";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchExplorePodcasts } from "api";
-import { CollectionGrid, CollectionPreviewRow } from "component/collection";
-
-const COLLECTION_TYPES_MAPPINGS = ["Latest", "Popular"];
-const SORT_TYPES_MAPPINGS = ["latest", "popular"];
+import { CollectionPreviewRow } from "component/collection";
 
 function ExplorePreview({ sortBy }) {
   const [resultsData, setResultsData] = useState({});
   const { data, status, isLoading, isError } = useFetchExplorePodcasts(sortBy);
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       const res = data.data;
       setResultsData(res);
@@ -62,7 +56,7 @@ function ExploreList({ sortBy }) {
   const { data, status, isLoading, isError } = useFetchExplorePodcasts(sortBy);
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       const res = data.data;
       setResultsData(res.hits);
@@ -92,7 +86,7 @@ function ExploreList({ sortBy }) {
 export default function PodcastsPage() {
   const { sortBy } = useParams();
   if (sortBy) {
-    if (sortBy != "latest" && sortBy != "popular") {
+    if (sortBy !== "latest" && sortBy !== "popular") {
       return <ErrorNotFoundPage />;
     }
   }

@@ -53,7 +53,7 @@ export default function HomePage() {
   const [homeData, setHomeData] = useState({});
 
   useEffect(() => {
-    if (status == "success" && data) {
+    if (status === "success" && data) {
       // Process results
       if (data.data) {
         setHomeData(data.data);

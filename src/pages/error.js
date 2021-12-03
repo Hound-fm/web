@@ -5,7 +5,7 @@ export function ErrorNotFoundPage() {
   return (
     <Page>
       <div className={"empty-state"}>
-        <img src={LogoError} className={"logo"} aria-hidden />
+        <img alt="" src={LogoError} className={"logo"} aria-hidden />
         <h1 className={"empty-state__title"}>Woof!</h1>
         <p className={"empty-state__message"}>
           Sorry, couldn't find that page.
@@ -19,7 +19,7 @@ export function ErrorAPIPage() {
   return (
     <Page>
       <div className={"empty-state"}>
-        <img src={LogoError} className={"logo"} aria-hidden />
+        <img alt="" src={LogoError} className={"logo"} aria-hidden />
         <h1 className={"empty-state__title"}>Woof!</h1>
         <p className={"empty-state__message"}>
           Sorry, something went wrong. Try again later.

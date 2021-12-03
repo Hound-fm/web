@@ -16,7 +16,6 @@ import Slider from "component/slider";
 
 import { useState, useEffect } from "react";
 import { PlayCircle, PauseCircle } from "component/customIcons";
-import Icon from "component/icon";
 import Button from "component/button";
 import Thumbnail from "component/thumbnail";
 import FavoriteButton from "component/favoriteButton";
@@ -25,7 +24,6 @@ import { useMediaQuery } from "react-responsive";
 import { globalPlayerState, globalPlaybackState } from "store";
 import { useNavigate, useMatch } from "react-router-dom";
 import { getDurationTrackFormat } from "util/formatDuration";
-import { useDebounceCallback } from "hooks/useDebounce";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { WEB_DOMAIN } from "constants.js";
 

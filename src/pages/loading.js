@@ -1,4 +1,3 @@
-import LogoError from "../logo_error.svg";
 import Page from "component/page";
 
 export default function LoadingPage() {

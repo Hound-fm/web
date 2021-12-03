@@ -1,7 +1,7 @@
 import Page from "component/page";
 import TrackList from "component/trackList";
 import { globalPlayerState } from "store";
-import { useState as useHookState, Downgraded } from "@hookstate/core";
+import { useState as useHookState } from "@hookstate/core";
 import { useQueueSlice } from "hooks/useQueue";
 export default function Queue(props) {
   const playerState = useHookState(globalPlayerState);

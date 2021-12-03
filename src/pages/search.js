@@ -1,8 +1,7 @@
 import Page from "component/page";
 import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
-import { Card, CategoryCard } from "component/card";
-import { useMediaQuery } from "react-responsive";
+import { CategoryCard } from "component/card";
 import { useLocation } from "react-router-dom";
 
 const categories = [
@@ -46,9 +45,6 @@ const ExploreCategories = () => (
 );
 
 export default function SearchPage() {
-  const collectionType = "Podcast";
-  const title = "Browse all";
-  const description = "";
   const { search } = useLocation();
   const searchQuery = new URLSearchParams(search).get("q");
   const searchType = new URLSearchParams(search).get("type");

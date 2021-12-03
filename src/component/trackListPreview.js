@@ -4,7 +4,7 @@ import Link from "component/link";
 import Thumbnail from "component/thumbnail";
 import StreamPlayButton from "component/streamPlayButton";
 import { WEB_DOMAIN } from "constants.js";
-import { useState as useHookState, Downgraded } from "@hookstate/core";
+import { useState as useHookState } from "@hookstate/core";
 import { globalPlayerState } from "store";
 
 function TrackRow({
