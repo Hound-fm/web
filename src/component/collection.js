@@ -26,7 +26,7 @@ const CardsGrid = memo(({ gridData, gridType }) => {
         if (metadata.label) {
           subtitle = "Genre";
           metadata.rawThumbnail =
-            "http://localhost:3000/images/" +
+            "/images/" +
             metadata.label.toLowerCase() +
             ".jpg";
         }
@@ -106,7 +106,7 @@ const CardsGridRow = memo(
           if (metadata.label) {
             subtitle = "Genre";
             metadata.rawThumbnail =
-              "http://localhost:3000/images/" +
+              "/images/" +
               metadata.label.toLowerCase() +
               ".jpg";
           }
