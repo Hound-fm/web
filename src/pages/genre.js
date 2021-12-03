@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import Page from "component/page";
 import LoadingPage from "pages/loading";
 import { ErrorNotFoundPage, ErrorAPIPage } from "pages/error";
@@ -8,7 +8,7 @@ import { useFetchExploreGenre } from "api";
 import { CollectionPreviewRow } from "component/collection";
 import { GENRES } from "constants.js";
 
-function ExplorePreview({ genre }) {
+const ExplorePreview = memo(({ genre }) => {
   const [resultsData, setResultsData] = useState({});
   const { data, status, isError, isLoading } = useFetchExploreGenre(genre);
 
@@ -50,9 +50,9 @@ function ExplorePreview({ genre }) {
       )}
     </Page>
   );
-}
+});
 
-function ExploreList({ genre, sortBy }) {
+const ExploreList = memo(({ genre, sortBy }) => {
   const [resultsData, setResultsData] = useState([]);
   const { data, status, isLoading, isError } = useFetchExploreGenre(
     genre,
@@ -87,7 +87,7 @@ function ExploreList({ genre, sortBy }) {
       )}
     </Page>
   );
-}
+});
 
 export default function GenrePage() {
   const { genre, sortBy } = useParams();

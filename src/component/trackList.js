@@ -110,12 +110,7 @@ const createItemData = memoize((items, queueTitle, startIndex) => ({
 // In this example, "items" is an Array of objects to render,
 // and "toggleItemActive" is a function that updates an item's state.
 
-export default function TrackList({
-  trackData,
-  description,
-  queueTitle,
-  startIndex = 0,
-}) {
+function TrackList({ trackData, description, queueTitle, startIndex = 0 }) {
   const listRef = useRef();
   const containerRef = useRef();
   const [width, setWidth] = useState(100);
@@ -166,3 +161,5 @@ export default function TrackList({
     </>
   );
 }
+
+export default memo(TrackList);

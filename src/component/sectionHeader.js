@@ -1,6 +1,7 @@
+import { memo } from "react";
 import Link from "component/link";
 
-export default function SectionHeader({ title, description, expandLink }) {
+function SectionHeader({ title, description, expandLink }) {
   return (
     <div className="section__header">
       <div className="section__header-info">
@@ -15,3 +16,5 @@ export default function SectionHeader({ title, description, expandLink }) {
     </div>
   );
 }
+
+export default memo(SectionHeader);

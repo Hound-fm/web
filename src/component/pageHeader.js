@@ -1,7 +1,8 @@
 import clsx from "clsx";
+import { memo } from "react";
 import Thumbnail from "component/thumbnail";
 
-export default function PageHeader(props) {
+function PageHeader(props) {
   const { title, subtitle, thumbnail, circularThumbnail } = props;
   return (
     <div className="page__header">
@@ -20,3 +21,5 @@ export default function PageHeader(props) {
     </div>
   );
 }
+
+export default memo(PageHeader);

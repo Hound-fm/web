@@ -1,15 +1,8 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { getThumbnailCdnUrl } from "util/lbry";
 
-export default function Thumbnail({
-  src,
-  rawSrc,
-  width,
-  height,
-  className,
-  children,
-}) {
+function Thumbnail({ src, rawSrc, width, height, className, children }) {
   const [source, setSource] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -53,3 +46,5 @@ export default function Thumbnail({
     </div>
   );
 }
+
+export default memo(Thumbnail);

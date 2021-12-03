@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import Page from "component/page";
 import TrackList from "component/trackList";
 import LoadingPage from "pages/loading";
@@ -38,7 +38,7 @@ function FavoritesEmptyState() {
   );
 }
 
-function FavoritesList({ favoriteType, favorites }) {
+const FavoritesList = memo(({ favoriteType, favorites }) => {
   const fetchData = {};
   const [resultsData, setResultsData] = useState([]);
   fetchData[favoriteType] = favorites[favoriteType];
@@ -70,9 +70,9 @@ function FavoritesList({ favoriteType, favorites }) {
       )}
     </Page>
   );
-}
+});
 
-function FavoritesPreview({ favorites }) {
+const FavoritesPreview = memo(({ favorites }) => {
   const [favoritesData, setFavoritesData] = useState({
     artist: null,
     music_recording: null,
@@ -119,7 +119,7 @@ function FavoritesPreview({ favorites }) {
       )}
     </Page>
   );
-}
+});
 
 export default function FavoritesPage() {
   const appState = useHookState(globalAppState);

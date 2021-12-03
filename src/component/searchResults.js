@@ -6,7 +6,7 @@ import LoadingPage from "pages/loading";
 import { ErrorAPIPage } from "pages/error";
 
 import { Card } from "component/card";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useFetchResults } from "api";
 import { getResultType, getTrackListType, formatSearchQuery } from "util/core";
@@ -19,62 +19,59 @@ const COLLECTION_TYPES_MAPPINGS = {
   podcast_episode: "Episodes",
 };
 
-function SearchTopResults({
-  searchQuery,
-  showTracksLink,
-  topResult,
-  topTracks,
-}) {
-  const expanded = useMediaQuery({ query: "(max-width: 1080px)" });
-  const gridStyle = expanded ? { gridAutoRows: "0fr" } : {};
-  const topResultStyle = expanded
-    ? { gridColumn: "1/-1", display: "block" }
-    : {};
-  const gridColumnStyle = expanded ? { gridColumn: "1/-1" } : {};
-  const cardStyle = expanded ? { flexGrow: "0" } : {};
-  const tracksListType = getTrackListType(topTracks);
-  const rawThumbnail = topResult.label
-    ? "http://localhost:3000/images/" +
-      topResult.label.replace(/\s+/g, "-").trim().toLowerCase() +
-      ".jpg"
-    : false;
+const SearchTopResults = memo(
+  ({ searchQuery, showTracksLink, topResult, topTracks }) => {
+    const expanded = useMediaQuery({ query: "(max-width: 1080px)" });
+    const gridStyle = expanded ? { gridAutoRows: "0fr" } : {};
+    const topResultStyle = expanded
+      ? { gridColumn: "1/-1", display: "block" }
+      : {};
+    const gridColumnStyle = expanded ? { gridColumn: "1/-1" } : {};
+    const cardStyle = expanded ? { flexGrow: "0" } : {};
+    const tracksListType = getTrackListType(topTracks);
+    const rawThumbnail = topResult.label
+      ? "http://localhost:3000/images/" +
+        topResult.label.replace(/\s+/g, "-").trim().toLowerCase() +
+        ".jpg"
+      : false;
 
-  return (
-    <div className="search__top-results" style={gridStyle}>
-      {topResult && (
-        <div className={"top-result"} style={topResultStyle}>
-          <SectionHeader title="Top result" />
-          <Card
-            metadata={topResult}
-            style={cardStyle}
-            layout="horizontal"
-            circularThumbnail={topResult.result_type === "Artist"}
-            title={topResult.result_title}
-            thumbnail={topResult.thumbnail}
-            rawThumbnail={rawThumbnail}
-            subtitle={topResult.stream_type && topResult.channel_title}
-            label={topResult.result_type}
-          />
-        </div>
-      )}
-      {topTracks && topTracks.length > 0 && (
-        <div className={"list-result"} style={gridColumnStyle}>
-          <SectionHeader
-            title={COLLECTION_TYPES_MAPPINGS[tracksListType]}
-            expandLink={
-              showTracksLink
-                ? `/search?${formatSearchQuery(searchQuery, tracksListType)}`
-                : null
-            }
-          />
-          <TrackListPreview tracksData={topTracks} />
-        </div>
-      )}
-    </div>
-  );
-}
+    return (
+      <div className="search__top-results" style={gridStyle}>
+        {topResult && (
+          <div className={"top-result"} style={topResultStyle}>
+            <SectionHeader title="Top result" />
+            <Card
+              metadata={topResult}
+              style={cardStyle}
+              layout="horizontal"
+              circularThumbnail={topResult.result_type === "Artist"}
+              title={topResult.result_title}
+              thumbnail={topResult.thumbnail}
+              rawThumbnail={rawThumbnail}
+              subtitle={topResult.stream_type && topResult.channel_title}
+              label={topResult.result_type}
+            />
+          </div>
+        )}
+        {topTracks && topTracks.length > 0 && (
+          <div className={"list-result"} style={gridColumnStyle}>
+            <SectionHeader
+              title={COLLECTION_TYPES_MAPPINGS[tracksListType]}
+              expandLink={
+                showTracksLink
+                  ? `/search?${formatSearchQuery(searchQuery, tracksListType)}`
+                  : null
+              }
+            />
+            <TrackListPreview tracksData={topTracks} />
+          </div>
+        )}
+      </div>
+    );
+  }
+);
 
-function SearchTypeResults({ searchQuery, searchType = "" }) {
+const SearchTypeResults = memo(({ searchQuery, searchType = "" }) => {
   const title = COLLECTION_TYPES_MAPPINGS[searchType];
   const [resultsData, setResultsData] = useState([]);
   const { data, status } = useFetchResults(searchQuery, searchType);
@@ -98,9 +95,9 @@ function SearchTypeResults({ searchQuery, searchType = "" }) {
       collectionType={searchType}
     />
   );
-}
+});
 
-function SearchEmptyState() {
+const SearchEmptyState = memo(() => {
   return (
     <div className={"empty-state"}>
       <h1 className={"empty-state__title"}>No results found.</h1>
@@ -110,9 +107,9 @@ function SearchEmptyState() {
       </p>
     </div>
   );
-}
+});
 
-function SearchAllResults({ searchQuery }) {
+const SearchAllResults = memo(({ searchQuery }) => {
   const [topResultData, setTopResultData] = useState(null);
   const [resultsData, setResultsData] = useState({});
   const [topTracksData, setTopTracksData] = useState([]);
@@ -205,12 +202,14 @@ function SearchAllResults({ searchQuery }) {
         ))}
     </>
   );
-}
+});
 
-export default function SearchResults({ searchQuery, searchType = "" }) {
+function SearchResults({ searchQuery, searchType = "" }) {
   return !searchType ? (
     <SearchAllResults searchQuery={searchQuery} />
   ) : (
     <SearchTypeResults searchQuery={searchQuery} searchType={searchType} />
   );
 }
+
+export default memo(SearchResults);

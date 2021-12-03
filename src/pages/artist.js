@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import Page from "component/page";
 import PageHeader from "component/pageHeader";
 import LoadingPage from "pages/loading";
@@ -11,7 +11,7 @@ import { useFetchExploreChannel } from "api";
 import { Rss } from "lucide-react";
 import { CollectionPreviewRow } from "component/collection";
 
-function ArtistPreview({ channel_id }) {
+const ArtistPreview = memo(({ channel_id }) => {
   const [resultsData, setResultsData] = useState({});
   const { data, status, isError, isLoading } =
     useFetchExploreChannel(channel_id);
@@ -74,9 +74,9 @@ function ArtistPreview({ channel_id }) {
       )}
     </Page>
   );
-}
+});
 
-function ArtistList({ channel_id, sortBy }) {
+const ArtistList = memo(({ channel_id, sortBy }) => {
   const [resultsData, setResultsData] = useState({});
   const { data, status, isError, isLoading } = useFetchExploreChannel(
     channel_id,
@@ -109,7 +109,7 @@ function ArtistList({ channel_id, sortBy }) {
       )}
     </Page>
   );
-}
+});
 
 export default function ArtistPage() {
   const { channel_id, sortBy } = useParams();

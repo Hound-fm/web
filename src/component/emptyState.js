@@ -1,4 +1,6 @@
-export default function EmptyState({ title, subtitle }) {
+import { memo } from "react";
+
+function EmptyState({ title, subtitle }) {
   return (
     <div className={"empty-state"}>
       {title && <h1 className={"empty-state__title"}>{title}</h1>}
@@ -6,3 +8,5 @@ export default function EmptyState({ title, subtitle }) {
     </div>
   );
 }
+
+export default memo(EmptyState);

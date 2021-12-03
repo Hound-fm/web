@@ -1,11 +1,12 @@
 import clsx from "clsx";
+import { memo } from "react";
 import Button from "component/button";
 import { Play, Pause } from "component/customIcons";
 import { useQueueUpdate } from "hooks/useQueue";
 import { useState as useHookState } from "@hookstate/core";
 import { globalPlayerState, globalPlaybackState } from "store";
 
-export default function StreamPlayButton({
+function StreamPlayButton({
   index,
   metadata,
   queueTitle,
@@ -57,3 +58,5 @@ export default function StreamPlayButton({
     />
   );
 }
+
+export default memo(StreamPlayButton);

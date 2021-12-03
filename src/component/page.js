@@ -1,4 +1,5 @@
-export default function Page(props) {
+import { memo } from "react";
+function Page(props) {
   const { title } = props;
   return (
     <main className="page">
@@ -7,3 +8,5 @@ export default function Page(props) {
     </main>
   );
 }
+
+export default memo(Page);

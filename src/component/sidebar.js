@@ -1,9 +1,9 @@
 import Logo from "../logo.svg";
 import Link from "component/link";
-
+import { memo } from "react";
 import { Home, Heart, Search } from "lucide-react";
 
-function SidebarLink({ label, icon, ...props }) {
+const SidebarLink = memo(({ label, icon, ...props }) => {
   return (
     <li className={"sidebar__link"}>
       <Link icon={icon} {...props}>
@@ -11,9 +11,9 @@ function SidebarLink({ label, icon, ...props }) {
       </Link>
     </li>
   );
-}
+});
 
-export default function Sidebar() {
+function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -43,3 +43,5 @@ export default function Sidebar() {
     </div>
   );
 }
+
+export default memo(Sidebar);

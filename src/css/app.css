@@ -52,26 +52,6 @@ main h1 {
 }
 */
 
-aside {
-  min-height: 50vh;
-  margin-top: var(--space-margin);
-  margin-left: var(--space-margin);
-  min-width: 250px;
-  background: #222222;
-  padding: 10px;
-  border-radius: var(--border-radius);
-}
-
-.aside__section {
-  margin: var(--space-margin);
-}
-
-@media screen and (max-width: 980px) {
-  aside {
-    display: none;
-  }
-}
-
 a,
 button {
   border: 0;

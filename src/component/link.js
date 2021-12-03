@@ -1,18 +1,12 @@
+import { memo } from "react";
 import Icon from "component/icon";
-
 import { Link, useMatch } from "react-router-dom";
 
 const Anchor = ({ children, ...props }) => {
   return <a {...props}>{children}</a>;
 };
 
-export default function CustomLink({
-  icon,
-  children,
-  exact,
-  onClick,
-  ...props
-}) {
+function CustomLink({ icon, children, exact, onClick, ...props }) {
   let match = useMatch({
     path: props.to || "",
     exact,
@@ -37,3 +31,5 @@ export default function CustomLink({
     </Wrapper>
   );
 }
+
+export default memo(CustomLink);

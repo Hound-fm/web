@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import Page from "component/page";
 import PageHeader from "component/pageHeader";
 import LoadingPage from "pages/loading";
@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { useFetchExploreChannel } from "api";
 import { CollectionPreviewRow } from "component/collection";
 
-function PodcastPreview({ channel_id }) {
+const PodcastPreview = memo(({ channel_id }) => {
   const [resultsData, setResultsData] = useState({});
   const { data, status, isLoading, isError } =
     useFetchExploreChannel(channel_id);
@@ -70,9 +70,9 @@ function PodcastPreview({ channel_id }) {
       )}
     </Page>
   );
-}
+});
 
-function PodcastList({ channel_id, sortBy }) {
+const PodcastList = memo(({ channel_id, sortBy }) => {
   const [resultsData, setResultsData] = useState({});
   const { data, status, isError, isLoading } = useFetchExploreChannel(
     channel_id,
@@ -105,7 +105,7 @@ function PodcastList({ channel_id, sortBy }) {
       )}
     </Page>
   );
-}
+});
 
 export default function PodcastPage() {
   const { channel_id, sortBy } = useParams();

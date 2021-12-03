@@ -1,6 +1,7 @@
+import { memo } from "react";
 import Icon from "component/icon";
 
-export default function Button({ icon, children, onClick, ...props }) {
+function Button({ icon, children, onClick, ...props }) {
   const handleClick = (e) => {
     e.stopPropagation();
     if (onClick) {
@@ -15,3 +16,5 @@ export default function Button({ icon, children, onClick, ...props }) {
     </button>
   );
 }
+
+export default memo(Button);

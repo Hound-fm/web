@@ -3,7 +3,8 @@ import TrackList from "component/trackList";
 import { globalPlayerState } from "store";
 import { useState as useHookState } from "@hookstate/core";
 import { useQueueSlice } from "hooks/useQueue";
-export default function Queue(props) {
+
+export default function Queue() {
   const playerState = useHookState(globalPlayerState);
   // Use downgraded pluging to interact with array
   const queueIndex = playerState.queueIndex.value;

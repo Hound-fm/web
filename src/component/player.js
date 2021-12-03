@@ -14,7 +14,7 @@ import Link from "component/link";
 
 import Slider from "component/slider";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { PlayCircle, PauseCircle } from "component/customIcons";
 import Button from "component/button";
 import Thumbnail from "component/thumbnail";
@@ -56,7 +56,7 @@ function StreamInfo() {
   );
 }
 
-function MiniPlayer({ togglePlay, playIcon }) {
+const MiniPlayer = memo(({ togglePlay, playIcon }) => {
   return (
     <div className="player player--mini">
       <StreamInfo />
@@ -69,17 +69,17 @@ function MiniPlayer({ togglePlay, playIcon }) {
       </div>
     </div>
   );
-}
+});
 
-function VolumeSlider({ updateVolume, volume, muted }) {
+const VolumeSlider = memo(({ updateVolume, volume, muted }) => {
   const onUpdate = (update) => {
     updateVolume(update[0]);
   };
 
   return <Slider values={[volume]} onUpdate={onUpdate} />;
-}
+});
 
-function TrackSlider({ currentTime, duration, seek, disabled }) {
+const TrackSlider = memo(({ currentTime, duration, seek, disabled }) => {
   const [state, setState] = useState({
     values: [currentTime || 0],
     update: [currentTime || 0],
@@ -134,7 +134,7 @@ function TrackSlider({ currentTime, duration, seek, disabled }) {
       </span>
     </div>
   );
-}
+});
 
 export default function Player() {
   const {

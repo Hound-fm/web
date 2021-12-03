@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import Page from "component/page";
 import TrackList from "component/trackList";
 import LoadingPage from "pages/loading";
@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useFetchExplorePodcasts } from "api";
 import { CollectionPreviewRow } from "component/collection";
 
-function ExplorePreview({ sortBy }) {
+const ExplorePreview = memo(({ sortBy }) => {
   const [resultsData, setResultsData] = useState({});
   const { data, status, isLoading, isError } = useFetchExplorePodcasts(sortBy);
 
@@ -49,9 +49,9 @@ function ExplorePreview({ sortBy }) {
       )}
     </Page>
   );
-}
+});
 
-function ExploreList({ sortBy }) {
+const ExploreList = memo(({ sortBy }) => {
   const [resultsData, setResultsData] = useState([]);
   const { data, status, isLoading, isError } = useFetchExplorePodcasts(sortBy);
 
@@ -81,7 +81,7 @@ function ExploreList({ sortBy }) {
       )}
     </Page>
   );
-}
+});
 
 export default function PodcastsPage() {
   const { sortBy } = useParams();

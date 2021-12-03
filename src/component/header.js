@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Menu, ChevronLeft, ChevronRight } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 
 const MAX_SCROLL = 35;
 
@@ -34,7 +34,7 @@ const useIsOverlay = () => {
   return overlay;
 };
 
-export default function Header(props) {
+function Header(props) {
   const { title } = props;
   const overlay = useIsOverlay();
   const location = useLocation();
@@ -95,3 +95,5 @@ export default function Header(props) {
     </header>
   );
 }
+
+export default memo(Header);

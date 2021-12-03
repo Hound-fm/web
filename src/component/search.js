@@ -1,11 +1,11 @@
 import Icon from "./icon";
 import { useDebounce } from "hooks/useDebounce";
 import { Search } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { formatSearchQuery } from "util/core";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function SearchBar() {
+function SearchBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const initQuery = new URLSearchParams(location.search).get("q") || "";
@@ -54,3 +54,5 @@ export default function SearchBar() {
     </form>
   );
 }
+
+export default memo(SearchBar);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import clsx from "clsx";
 import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
 import { SliderRail, Handle, Track } from "./components"; // example render components - source below
@@ -11,7 +11,7 @@ const sliderStyle = {
 
 const KEYS = ["ArrowRight", "ArrowUp", "ArrowDown", "ArrowLeft"];
 
-export default function CustomSlider({
+function CustomSlider({
   disabled,
   values = [0],
   range = [0.0, 1.0],
@@ -172,3 +172,5 @@ export default function CustomSlider({
     </div>
   );
 }
+
+export default memo(CustomSlider);

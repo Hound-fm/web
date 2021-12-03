@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { memo } from "react";
 import StreamPlayButton from "component/streamPlayButton";
 import Thumbnail from "component/thumbnail";
 import { smoothGradient } from "util/core";
@@ -6,7 +7,7 @@ import Link from "component/link";
 import { useNavigate } from "react-router-dom";
 import { WEB_DOMAIN } from "constants.js";
 
-export function Card(props) {
+function CardItem(props) {
   const {
     id,
     index,
@@ -112,7 +113,9 @@ export function Card(props) {
   );
 }
 
-export function CategoryCard({ title, color }) {
+export const Card = memo(CardItem);
+
+export function CategoryCardItem({ title, color }) {
   const cardStyle = { backgroundColor: `rgb(${color})` };
   const thumbnailStyle = {
     backgroundImage:
@@ -129,3 +132,5 @@ export function CategoryCard({ title, color }) {
     </Link>
   );
 }
+
+export const CategoryCard = memo(CategoryCardItem);
