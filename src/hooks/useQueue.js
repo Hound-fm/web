@@ -16,30 +16,48 @@ export function useQueueLoad() {
   */
 }
 
-
-export function useSliceQueue() {
+export function useQueueSlice() {
   const playerState = useHookState(globalPlayerState);
   const [state, setState] = useState({
-    next: [],
-    current: [],
-  })
+    next: null,
+    current: null,
+  });
 
-  const queueData = playerState.queueData.attach(Downgraded).get();
+  const queueData = playerState.queueData.attach(Downgraded).value;
+  const queueIndex = playerState.queueIndex.attach(Downgraded).value;
+
   useEffect(() => {
+    console.info(queueData.length);
     if (!queueData || !queueData.length) {
       setState({
-        next: [],
-        current: [],
-      })
+        next: null,
+        current: null,
+      });
     } else if (queueData && queueData.length) {
-      // Slice queue fisrt and next
-      setState({
-        next: [],
-        current: [],
-      })
-    }
-  }, [queueData])
+      playerState.queueData.set((prevQueueData) => {
+        if (!prevQueueData || !prevQueueData.length) {
+          setState({ next: null, current: null });
+          return prevQueueData;
+        }
+        const item = prevQueueData[queueIndex];
+        const nextIndex = queueIndex + 1;
 
+        if (item) {
+          if (nextIndex < prevQueueData.length) {
+            const next = prevQueueData.slice(nextIndex);
+            setState({ next, current: [item] });
+          } else {
+            setState({ next: null, current: [item] });
+          }
+        } else {
+          setState({ next: null, current: null });
+        }
+
+        return prevQueueData;
+      });
+    }
+  }, [queueData, queueIndex]);
+  return state;
 }
 export function useQueueUpdate() {
   const playerState = useHookState(globalPlayerState);

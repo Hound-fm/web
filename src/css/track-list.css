@@ -15,6 +15,18 @@
   width: 100%;
 }
 
+.tracks-list__description {
+  color: var(--subtext-color);
+}
+
+.tracks-list__description span {
+  margin-right: 8px;
+}
+
+.tracks-list__description span:last-child {
+  text-transform: capitalize;
+}
+
 .tracks-list .row__index {
   min-width: 24px;
   text-align: center;

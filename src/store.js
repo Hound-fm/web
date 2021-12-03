@@ -22,7 +22,7 @@ const defaultPlayerState = {
   // Queue state
   queueData: [],
   queueTitle: "",
-  queueIndex: -1,
+  queueIndex: 0,
 };
 export const globalPlayerState = createState(defaultPlayerState);
 // Persistence for currentTrack (Last track played)

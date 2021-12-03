@@ -20,7 +20,7 @@ import FavoriteButton from "component/favoriteButton";
 
 const Row = memo(({ data, index, style }) => {
   // Data passed to List as "itemData" is available as props.data
-  const { items, queueTitle } = data;
+  const { items, queueTitle, startIndex } = data;
   const metadata = items[index];
   const playerState = useHookState(globalPlayerState);
   const currentTrack = playerState.currentTrack.value;
@@ -40,7 +40,7 @@ const Row = memo(({ data, index, style }) => {
         <div className="row__data">
           {showPlayButton && (
             <StreamPlayButton
-              index={index}
+              index={index + startIndex}
               className={"button--play-row"}
               classNameActive={"button--play-row--active"}
               metadata={metadata}
@@ -48,7 +48,7 @@ const Row = memo(({ data, index, style }) => {
               queueData={queueData}
             />
           )}
-          <div className="row__index">{index + 1}</div>
+          <div className="row__index">{index + startIndex + 1}</div>
         </div>
         <Thumbnail className="row__thumbnail" src={metadata.thumbnail} />
         <div className="row__data">
@@ -101,15 +101,21 @@ const Row = memo(({ data, index, style }) => {
 // If we were only passing a single, stable value (e.g. items),
 // We could just pass the value directly.
 
-const createItemData = memoize((items, queueTitle) => ({
+const createItemData = memoize((items, queueTitle, startIndex) => ({
   items,
   queueTitle,
+  startIndex,
 }));
 
 // In this example, "items" is an Array of objects to render,
 // and "toggleItemActive" is a function that updates an item's state.
 
-export default function TrackList({ trackData, queueTitle }) {
+export default function TrackList({
+  trackData,
+  description,
+  queueTitle,
+  startIndex = 0,
+}) {
   const listRef = useRef();
   const containerRef = useRef();
   const [width, setWidth] = useState(100);
@@ -125,7 +131,8 @@ export default function TrackList({ trackData, queueTitle }) {
       }
       return track;
     }),
-    queueTitle
+    queueTitle,
+    startIndex
   );
   const handleScroll = ({ scrollTop }) => {
     if (listRef && listRef.current) {
@@ -138,19 +145,24 @@ export default function TrackList({ trackData, queueTitle }) {
   });
 
   return (
-    <div ref={containerRef} className="tracks-list__container">
-      <WindowScroller onScroll={handleScroll}>{() => <div />}</WindowScroller>
-      <List
-        ref={listRef}
-        width={width}
-        height={trackData.length * 64}
-        itemCount={trackData.length}
-        itemData={itemData}
-        itemSize={64}
-        className="tracks-list window-scroller-override"
-      >
-        {Row}
-      </List>
-    </div>
+    <>
+      {description && (
+        <h4 className={"tracks-list__description"}>{description}</h4>
+      )}
+      <div ref={containerRef} className="tracks-list__container">
+        <WindowScroller onScroll={handleScroll}>{() => <div />}</WindowScroller>
+        <List
+          ref={listRef}
+          width={width}
+          height={trackData.length * 64}
+          itemCount={trackData.length}
+          itemData={itemData}
+          itemSize={64}
+          className="tracks-list window-scroller-override"
+        >
+          {Row}
+        </List>
+      </div>
+    </>
   );
 }

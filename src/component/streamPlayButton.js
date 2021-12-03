@@ -43,6 +43,8 @@ export default function StreamPlayButton({
       updateQueue({ title: queueTitle, data: queueData.hits, index });
     } else if (queueTitle && queueData && queueData.length) {
       updateQueue({ title: queueTitle, data: queueData, index });
+    } else if (index) {
+      updateQueue({ index });
     }
   };
 

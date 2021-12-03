@@ -115,7 +115,7 @@ function FavoritesPreview({ favorites }) {
           value.hits.length && (
             <CollectionPreviewRow
               key={`${key}-${value.hits.length}`}
-              queueTitle={`${title} · ${key}`}
+              queueTitle={`${title} · ${COLLECTION_TYPES_MAPPINGS[key]}`}
               title={COLLECTION_TYPES_MAPPINGS[key]}
               collectionType={key}
               collectionData={value}
