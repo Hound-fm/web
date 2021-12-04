@@ -79,8 +79,8 @@ const useAudioPlayer = () => {
         error: true,
       }));
       playbackState.playback.set("paused");
-      // eslint-disable-next-line
     },
+    // eslint-disable-next-line
     [setState]
   );
 
