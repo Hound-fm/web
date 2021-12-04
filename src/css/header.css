@@ -20,6 +20,14 @@
   margin-right: 16px;
 }
 
+.button--menu.button--nav {
+  background: transparent;
+}
+
+.button--menu.button--nav:active {
+  background-color: var(--card-active-bg-color);
+}
+
 .button--label {
   border-radius: 24px;
   padding: 8px 16px;

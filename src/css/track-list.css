@@ -15,8 +15,16 @@
   width: 100%;
 }
 
+.tracks-list__title {
+  margin-bottom: 0;
+}
+
+.tracks-list__title + .tracks-list__description {
+  margin-top: 0;
+}
 .tracks-list__description {
   color: var(--subtext-color);
+  margin: 24px 0;
 }
 
 .tracks-list__description span {

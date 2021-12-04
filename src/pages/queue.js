@@ -18,14 +18,12 @@ export default function Queue() {
         <TrackList
           description={"Now playing"}
           startIndex={queueIndex}
-          title={queueTitle}
           trackData={current}
         />
       )}
       {next && (
         <TrackList
           startIndex={queueIndex + 1}
-          title={queueTitle}
           trackData={next}
           description={
             <>

@@ -45,7 +45,11 @@ function StreamInfo() {
     <div className="stream-info">
       <Thumbnail className="stream-info__thumbnail" src={metadata.thumbnail} />
       <div className="stream-info__text">
-        <Link className="stream-info__title text-overflow" href={href}>
+        <Link
+          className="stream-info__title text-overflow"
+          href={href}
+          target={href ? "_blank" : null}
+        >
           {metadata.title}
         </Link>
         <Link className="stream-info__subtitle text-overflow" to={subLinkTo}>
@@ -173,7 +177,7 @@ export default function Player() {
 
   const playbackState = useHookState(globalPlaybackState);
   const playback = playbackState.playback.attach(Downgraded).value;
-  const hidden =  currentTrack && currentTrack.id ? false : true
+  const hidden = currentTrack && currentTrack.id ? false : true;
 
   const showMiniPlayer = useMediaQuery({
     query: "(max-width: 900px)",
@@ -190,14 +194,13 @@ export default function Player() {
   let volumeIcon = muted ? VolumeX : Volume1;
 
   if (showMiniPlayer) {
-    return <MiniPlayer hidden={hidden} togglePlay={togglePlay} playIcon={playIcon} />;
+    return (
+      <MiniPlayer hidden={hidden} togglePlay={togglePlay} playIcon={playIcon} />
+    );
   }
 
   return (
-    <div
-      className="player"
-      aria-hidden={hidden}
-    >
+    <div className="player" aria-hidden={hidden}>
       <StreamInfo />
       <div className="player__main-controls">
         <div className="player__actions">

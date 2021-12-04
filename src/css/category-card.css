@@ -5,7 +5,7 @@
   overflow: hidden;
   position: relative;
   background-color: rgba(188, 43, 71);
-  color:  var(--text-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
 }
@@ -25,7 +25,7 @@
 .category-card__title {
   font-weight: 800;
   padding: 8px 16px;
-  font-size: calc(1.75em - 0.5vw);
+  font-size: calc(1.72em - 0.5vw);
   z-index: 1;
   position: absolute;
   bottom: 0;
@@ -33,6 +33,10 @@
   right: 0;
   padding-top: 100%;
   text-transform: capitalize;
+}
+
+.app--mobile .category-card__title {
+  font-size: calc(1.5em - 0.75vw);
 }
 
 .category-card__title span {

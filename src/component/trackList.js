@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import React, { memo, useRef, useState } from "react";
-import { durationTrackFormat } from "util/formatDuration";
+import React, { memo, useRef, useState, useEffect } from "react";
+import { durationTrackFormat, durationShortFormat } from "util/formatDuration";
 import memoize from "memoize-one";
 import Thumbnail from "component/thumbnail";
 import { FixedSizeList as List, areEqual } from "react-window";
@@ -110,10 +110,17 @@ const createItemData = memoize((items, queueTitle, startIndex) => ({
 // In this example, "items" is an Array of objects to render,
 // and "toggleItemActive" is a function that updates an item's state.
 
-function TrackList({ trackData, description, queueTitle, startIndex = 0 }) {
+function TrackList({
+  trackData,
+  title,
+  description,
+  queueTitle,
+  startIndex = 0,
+}) {
   const listRef = useRef();
   const containerRef = useRef();
   const [width, setWidth] = useState(100);
+  const [duration, setDuration] = useState(0);
   // Bundle additional data to list items using the "itemData" prop.
   // It will be accessible to item renderers as props.data.
   // Memoize this data to avoid bypassing shouldComponentUpdate().
@@ -129,11 +136,24 @@ function TrackList({ trackData, description, queueTitle, startIndex = 0 }) {
     queueTitle,
     startIndex
   );
+
   const handleScroll = ({ scrollTop }) => {
     if (listRef && listRef.current) {
       listRef.current.scrollTo(scrollTop);
     }
   };
+
+  useEffect(() => {
+    let totalDuration = 0;
+    trackData.forEach((item, i) => {
+      if (item && item.duration) {
+        totalDuration += item.duration;
+      } else if (item && item._source && item._source.duration) {
+        totalDuration += item._source.duration;
+      }
+    });
+    setDuration(totalDuration ? durationShortFormat(totalDuration) : null);
+  }, [trackData, trackData.length, setDuration]);
 
   useResizeObserver(containerRef, (entry) => {
     setWidth(entry.contentRect.width);
@@ -141,8 +161,14 @@ function TrackList({ trackData, description, queueTitle, startIndex = 0 }) {
 
   return (
     <>
+      {title && <h1 class="tracks-list__title">{title}</h1>}
       {description && (
         <h4 className={"tracks-list__description"}>{description}</h4>
+      )}
+      {!description && (
+        <h4 className={"tracks-list__description"}>
+          {`${trackData.length} tracks` + (duration ? ` •  ${duration}` : "")}
+        </h4>
       )}
       <div ref={containerRef} className="tracks-list__container">
         <WindowScroller onScroll={handleScroll}>{() => <div />}</WindowScroller>

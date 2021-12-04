@@ -9,8 +9,20 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
-  background-color: rgba(12, 12, 12, 0.9);
+  background: rgba(12, 12, 12, 0.94);
   z-index: 1;
+  backdrop-filter: blur(10px);
+}
+
+.sidebar__overlay[data-open="true"] {
+  background: rgba(12, 12, 12, 0.64);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+  z-index: 3;
 }
 
 /* Border */
@@ -31,57 +43,67 @@
   margin-right: 8px;
 }
 
-.app--compact .sidebar__header {
+.app--compact:not(.app--mobile) .sidebar__header {
   width: 0;
   justify-content: center;
   margin-top: 0;
 }
 
-.app--compact .logo {
+.app--compact:not(.app--mobile) .logo {
   margin: 0;
 }
 
-.app--compact .sidebar {
+.app--compact:not(.app--mobile) .sidebar {
   width: var(--sidebar-min-width);
   align-items: center;
   align-content: center;
 }
 
-.app--compact .sidebar ul {
+.app--compact:not(.app--mobile) .sidebar ul {
   margin: 0;
 }
-.app--compact .sidebar .sidebar__link a span {
+.app--compact:not(.app--mobile) .sidebar .sidebar__link a span {
   display: none;
 }
 
-.app--compact .sidebar .sidebar__link {
+.app--compact:not(.app--mobile) .sidebar .sidebar__link {
   padding: 0;
 }
 
-.app--compact .sidebar__link a {
+.app--compact:not(.app--mobile) .sidebar__link a {
   display: flex;
   align-content: center;
   justify-content: center;
   padding: 8px !important;
 }
 
-.app--compact .sidebar__link .link__icon {
+.app--compact:not(.app--mobile) .sidebar__link .link__icon {
   margin: 0;
   height: 1.52em;
   width: 1.52em;
 }
 
-.app--compact .sidebar__header span {
+.app--compact:not(.app--mobile) .sidebar__header span {
   display: none;
 }
 
-.app--compact .sidebar__message {
+.app--compact:not(.app--mobile) .sidebar__message {
   display: none;
 }
 
 .app--mobile .sidebar {
-  left: calc(-1 * var(--sidebar-width));
   z-index: 3;
+  box-shadow: 4px 0px 12px 0px rgba(0, 0, 0, 0.39);
+  -webkit-box-shadow: 4px 0px 12px 0px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: 4px 0px 12px 0px rgba(0, 0, 0, 0.39);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.app--mobile .sidebar[data-open="false"] {
+  transform: translate(calc(-1 * var(--sidebar-width)));
+}
+.app--mobile .sidebar[data-open="true"] {
+  transform: translate(0);
 }
 
 .app--min-player .sidebar {
@@ -91,7 +113,6 @@
 .app--min-player .sidebar::after {
   bottom: calc(3vh + var(--player-min-height));
 }
-
 
 .app--mobile .sidebar::after {
   display: none;

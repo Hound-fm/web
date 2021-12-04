@@ -175,6 +175,10 @@
   grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
 }
 
+.app--mobile .cards--grid {
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+}
+
 .cards--grid .card {
   margin-right: 0;
   display: block;

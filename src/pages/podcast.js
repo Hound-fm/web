@@ -101,9 +101,13 @@ const PodcastList = memo(({ channel_id, sortBy }) => {
   }
 
   return (
-    <Page title={title}>
+    <Page>
       {resultsData && resultsData[sortBy] && (
-        <TrackList trackData={resultsData[sortBy].hits} queueTitle={title} />
+        <TrackList
+          title={title}
+          trackData={resultsData[sortBy].hits}
+          queueTitle={title}
+        />
       )}
     </Page>
   );

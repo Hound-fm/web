@@ -14,7 +14,13 @@ const defaultAppState = {
 
 export const globalAppState = createState(defaultAppState);
 // Persistence for currentTrack (Last track played)
-globalAppState.favorites.attach(Persistence("hound-local-store-favorites"));
+globalAppState.attach(Persistence("hound-local-store-favorites"));
+
+const defaultMobileAppState = {
+  menuExpanded: false,
+};
+
+export const globalMobileAppState = createState(defaultMobileAppState);
 
 const defaultPlayerState = {
   // Playback state

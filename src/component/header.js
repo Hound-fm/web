@@ -5,6 +5,8 @@ import { Menu, ChevronLeft, ChevronRight } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback, memo } from "react";
+import { useState as useHookState } from "@hookstate/core";
+import { globalMobileAppState } from "store";
 
 const MAX_SCROLL = 35;
 
@@ -34,6 +36,24 @@ const useIsOverlay = () => {
   return overlay;
 };
 
+function MobileMenuButton() {
+  const mobileAppState = useHookState(globalMobileAppState);
+  const menuExpanded = mobileAppState.menuExpanded.value;
+
+  const toggleMenu = () => {
+    mobileAppState.menuExpanded.set((prev) => !prev);
+  };
+
+  return (
+    <Button
+      className={"button--menu button--nav"}
+      icon={Menu}
+      aria-expanded={menuExpanded}
+      onClick={toggleMenu}
+    />
+  );
+}
+
 function Header(props) {
   const { title } = props;
   const overlay = useIsOverlay();
@@ -62,9 +82,7 @@ function Header(props) {
       )}
     >
       <div className={"header__actions"}>
-        {isTabletOrMobile && (
-          <Button className={"button--menu button--nav"} icon={Menu} />
-        )}
+        {isTabletOrMobile && <MobileMenuButton />}
 
         {!isTabletOrMobile && (
           <Button

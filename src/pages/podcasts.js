@@ -72,9 +72,10 @@ const ExploreList = memo(({ sortBy }) => {
   }
 
   return (
-    <Page title={`Podcasts · ${sortBy}`}>
+    <Page>
       {resultsData && (
         <TrackList
+          title={`Podcasts · ${sortBy}`}
           trackData={resultsData}
           queueTitle={`Podcasts · ${sortBy}`}
         />
