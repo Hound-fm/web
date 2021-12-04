@@ -82,7 +82,7 @@ function Header(props) {
       )}
     >
       <div className={"header__actions"}>
-        {isTabletOrMobile && <MobileMenuButton />}
+        {!showSearch && isTabletOrMobile && <MobileMenuButton />}
 
         {!isTabletOrMobile && (
           <Button
@@ -101,15 +101,6 @@ function Header(props) {
         {title && <h1 className={"header__title"}>{title}</h1>}
         {showSearch && <Search />}
       </div>
-      {!isTabletOrMobile && (
-        <div className={"header__actions"}>
-          {/*
-          <Button icon={Github} className={"button--nav button--label"}>
-            GitHub
-          </Button>
-          */}
-        </div>
-      )}
     </header>
   );
 }

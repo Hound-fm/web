@@ -10,6 +10,10 @@
   padding: 0;
 }
 
+.app--mobile .category-card {
+  aspect-ratio: 1.5;
+}
+
 .category-card__thumbnail {
   height: 100%;
   width: 100%;
