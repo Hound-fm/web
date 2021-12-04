@@ -1,4 +1,4 @@
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState } from "react";
 import Page from "component/page";
 import TrackList from "component/trackList";
 import LoadingPage from "pages/loading";
@@ -38,7 +38,7 @@ function FavoritesEmptyState() {
   );
 }
 
-const FavoritesList = memo(({ favoriteType, favorites }) => {
+const FavoritesList = ({ favoriteType, favorites }) => {
   const fetchData = {};
   const [resultsData, setResultsData] = useState([]);
   fetchData[favoriteType] = favorites[favoriteType];
@@ -70,9 +70,9 @@ const FavoritesList = memo(({ favoriteType, favorites }) => {
       )}
     </Page>
   );
-});
+};
 
-const FavoritesPreview = memo(({ favorites }) => {
+const FavoritesPreview = ({ favorites }) => {
   const [favoritesData, setFavoritesData] = useState({
     artist: null,
     music_recording: null,
@@ -119,7 +119,7 @@ const FavoritesPreview = memo(({ favorites }) => {
       )}
     </Page>
   );
-});
+};
 
 export default function FavoritesPage() {
   const appState = useHookState(globalAppState);
@@ -130,8 +130,15 @@ export default function FavoritesPage() {
   useEffect(() => {
     const favoritesEntries = Object.entries(favorites);
     let empty = true;
-    for (let [, value] of favoritesEntries) {
-      if (value && value.length) {
+    for (let [key, value] of favoritesEntries) {
+      if (favoriteType) {
+        if (favoriteType === key) {
+          if (value && value.length) {
+            empty = false;
+            break;
+          }
+        }
+      } else if (value && value.length) {
         empty = false;
         break;
       }
@@ -139,7 +146,10 @@ export default function FavoritesPage() {
     setIsEmpty(empty);
   }, [
     favorites,
+    favoriteType,
+    favorites.artist.length,
     favorites.music_recording.length,
+    favorites.podcast_series,
     favorites.podcast_episode.length,
   ]);
 

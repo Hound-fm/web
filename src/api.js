@@ -15,6 +15,7 @@ export const useFetchResults = (searchQuery, searchType) =>
     ["search", searchQuery, searchType],
     () => fetchSearchResults(searchQuery, searchType),
     {
+      keepPreviousData: true,
       notifyOnChangeProps: ["data", "error"],
     }
   );
@@ -35,6 +36,7 @@ export const useFetchExploreGenre = (genre, sortBy) =>
     () => fetchExploreGenre(genre, sortBy),
     {
       retry: 2,
+      keepPreviousData: true,
       notifyOnChangeProps: ["status", "data", "error"],
     }
   );

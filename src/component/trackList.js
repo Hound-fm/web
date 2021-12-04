@@ -161,13 +161,10 @@ function TrackList({
 
   return (
     <>
-      {title && <h1 class="tracks-list__title">{title}</h1>}
-      {description && (
-        <h4 className={"tracks-list__description"}>{description}</h4>
-      )}
-      {!description && (
+      {title && <h1 className="tracks-list__title">{title}</h1>}
+      {(description || (trackData.length && duration)) && (
         <h4 className={"tracks-list__description"}>
-          {`${trackData.length} tracks` + (duration ? ` •  ${duration}` : "")}
+          {description || `${trackData.length} tracks •  ${duration}`}
         </h4>
       )}
       <div ref={containerRef} className="tracks-list__container">

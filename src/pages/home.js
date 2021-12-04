@@ -72,24 +72,30 @@ export default function HomePage() {
 
   return (
     <Page>
-      <CollectionPreviewRow
-        title="Community Picks"
-        collectionType="Music"
-        collectionData={homeData.music_recording}
-        description="Awesome music curated by humans"
-      />
-      <CollectionPreviewRow
-        title="Discover Artists"
-        collectionType="Artist"
-        collectionData={homeData.artist}
-        description="Find your next favorite artist"
-      />
-      <CollectionPreviewRow
-        title="Top Podcasts"
-        collectionType="Podcast"
-        collectionData={homeData.podcast_series}
-        description="Listen to some of the best shows"
-      />
+      {homeData.music_recording && (
+        <CollectionPreviewRow
+          title="Community Picks"
+          collectionType="Music"
+          collectionData={homeData.music_recording}
+          description="Awesome music curated by humans"
+        />
+      )}
+      {homeData.artist && (
+        <CollectionPreviewRow
+          title="Discover Artists"
+          collectionType="Artist"
+          collectionData={homeData.artist}
+          description="Find your next favorite artist"
+        />
+      )}
+      {homeData.podcast_series && (
+        <CollectionPreviewRow
+          title="Top Podcasts"
+          collectionType="Podcast"
+          collectionData={homeData.podcast_series}
+          description="Listen to some of the best shows"
+        />
+      )}
     </Page>
   );
 }

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { getStreamLink } from "util/lbry";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { useQueueNavigation } from "hooks/useQueue";
@@ -45,6 +45,45 @@ const useAudioPlayer = () => {
 
   const [state, setState] = useState({ ...defaultState, ...cachedState });
 
+  const handleErrors = useCallback(
+    (e) => {
+      const error = e.target ? e.target.error : e;
+      const NETWORK_ABORT_ERROR = 20;
+      console.info(error);
+      // Audio playback failed - show a message saying why
+      switch (error.code) {
+        case NETWORK_ABORT_ERROR:
+        case error.MEDIA_ERR_ABORTED:
+          console.error("You aborted the video playback.");
+          break;
+        case error.MEDIA_ERR_NETWORK:
+          console.error("A network error caused the audio download to fail.");
+          break;
+        case error.MEDIA_ERR_DECODE:
+          console.error(
+            "The audio playback was aborted due to a corruption problem or because the video used features your browser did not support."
+          );
+          break;
+        case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          console.error(
+            "The video audio not be loaded, either because the server or network failed or because the format is not supported."
+          );
+          break;
+        default:
+          console.error("An unknown error occurred.");
+          break;
+      }
+      setState((prevState) => ({
+        ...prevState,
+        ready: false,
+        error: true,
+      }));
+      playbackState.playback.set("paused");
+      // eslint-disable-next-line
+    },
+    [setState]
+  );
+
   const seek = (nextTime) => {
     // Force UI update
     setState((prevState) => ({ ...prevState, currentTime: nextTime }));
@@ -83,20 +122,21 @@ const useAudioPlayer = () => {
     }
   };
 
-  const triggerPlay = () => {
+  const triggerPlay = useCallback(() => {
     const promise = player.current.play();
     if (promise) {
       promise
-        .then(() => {})
+        .then(() => {
+          setState((prevState) => ({ ...prevState, ready: true }));
+        })
         .catch((e) => {
-          console.error(e);
           player.current.pause();
+          handleErrors(e);
         });
     }
-  };
+  }, [setState, handleErrors]);
 
   const handleReady = () => {
-    setState((prevState) => ({ ...prevState, ready: true }));
     triggerPlay();
   };
 
@@ -144,6 +184,10 @@ const useAudioPlayer = () => {
     if (player.current.networkState === player.current.NETWORK_IDLE) {
       playbackState.playback.set("playing");
       playbackState.playbackSync.set("");
+      setState((prevState) => ({
+        ...prevState,
+        ready: true,
+      }));
     }
   };
 
@@ -181,38 +225,6 @@ const useAudioPlayer = () => {
     } else {
       triggerPlay();
     }
-  };
-
-  const handleErrors = (e) => {
-    const error = e.target.error;
-    // Audio playback failed - show a message saying why
-    switch (error.code) {
-      case error.MEDIA_ERR_ABORTED:
-        console.error("You aborted the video playback.");
-        break;
-      case error.MEDIA_ERR_NETWORK:
-        console.error("A network error caused the audio download to fail.");
-        break;
-      case error.MEDIA_ERR_DECODE:
-        console.error(
-          "The audio playback was aborted due to a corruption problem or because the video used features your browser did not support."
-        );
-        break;
-      case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-        console.error(
-          "The video audio not be loaded, either because the server or network failed or because the format is not supported."
-        );
-        break;
-      default:
-        console.error("An unknown error occurred.");
-        break;
-    }
-    setState((prevState) => ({
-      ...prevState,
-      ready: false,
-      error: true,
-    }));
-    playbackState.playback.set("paused");
   };
 
   useEffect(() => {
@@ -290,6 +302,7 @@ const useAudioPlayer = () => {
       player.current.pause();
       player.current.currentTime = 0;
       player.current.src = source;
+      player.current.load();
 
       // Reset state with default values
       setState((prevState) => ({
@@ -308,7 +321,7 @@ const useAudioPlayer = () => {
     } else if (playbackSync === "paused") {
       player.current.pause();
     }
-  }, [playbackSync]);
+  }, [playbackSync, triggerPlay]);
 
   useEffect(() => {
     if (currentTrack && currentTrack.id) {

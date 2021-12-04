@@ -18,6 +18,7 @@
 .button--nav {
   background-color: var(--card-bg-color);
   margin-right: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .button--menu.button--nav {
@@ -51,7 +52,7 @@
 }
 
 .overlay {
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .button--header {
