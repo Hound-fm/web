@@ -74,21 +74,21 @@ export function getSearchQueryParams(queryText = "", typeText = "") {
 
 export const formatSearchQuery = memoizeOne(getSearchQueryParams);
 
-export function getSmoothGradient(color) {
+export function getSmoothGradient(color, factor = 1) {
   return `linear-gradient(
       to top,
       rgb(${color}) 0%,
-      rgba(${color}, 0.738) 19%,
-      rgba(${color}, 0.541) 34%,
-      rgba(${color}, 0.382) 47%,
-      rgba(${color}, 0.278) 56.5%,
-      rgba(${color}, 0.194) 65%,
-      rgba(${color}, 0.126) 73%,
-      rgba(${color}, 0.075) 80.2%,
-      rgba(${color}, 0.042) 86.1%,
-      rgba(${color}, 0.021) 91%,
-      rgba(${color}, 0.008) 95.2%,
-      rgba(${color}, 0.002) 98.2%,
+      rgba(${color}, 0.738) ${factor * 19}%,
+      rgba(${color}, 0.541) ${factor * 34}%,
+      rgba(${color}, 0.382) ${factor * 47}%,
+      rgba(${color}, 0.278) ${factor * 56.5}%,
+      rgba(${color}, 0.194) ${factor * 65}%,
+      rgba(${color}, 0.126) ${factor * 73}%,
+      rgba(${color}, 0.075) ${factor * 80.2}%,
+      rgba(${color}, 0.042) ${factor * 86.1}%,
+      rgba(${color}, 0.021) ${factor * 91}%,
+      rgba(${color}, 0.008) ${factor * 95.2}%,
+      rgba(${color}, 0.002) ${factor * 98.2}%,
       transparent 100%
     )`;
 }

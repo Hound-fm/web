@@ -6,6 +6,7 @@ import { smoothGradient } from "util/core";
 import Link from "component/link";
 import { useNavigate } from "react-router-dom";
 import { WEB_DOMAIN } from "constants.js";
+import { useMediaQuery } from "react-responsive";
 
 function CardItem(props) {
   const {
@@ -116,12 +117,15 @@ function CardItem(props) {
 export const Card = memo(CardItem);
 
 export function CategoryCardItem({ title, color }) {
+  const isTabletOrMobile = useMediaQuery({
+    query: "(max-width: 720px)",
+  });
   const cardStyle = { backgroundColor: `rgb(${color})` };
   const thumbnailStyle = {
     backgroundImage:
       "url(/images/" + title.replace(/\s/g, "-") + ".jpg)",
   };
-  const gradientOverlay = { background: smoothGradient(color) };
+  const gradientOverlay = { background: smoothGradient(color, isTabletOrMobile ? 0.64 : 0.95 ) };
   const linkTo = title === "podcasts" ? "/podcasts" : `/genre/${title}`;
   return (
     <Link className="category-card" style={cardStyle} to={linkTo}>
