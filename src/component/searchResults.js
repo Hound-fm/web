@@ -73,16 +73,35 @@ const SearchTopResults = memo(
 
 const SearchTypeResults = memo(({ searchQuery, searchType = "" }) => {
   const title = COLLECTION_TYPES_MAPPINGS[searchType];
+  const [isEmpty, setIsEmpty] = useState(null);
   const [resultsData, setResultsData] = useState([]);
-  const { data, status } = useFetchResults(searchQuery, searchType);
-
+  const { data, status, isLoading, isError } = useFetchResults(
+    searchQuery,
+    searchType
+  );
   useEffect(() => {
     if (status === "success" && data) {
       // Process results
       const res = data.data;
-      setResultsData(res.hits.hits);
+      if (res && res.hits && res.hits.hits && res.hits.hits.length) {
+        setResultsData(res.hits.hits);
+      } else {
+        setIsEmpty(true);
+      }
     }
   }, [data, status, setResultsData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
+
+  if (isEmpty) {
+    return <SearchEmptyState searchQuery={searchQuery} />;
+  }
 
   if (searchType === "music_recording" || searchType === "podcast_episode") {
     return <TrackList trackData={resultsData} title={title} />;
@@ -97,13 +116,13 @@ const SearchTypeResults = memo(({ searchQuery, searchType = "" }) => {
   );
 });
 
-const SearchEmptyState = memo(() => {
+const SearchEmptyState = memo(({ searchQuery }) => {
   return (
     <div className={"empty-state"}>
-      <h1 className={"empty-state__title"}>No results found.</h1>
+      <h1 className={"empty-state__title"}>No results</h1>
       <p className={"empty-state__message"}>
-        Please make sure your words are spelled correctly or use less or
-        different keywords.
+        Looks like there are no results for {`"${searchQuery}"`}, <br /> please
+        try something different.
       </p>
     </div>
   );
@@ -175,7 +194,7 @@ const SearchAllResults = memo(({ searchQuery }) => {
 
   return (
     <>
-      {isEmpty && <SearchEmptyState />}
+      {isEmpty && <SearchEmptyState searchQuery={searchQuery} />}
       {!isEmpty && topResultData && (
         <SearchTopResults
           searchQuery={searchQuery}

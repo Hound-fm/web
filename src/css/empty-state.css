@@ -11,10 +11,12 @@
   justify-content: center;
   flex-direction: column;
   z-index: 0;
+  text-align: center;
 }
 
 .empty-state__title {
   margin: 0;
+  font-size: 2.25em;
 }
 
 .empty-state img {
@@ -28,7 +30,7 @@
 }
 .empty-state__message {
   color: var(--subtext-color);
-  margin: 4px;
+  margin: 4px 24px;
 }
 
 .app--compact .empty-state {
@@ -38,6 +40,7 @@
 .app--mobile .empty-state {
   left: 0;
   margin: 24px;
+  font-size: 0.94em;
 }
 
 .app--min-player .empty-state {

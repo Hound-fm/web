@@ -22,7 +22,7 @@ export function ErrorAPIPage() {
         <img alt="" src={LogoError} className={"logo"} aria-hidden />
         <h1 className={"empty-state__title"}>Woof!</h1>
         <p className={"empty-state__message"}>
-          Sorry, something went wrong. Try again later.
+          Something went wrong, try again later.
         </p>
       </div>
     </Page>
