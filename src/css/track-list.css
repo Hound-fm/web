@@ -26,6 +26,7 @@
 .tracks-list__description {
   color: var(--subtext-color);
   margin: 24px 0;
+  font-weight: 600;
 }
 
 .tracks-list__description span {

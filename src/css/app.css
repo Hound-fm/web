@@ -95,7 +95,7 @@ button:focus-visible {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .section__header a {
