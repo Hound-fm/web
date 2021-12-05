@@ -1,59 +1,26 @@
-.loader {
-  margin: auto;
-  width: 100px;
-  height: 30px;
-  overflow: hidden;
-  position: relative;
-  background: var(--card-bg-color);
-  border-radius: 5px;
-  opacity: 0;
-  animation: pulse 2s ease alternate infinite;
-  animation-delay: 300ms;
-  box-shadow: 0px 35px 0 -5px #757575, 0 -5px 0 0px var(--card-active-bg-color),
-    0 -25px 0 -5px #bbb, -25px -30px 0 0px var(--subtext-color),
-    -25px 30px 0 0px var(--subtext-color), 25px -30px 0 0px var(--subtext-color),
-    25px 30px 0 0px var(--subtext-color), 20px 10px 0 5px var(--subtext-color),
-    20px -10px 0 5px var(--subtext-color),
-    -20px -10px 0 5px var(--subtext-color),
-    -20px 10px 0 5px var(--subtext-color);
+.loading {
+  display: flex;
+  justify-content: center;
 }
-.loader:after,
-.loader:before {
-  content: "";
-  border-radius: 100%;
-  width: 35px;
-  height: 35px;
-  display: block;
-  position: absolute;
-  border: 4px dashed var(--subtext-color);
-  bottom: -4px;
-  transform: rotate(0deg);
-  box-sizing: border-box;
-  animation: tape 2s linear infinite;
+.loading div {
+  width: 1rem;
+  height: 1rem;
+  margin: 2rem 0.3rem;
+  background: var(--subtext-color);
+  border-radius: 50%;
+  animation: 0.9s bounce infinite alternate;
 }
-.loader:before {
-  right: 0;
-  box-shadow: 0 0 0 4px var(--subtext-color), 0 0 0 34px var(--bg-color);
-}
-.loader:after {
-  left: 0;
-  box-shadow: 0 0 0 4px var(--subtext-color), 0 0 0 65px var(--bg-color);
+.loading div:nth-child(2) {
+  animation-delay: 0.3s;
 }
 
-@keyframes tape {
-  0% {
-    transform: rotate(0deg) scale(0.4);
-  }
-  100% {
-    transform: rotate(-360deg) scale(0.4);
-  }
+.loading div:nth-child(3) {
+  animation-delay: 0.6s;
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 1;
+@keyframes bounce {
+  to {
+    opacity: 0.3;
+    transform: translate3d(0, -1rem, 0);
   }
 }
