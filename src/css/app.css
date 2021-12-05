@@ -129,6 +129,7 @@ button:focus-visible {
 .page {
 }
 
+/* Mobile override styles */
 .nonselectable {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -136,11 +137,15 @@ button:focus-visible {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
   -webkit-user-drag: none;
   -webkit-app-region: no-drag;
   user-drag: none;
   app-region: no-drag;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent; /* For some Androids */
 }
 
 svg,

@@ -25,12 +25,11 @@ const SidebarLink = memo(({ label, icon, ...props }) => {
 function findMainTouch(changedTouches) {
   for (let i = 0; i < changedTouches.length; i++) {
     if (changedTouches[i].identifier === 0) {
-      return changedTouches[i]
+      return changedTouches[i];
     }
   }
   return false;
 }
-
 
 function Sidebar() {
   const sidebarRef = useRef();
@@ -51,8 +50,8 @@ function Sidebar() {
   };
 
   const onTouchMove = (e) => {
-    e.preventDefault()
-    const mainTouch = findMainTouch(e.changedTouches)
+    e.preventDefault();
+    const mainTouch = findMainTouch(e.changedTouches);
     if (mainTouch) {
       setLastPointerX((prev) => {
         if (prev || prev === 0) {
@@ -64,7 +63,7 @@ function Sidebar() {
         return prev;
       });
     }
-  }
+  };
 
   const onTouchStart = (e) => {
     const expanded = mobileAppState.menuExpanded.value;
@@ -79,10 +78,10 @@ function Sidebar() {
       setLastPointerX(mainTouch.clientX - bounds.left);
       document.documentElement.ontouchmove = onTouchMove;
     }
-  }
+  };
 
   const onTouchEnd = (e) => {
-    const mainTouch = findMainTouch(e.changedTouches)
+    const mainTouch = findMainTouch(e.changedTouches);
     if (mainTouch) {
       setTranslateX(false);
       document.documentElement.ontouchmove = null;
@@ -92,8 +91,7 @@ function Sidebar() {
         closeSidebar();
       }
     }
-  }
-
+  };
 
   useEffect(() => {
     // Mobile support
