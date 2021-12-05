@@ -12,6 +12,7 @@ import { globalPlayerState } from "store";
 import { WEB_DOMAIN } from "constants.js";
 import StreamPlayButton from "component/streamPlayButton";
 import FavoriteButton from "component/favoriteButton";
+import { useMediaQuery } from "react-responsive";
 
 // If list items are expensive to render,
 // Consider using React.memo or shouldComponentUpdate to avoid unnecessary re-renders.
@@ -20,7 +21,7 @@ import FavoriteButton from "component/favoriteButton";
 
 const Row = memo(({ data, index, style }) => {
   // Data passed to List as "itemData" is available as props.data
-  const { items, queueTitle, startIndex } = data;
+  const { items, queueTitle, startIndex, isTabletOrMobile } = data;
   const metadata = items[index];
   const playerState = useHookState(globalPlayerState);
   const currentTrack = playerState.currentTrack.value;
@@ -28,6 +29,7 @@ const Row = memo(({ data, index, style }) => {
   const showPlayButton = metadata && !metadata.fee_amount;
   const streamUrl = metadata ? `${WEB_DOMAIN}/${metadata.url}` : "";
   const queueData = queueTitle ? items : null;
+
   return (
     <div
       className={clsx(
@@ -37,19 +39,22 @@ const Row = memo(({ data, index, style }) => {
       style={style}
     >
       <div className="row__cell">
-        <div className="row__data">
-          {showPlayButton && (
-            <StreamPlayButton
-              index={index + startIndex}
-              className={"button--play-row"}
-              classNameActive={"button--play-row--active"}
-              metadata={metadata}
-              queueTitle={queueTitle}
-              queueData={queueData}
-            />
-          )}
-          <div className="row__index">{index + startIndex + 1}</div>
-        </div>
+        {!isTabletOrMobile && (
+          <div className="row__data">
+            {showPlayButton && (
+              <StreamPlayButton
+                index={index + startIndex}
+                className={"button--play-row"}
+                classNameActive={"button--play-row--active"}
+                metadata={metadata}
+                queueTitle={queueTitle}
+                queueData={queueData}
+              />
+            )}
+            <div className="row__index">{index + startIndex + 1}</div>
+          </div>
+        )}
+
         <Thumbnail className="row__thumbnail" src={metadata.thumbnail} />
         <div className="row__data">
           <Link
@@ -67,30 +72,33 @@ const Row = memo(({ data, index, style }) => {
           </Link>
         </div>
       </div>
-      <div className="row__cell">
-        <div
-          className={clsx(
-            "row__metadata row__price",
-            !metadata || (!metadata.fee_amount && "row__price--free")
-          )}
-        >
-          {metadata && metadata.fee_amount
-            ? `${metadata.fee_amount.toFixed(2)} ${metadata.fee_currency}`
-            : ""}
+      {!isTabletOrMobile && (
+        <div className="row__cell">
+          <div
+            className={clsx(
+              "row__metadata row__price",
+              !metadata || (!metadata.fee_amount && "row__price--free")
+            )}
+          >
+            {metadata && metadata.fee_amount
+              ? `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`
+              : ""}
+          </div>
+          <div className="row__metadata">
+            <FavoriteButton
+              id={metadata.id}
+              className={
+                "button--text button--favorite  button--player-action  button--row-action"
+              }
+              favoriteType={metadata.stream_type}
+            />
+          </div>
+
+          <div className="row__metadata row__end">
+            {durationTrackFormat(metadata.duration)}
+          </div>
         </div>
-        <div className="row__metadata">
-          <FavoriteButton
-            id={metadata.id}
-            className={
-              "button--text button--favorite  button--player-action  button--row-action"
-            }
-            favoriteType={metadata.stream_type}
-          />
-        </div>
-        <div className="row__metadata row__end">
-          {durationTrackFormat(metadata.duration)}
-        </div>
-      </div>
+      )}
     </div>
   );
 }, areEqual);
@@ -101,11 +109,14 @@ const Row = memo(({ data, index, style }) => {
 // If we were only passing a single, stable value (e.g. items),
 // We could just pass the value directly.
 
-const createItemData = memoize((items, queueTitle, startIndex) => ({
-  items,
-  queueTitle,
-  startIndex,
-}));
+const createItemData = memoize(
+  (items, queueTitle, startIndex, isTabletOrMobile) => ({
+    items,
+    queueTitle,
+    startIndex,
+    isTabletOrMobile,
+  })
+);
 
 // In this example, "items" is an Array of objects to render,
 // and "toggleItemActive" is a function that updates an item's state.
@@ -121,6 +132,9 @@ function TrackList({
   const containerRef = useRef();
   const [width, setWidth] = useState(100);
   const [duration, setDuration] = useState(0);
+  const isTabletOrMobile = useMediaQuery({
+    query: "(max-width: 720px)",
+  });
   // Bundle additional data to list items using the "itemData" prop.
   // It will be accessible to item renderers as props.data.
   // Memoize this data to avoid bypassing shouldComponentUpdate().
@@ -134,7 +148,8 @@ function TrackList({
       return track;
     }),
     queueTitle,
-    startIndex
+    startIndex,
+    isTabletOrMobile
   );
 
   const handleScroll = ({ scrollTop }) => {
