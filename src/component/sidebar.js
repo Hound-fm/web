@@ -23,13 +23,14 @@ const SidebarLink = memo(({ label, icon, ...props }) => {
 });
 
 function findMainTouch(changedTouches) {
-  for (var i = 0; i < changedTouches.length; i++) {
-    if (changedTouches[i].identifier == 0) {
-      return changedTouches[i];
+  for (let i = 0; i < changedTouches.length; i++) {
+    if (changedTouches[i].identifier === 0) {
+      return changedTouches[i]
     }
   }
   return false;
 }
+
 
 function Sidebar() {
   const sidebarRef = useRef();
@@ -49,25 +50,9 @@ function Sidebar() {
     mobileAppState.menuExpanded.set(false);
   };
 
-  const onPanMove = (e) => {
-    document.documentElement.setPointerCapture(e.pointerId);
-
-    setLastPointerX((prev) => {
-      if (prev || prev === 0) {
-        const bounds = sidebarRef.current.getBoundingClientRect();
-        const width = bounds.width;
-        const next = clamp(e.pageX - prev, -width, 0);
-        setTranslateX(`translate3d(${next}px, 0, 0)`);
-      }
-      return prev;
-    });
-  };
-
-  const INPUTS = ["BUTTON", "INPUT", "A"];
-
   const onTouchMove = (e) => {
-    e.preventDefault();
-    const mainTouch = findMainTouch(e.changedTouches);
+    e.preventDefault()
+    const mainTouch = findMainTouch(e.changedTouches)
     if (mainTouch) {
       setLastPointerX((prev) => {
         if (prev || prev === 0) {
@@ -79,7 +64,7 @@ function Sidebar() {
         return prev;
       });
     }
-  };
+  }
 
   const onTouchStart = (e) => {
     const expanded = mobileAppState.menuExpanded.value;
@@ -94,10 +79,10 @@ function Sidebar() {
       setLastPointerX(mainTouch.clientX - bounds.left);
       document.documentElement.ontouchmove = onTouchMove;
     }
-  };
+  }
 
   const onTouchEnd = (e) => {
-    const mainTouch = findMainTouch(e.changedTouches);
+    const mainTouch = findMainTouch(e.changedTouches)
     if (mainTouch) {
       setTranslateX(false);
       document.documentElement.ontouchmove = null;
@@ -107,7 +92,8 @@ function Sidebar() {
         closeSidebar();
       }
     }
-  };
+  }
+
 
   useEffect(() => {
     // Mobile support
