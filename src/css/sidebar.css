@@ -11,6 +11,7 @@
   overflow: auto;
   background: rgba(12, 12, 12, 0.94);
   z-index: 1;
+  touch-action: pan-x;
   backdrop-filter: blur(10px);
 }
 
@@ -24,6 +25,7 @@
   margin: auto;
   z-index: 4;
   transition: opacity 0.3s ease;
+  touch-action: pan-x;
 }
 
 /* Border */

@@ -22,6 +22,15 @@ const SidebarLink = memo(({ label, icon, ...props }) => {
   );
 });
 
+function findMainTouch(changedTouches) {
+  for (var i = 0; i < changedTouches.length; i++) {
+    if (changedTouches[i].identifier == 0) {
+      return changedTouches[i];
+    }
+  }
+  return false;
+}
+
 function Sidebar() {
   const sidebarRef = useRef();
   const mobileAppState = useHookState(globalMobileAppState);
@@ -56,51 +65,59 @@ function Sidebar() {
 
   const INPUTS = ["BUTTON", "INPUT", "A"];
 
-  const onPanStart = (e) => {
+  const onTouchMove = (e) => {
+    e.preventDefault();
+    const mainTouch = findMainTouch(e.changedTouches);
+    if (mainTouch) {
+      setLastPointerX((prev) => {
+        if (prev || prev === 0) {
+          const bounds = sidebarRef.current.getBoundingClientRect();
+          const width = bounds.width;
+          const next = clamp(mainTouch.pageX - prev, -width, 0);
+          setTranslateX(`translate3d(${next}px, 0, 0)`);
+        }
+        return prev;
+      });
+    }
+  };
+
+  const onTouchStart = (e) => {
     const expanded = mobileAppState.menuExpanded.value;
     if (!expanded) {
       // Prevent interaction if sidebar is closed
       return;
     }
-    const target = e.target;
-    const bounds = sidebarRef.current.getBoundingClientRect();
-    setLastPointerX(e.clientX - bounds.left);
-    document.documentElement.onpointermove = onPanMove;
 
-    if (
-      target.id !== "SIDEBAR_OVERLAY" &&
-      !INPUTS.includes(target.nodeName) &&
-      !INPUTS.includes(
-        target.parentElement ? target.parentElement.nodeName : null
-      )
-    ) {
-      if (e.pointerId || e.pointerId === 0) {
-        document.documentElement.setPointerCapture(e.pointerId);
+    const mainTouch = findMainTouch(e.changedTouches);
+    if (mainTouch) {
+      const bounds = sidebarRef.current.getBoundingClientRect();
+      setLastPointerX(mainTouch.clientX - bounds.left);
+      document.documentElement.ontouchmove = onTouchMove;
+    }
+  };
+
+  const onTouchEnd = (e) => {
+    const mainTouch = findMainTouch(e.changedTouches);
+    if (mainTouch) {
+      setTranslateX(false);
+      document.documentElement.ontouchmove = null;
+      const bounds = sidebarRef.current.getBoundingClientRect();
+      if (bounds.left <= -bounds.width / 2) {
+        // Close sidebar
+        closeSidebar();
       }
     }
   };
 
-  const onPanEnd = (e) => {
-    const bounds = sidebarRef.current.getBoundingClientRect();
-    if (bounds.left <= -bounds.width / 2) {
-      // Close sidebar
-      closeSidebar();
-    }
-    setTranslateX(false);
-    document.documentElement.onpointermove = null;
-    if (e.pointerId || e.pointerId === 0) {
-      document.documentElement.releasePointerCapture(e.pointerId);
-    }
-  };
-
   useEffect(() => {
-    document.documentElement.addEventListener("pointerdown", onPanStart);
-    document.documentElement.addEventListener("pointerup", onPanEnd);
+    // Mobile support
+    document.documentElement.addEventListener("touchstart", onTouchStart);
+    document.documentElement.addEventListener("touchend", onTouchEnd);
 
     return () => {
-      document.documentElement.removeEventListener("pointerdown", onPanStart);
-      document.documentElement.removeEventListener("pointerup", onPanEnd);
-      // document.documentElement.removeEventListener("pointermove", onPanMove);
+      // Mobile support
+      document.documentElement.removeEventListener("touchstart", onTouchStart);
+      document.documentElement.addEventListener("touchend", onTouchEnd);
     };
     // eslint-disable-next-line
   }, []);
