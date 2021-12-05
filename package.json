@@ -12,7 +12,7 @@
     "add": "^2.0.6",
     "clsx": "^1.1.1",
     "history": "5",
-    "lucide-react": "^0.15.26",
+    "lucide-react": "^0.16.19",
     "luxon": "^2.0.2",
     "memoize-one": "^5.2.1",
     "prop-types": "^15.7.2",

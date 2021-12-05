@@ -122,16 +122,17 @@ export function CategoryCardItem({ title, color }) {
   });
   const cardStyle = { backgroundColor: `rgb(${color})` };
   const thumbnailStyle = {
-    backgroundImage:
-      "url(/images/" + title.replace(/\s/g, "-") + ".jpg)",
+    backgroundImage: "url(/images/" + title.replace(/\s/g, "-") + ".jpg)",
   };
-  const gradientOverlay = { background: smoothGradient(color, isTabletOrMobile ? 0.64 : 0.95 ) };
+  const gradientOverlay = {
+    background: smoothGradient(color, isTabletOrMobile ? 0.64 : 0.95),
+  };
   const linkTo = title === "podcasts" ? "/podcasts" : `/genre/${title}`;
   return (
     <Link className="category-card" style={cardStyle} to={linkTo}>
       <div className="category-card__thumbnail" style={thumbnailStyle} />
       <div className="category-card__title" style={gradientOverlay}>
-        <span>{title}</span>
+        {title}
       </div>
     </Link>
   );

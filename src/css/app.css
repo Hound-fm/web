@@ -138,5 +138,13 @@ button:focus-visible {
   user-select: none;
 
   -webkit-user-drag: none;
+  -webkit-app-region: no-drag;
   user-drag: none;
+  app-region: no-drag;
+}
+
+svg,
+img {
+  pointer-events: none;
+  touch-action: none;
 }

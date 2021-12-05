@@ -6,7 +6,7 @@ const Anchor = ({ children, ...props }) => {
   return <a {...props}>{children}</a>;
 };
 
-function CustomLink({ icon, children, exact, onClick, ...props }) {
+function CustomLink({ icon, children, exact, onClick, draggable, ...props }) {
   let match = useMatch({
     path: props.to || "",
     exact,
@@ -19,11 +19,18 @@ function CustomLink({ icon, children, exact, onClick, ...props }) {
     }
   };
 
+  const stopDragging = (e) => {
+    if (!draggable) {
+      e.preventDefault();
+    }
+  };
+
   const Wrapper = props.to ? Link : Anchor;
   return (
     <Wrapper
       onClick={handleClick}
       aria-current={match ? "page" : null}
+      onDragStart={stopDragging}
       {...props}
     >
       {icon && <Icon icon={icon} className={"icon link__icon"} />}

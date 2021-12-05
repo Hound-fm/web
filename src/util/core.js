@@ -15,7 +15,7 @@ export function getRandomGreetings() {
 
 export const clamp = (num, min, max) => {
   if (min === max) return min;
-  return Math.min(Math.max(num, min), max);
+  return Math.max(min, Math.min(num, max));
 };
 
 export function getColumnCount(grid) {
