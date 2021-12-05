@@ -82,8 +82,8 @@
 
 .app--compact:not(.app--mobile) .sidebar__link .link__icon {
   margin: 0;
-  height: 1.52em;
-  width: 1.52em;
+  height: 1.36em;
+  width: 1.36em;
 }
 
 .app--compact:not(.app--mobile) .sidebar__header span {

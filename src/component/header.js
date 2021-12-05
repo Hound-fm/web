@@ -82,7 +82,7 @@ function Header(props) {
       )}
     >
       <div className={"header__actions"}>
-        {!showSearch && isTabletOrMobile && <MobileMenuButton />}
+        {isTabletOrMobile && <MobileMenuButton />}
 
         {!isTabletOrMobile && (
           <Button
