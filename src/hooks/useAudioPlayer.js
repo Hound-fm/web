@@ -228,6 +228,7 @@ const useAudioPlayer = () => {
   };
 
   useEffect(() => {
+    player.current.autoplay = false;
     // Register audio player events
     player.current.addEventListener("error", handleErrors);
     player.current.addEventListener("canplaythrough", handleReady);
@@ -302,6 +303,7 @@ const useAudioPlayer = () => {
       player.current.pause();
       player.current.currentTime = 0;
       player.current.src = source;
+      player.current.autoplay = false;
       player.current.load();
 
       // Reset state with default values

@@ -1,5 +1,5 @@
 .tracks-list {
-  overflow-y: hidden !important;
+  overflow: hidden !important;
 }
 
 .tracks-list .tracks-list__row {
