@@ -81,10 +81,14 @@ input[type="search"]::-webkit-search-cancel-button {
   margin-left: 8px;
   margin-right: 16px;
 }
+
+.app--mobile .list-result .section__header {
+  margin-left: 0;
+  margin-right: 0;
+}
 .tracks-list__row {
   background: red;
   padding: 8px;
-  margin: 1px;
   border-radius: 4px;
   background: 0;
   display: flex;
@@ -127,8 +131,5 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 40px;
   background-color: #353535;
   border-radius: 2px;
-}
-
-.app--mobile .row__thumbnail {
-  margin-left: 18px;
+  margin-left: 8px;
 }

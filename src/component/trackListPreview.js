@@ -7,6 +7,7 @@ import StreamPlayButton from "component/streamPlayButton";
 import { WEB_DOMAIN } from "constants.js";
 import { useState as useHookState } from "@hookstate/core";
 import { globalPlayerState } from "store";
+import { useMediaQuery } from "react-responsive";
 
 const TrackRow = memo(
   ({
@@ -18,6 +19,7 @@ const TrackRow = memo(
     duration,
     thumbnail,
     channel_id,
+    isTabletOrMobile,
   }) => {
     const streamUrl = url ? `${WEB_DOMAIN}/${url}` : "";
     const playerState = useHookState(globalPlayerState);
@@ -62,15 +64,21 @@ const TrackRow = memo(
             </Link>
           </div>
         </div>
-        <div className="row__cell">
-          <div className="row__metadata">{durationTrackFormat(duration)}</div>
-        </div>
+        {!isTabletOrMobile && (
+          <div className="row__cell">
+            <div className="row__metadata">{durationTrackFormat(duration)}</div>
+          </div>
+        )}
       </div>
     );
   }
 );
 
 function TrackListPreview({ tracksData }) {
+  const isTabletOrMobile = useMediaQuery({
+    query: "(max-width: 720px)",
+  });
+
   return (
     <div className="tracks-list-preview">
       {tracksData.map((data, index) => (
@@ -84,6 +92,7 @@ function TrackListPreview({ tracksData }) {
           subtitle={data.channel_title}
           duration={data.duration}
           thumbnail={data.thumbnail}
+          isTabletOrMobile={isTabletOrMobile}
         />
       ))}
     </div>

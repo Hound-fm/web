@@ -10,12 +10,30 @@
   border-radius: 50%;
   animation: 0.9s bounce infinite alternate;
 }
+
+.app--compact .loading div,
+.app--mobile .loading div {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 1.8rem 0.3rem;
+  background: var(--subtext-color);
+  border-radius: 50%;
+  animation: 0.9s min-bounce infinite alternate;
+}
+
 .loading div:nth-child(2) {
   animation-delay: 0.3s;
 }
 
 .loading div:nth-child(3) {
   animation-delay: 0.6s;
+}
+
+@keyframes min-bounce {
+  to {
+    opacity: 0.3;
+    transform: translate3d(0, -0.8rem, 0);
+  }
 }
 
 @keyframes bounce {

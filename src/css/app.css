@@ -98,6 +98,11 @@ button:focus-visible {
   margin-bottom: 24px;
 }
 
+.app--mobile .section__header {
+  align-items: center;
+  align-content: center;
+}
+
 .section__header a {
   margin: 0;
   padding: 0;
@@ -110,6 +115,10 @@ button:focus-visible {
 
 .section__title {
   margin: 0;
+}
+
+.app--mobile .section__description {
+  display: none;
 }
 
 .section__description {

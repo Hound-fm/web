@@ -1,4 +1,4 @@
-import Link from "component/link";
+import SectionHeader from "component/sectionHeader";
 import { Card } from "component/card";
 import { getColumnCount } from "util/core";
 import { useState, useRef, useEffect, useLayoutEffect, memo } from "react";
@@ -26,9 +26,7 @@ const CardsGrid = memo(({ gridData, gridType }) => {
         if (metadata.label) {
           subtitle = "Genre";
           metadata.rawThumbnail =
-            "/images/" +
-            metadata.label.toLowerCase() +
-            ".jpg";
+            "/images/" + metadata.label.toLowerCase() + ".jpg";
         }
         return (
           <Card
@@ -106,9 +104,7 @@ const CardsGridRow = memo(
           if (metadata.label) {
             subtitle = "Genre";
             metadata.rawThumbnail =
-              "/images/" +
-              metadata.label.toLowerCase() +
-              ".jpg";
+              "/images/" + metadata.label.toLowerCase() + ".jpg";
           }
           return (
             <Card
@@ -135,14 +131,9 @@ export const CollectionGrid = memo(
   ({ title, description, collectionType = "artist", collectionData = [] }) => {
     return (
       <div className={"collection"}>
-        <div className="section__header">
-          <div className="section__header-info">
-            {title && <h2 className="section__title">{title}</h2>}
-            {description && (
-              <p className="section__description">{description}</p>
-            )}
-          </div>
-        </div>
+        {(title || description) && (
+          <SectionHeader title={title} description={description} />
+        )}
         {collectionType && collectionData && (
           <CardsGrid gridType={collectionType} gridData={collectionData} />
         )}
@@ -173,17 +164,11 @@ export const CollectionPreviewRow = memo(
 
     return (
       <div className={"collection"}>
-        <div className="section__header">
-          <div className="section__header-info">
-            {title && <h2 className="section__title">{title}</h2>}
-            {description && (
-              <p className="section__description">{description}</p>
-            )}
-          </div>
-          <div className="section__header-actions">
-            {showLink && <Link to={collectionLink}>See All</Link>}
-          </div>
-        </div>
+        <SectionHeader
+          title={title}
+          description={description}
+          expandLink={showLink ? collectionLink : null}
+        />
         {collectionType && collectionData && (
           <CardsGridRow
             queueTitle={queueTitle}

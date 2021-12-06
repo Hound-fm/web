@@ -1,6 +1,13 @@
 .tracks-list {
   overflow: hidden !important;
 }
+.tracks-list .row__thumbnail {
+  margin: 0;
+}
+
+.app--mobile .tracks-list .row__thumbnail {
+  margin-left: 18px;
+}
 
 .tracks-list .tracks-list__row {
   margin: 0;
@@ -44,7 +51,7 @@
 }
 
 .tracks-list .row__metadata {
-  margin: 0 16px;
+  margin-left: 18px;
 }
 
 .row__metadata {

@@ -18,7 +18,6 @@ function CardItem(props) {
     label,
     metadata,
     subtitle,
-    circularThumbnail,
     layout = "vertical",
     thumbnail = "",
     rawThumbnail,
@@ -31,6 +30,8 @@ function CardItem(props) {
   const isChannel = metadata && !metadata.stream_type && metadata.channel_type;
   const isStream = metadata && metadata.stream_type && metadata.channel_type;
   const isGenre = metadata && metadata.category_type;
+  const isArtist = isChannel && metadata.channel_type === "artist";
+  const circularThumbnail = isArtist;
 
   let href;
   let linkTo;
