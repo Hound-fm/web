@@ -8,6 +8,7 @@ import { WEB_DOMAIN } from "constants.js";
 import { useState as useHookState } from "@hookstate/core";
 import { globalPlayerState } from "store";
 import { useMediaQuery } from "react-responsive";
+import useContextMenu from "hooks/useContextMenu";
 
 const TrackRow = memo(
   ({
@@ -23,6 +24,7 @@ const TrackRow = memo(
   }) => {
     const streamUrl = url ? `${WEB_DOMAIN}/${url}` : "";
     const playerState = useHookState(globalPlayerState);
+    const handleContextMenu = useContextMenu(metadata);
     const currentTrack = playerState.currentTrack.value;
     const showPlayButton = metadata && !metadata.fee_amount;
     const selected =
@@ -34,6 +36,7 @@ const TrackRow = memo(
           "tracks-list__row",
           selected && "tracks-list__row--selected"
         )}
+        onContextMenu={handleContextMenu}
       >
         <div className="row__cell">
           <Thumbnail className="row__thumbnail" src={thumbnail}>

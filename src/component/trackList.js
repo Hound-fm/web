@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { memo, useRef, useState, useEffect } from "react";
+import React, { memo, useRef, useState, useMemo } from "react";
 import { durationTrackFormat, durationShortFormat } from "util/formatDuration";
 import memoize from "memoize-one";
 import Thumbnail from "component/thumbnail";
@@ -114,7 +114,14 @@ const Row = memo(({ data, index, style }) => {
 
 const createItemData = memoize(
   (items, queueTitle, startIndex, isTabletOrMobile) => ({
-    items,
+    items: items.map((track) => {
+      if (track && track._source && track._id) {
+        const data = track._source;
+        data.id = track._id;
+        return data;
+      }
+      return track;
+    }),
     queueTitle,
     startIndex,
     isTabletOrMobile,
@@ -123,6 +130,18 @@ const createItemData = memoize(
 
 // In this example, "items" is an Array of objects to render,
 // and "toggleItemActive" is a function that updates an item's state.
+
+const getTrackListDuration = (trackData) => {
+  let totalDuration = 0;
+  trackData.forEach((item, i) => {
+    if (item && item.duration) {
+      totalDuration += item.duration;
+    } else if (item && item._source && item._source.duration) {
+      totalDuration += item._source.duration;
+    }
+  });
+  return totalDuration;
+};
 
 function TrackList({
   trackData,
@@ -134,22 +153,27 @@ function TrackList({
   const listRef = useRef();
   const containerRef = useRef();
   const [width, setWidth] = useState(100);
-  const [duration, setDuration] = useState(0);
   const isTabletOrMobile = useMediaQuery({
     query: "(max-width: 720px)",
   });
+
+  const formatedDescription = useMemo(() => {
+    if (description) {
+      return description;
+    } else if (trackData && trackData.length) {
+      let totalDuration = getTrackListDuration(trackData);
+      return `${trackData.length} tracks •  ${durationShortFormat(
+        totalDuration
+      )}`;
+    }
+    return null;
+  }, [description, trackData]);
+
   // Bundle additional data to list items using the "itemData" prop.
   // It will be accessible to item renderers as props.data.
   // Memoize this data to avoid bypassing shouldComponentUpdate().
   const itemData = createItemData(
-    trackData.map((track) => {
-      if (track && track._source && track._id) {
-        const data = track._source;
-        data.id = track._id;
-        return data;
-      }
-      return track;
-    }),
+    trackData,
     queueTitle,
     startIndex,
     isTabletOrMobile
@@ -161,18 +185,6 @@ function TrackList({
     }
   };
 
-  useEffect(() => {
-    let totalDuration = 0;
-    trackData.forEach((item, i) => {
-      if (item && item.duration) {
-        totalDuration += item.duration;
-      } else if (item && item._source && item._source.duration) {
-        totalDuration += item._source.duration;
-      }
-    });
-    setDuration(totalDuration ? durationShortFormat(totalDuration) : null);
-  }, [trackData, trackData.length, setDuration]);
-
   useResizeObserver(containerRef, (entry) => {
     setWidth(entry.contentRect.width);
   });
@@ -180,10 +192,8 @@ function TrackList({
   return (
     <>
       {title && <h1 className="tracks-list__title">{title}</h1>}
-      {(description || (trackData.length && duration)) && (
-        <h4 className={"tracks-list__description"}>
-          {description || `${trackData.length} tracks •  ${duration}`}
-        </h4>
+      {formatedDescription && (
+        <h4 className={"tracks-list__description"}>{formatedDescription}</h4>
       )}
       <div ref={containerRef} className="tracks-list__container">
         <WindowScroller onScroll={handleScroll}>{() => <div />}</WindowScroller>
