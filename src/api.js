@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 
-const API = "http://localhost:3333/";
+const API = "https://api.hound.fm/";
 
 const fetchSearchResults = (query, type = "") =>
   fetch(API + `search?q=${query}&type=${type}`).then((response) => {

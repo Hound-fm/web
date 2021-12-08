@@ -75,16 +75,19 @@ button {
   font-family: inherit;
 }
 
-a:focus,
-a:hover,
 button:focus,
 button:hover,
 button[aria-pressed="true"] {
   color: var(--text-color);
 }
-a:active,
+
 button:active {
   background: var(--card-active-bg-color);
+}
+
+a:focus,
+a:hover {
+  text-decoration: underline;
 }
 
 a:focus-visible,
