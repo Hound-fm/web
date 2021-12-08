@@ -164,6 +164,7 @@
   justify-content: flex-start;
   margin: 0;
   padding: calc(var(--space-margin) * 0.25) calc(var(--space-margin) * 0.15);
+  text-decoration: none;
   border-radius: 0;
   border-radius: 25em;
   transition-duration: 0.3s;
@@ -174,6 +175,12 @@
 .sidebar__link a:hover {
   color: var(--text-color);
   background: var(--card-bg-color);
+}
+.sidebar__link a:focus,
+.sidebar__link a:hover,
+.sidebar__link a:active,
+.sidebar__link a:visited {
+  text-decoration: none;
 }
 
 .sidebar__link a[aria-current="page"] {

@@ -296,6 +296,10 @@ a.card__subtitle:active {
   aspect-ratio: 1;
 }
 
+.app--mobile.card__thumbnail {
+  box-shadow: none;
+}
+
 .card__thumbnail--circle {
   border-radius: 100%;
 }
