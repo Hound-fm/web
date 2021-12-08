@@ -1,0 +1,25 @@
+@keyframes min-bounce {
+  to {
+    opacity: 0.3;
+    transform: translate3d(0, -0.8rem, 0);
+  }
+}
+
+@keyframes bounce {
+  to {
+    opacity: 0.3;
+    transform: translate3d(0, -1rem, 0);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}

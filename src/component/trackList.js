@@ -13,6 +13,7 @@ import { WEB_DOMAIN } from "constants.js";
 import StreamPlayButton from "component/streamPlayButton";
 import FavoriteButton from "component/favoriteButton";
 import { useMediaQuery } from "react-responsive";
+import useContextMenu from "hooks/useContextMenu";
 
 // If list items are expensive to render,
 // Consider using React.memo or shouldComponentUpdate to avoid unnecessary re-renders.
@@ -29,6 +30,7 @@ const Row = memo(({ data, index, style }) => {
   const showPlayButton = metadata && !metadata.fee_amount;
   const streamUrl = metadata ? `${WEB_DOMAIN}/${metadata.url}` : "";
   const queueData = queueTitle ? items : null;
+  const handleContextMenu = useContextMenu(metadata);
 
   return (
     <div
@@ -37,6 +39,7 @@ const Row = memo(({ data, index, style }) => {
         selected && "tracks-list__row--selected"
       )}
       style={style}
+      onContextMenu={handleContextMenu}
     >
       <div className="row__cell">
         {!isTabletOrMobile && (

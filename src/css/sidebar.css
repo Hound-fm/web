@@ -15,8 +15,7 @@
   backdrop-filter: blur(10px);
 }
 
-.sidebar__overlay[data-open="true"] {
-  background: rgba(12, 12, 12, 0.64);
+.sidebar__overlay {
   position: fixed;
   left: 0;
   right: 0;
@@ -24,8 +23,26 @@
   top: 0;
   margin: auto;
   z-index: 4;
-  transition: opacity 0.3s ease;
   touch-action: pan-x;
+  background: rgba(12, 12, 12, 0.64);
+  opacity: 0;
+  display: none;
+}
+
+.sidebar__overlay[data-open] {
+  display: block;
+}
+
+.sidebar__overlay[data-open="false"] {
+  opacity: 1;
+  animation: 0.3s fadeOut;
+  animation-fill-mode: both;
+}
+
+.sidebar__overlay[data-open="true"] {
+  opacity: 0;
+  animation: 0.3s fadeIn;
+  animation-fill-mode: both;
 }
 
 /* Border */
@@ -98,7 +115,6 @@
   z-index: 4;
   bottom: 0;
   box-shadow: 1px 0px 8px 0px rgba(0, 0, 0, 0.24), 0 1px 2px rgba(0, 0, 0, 0.32);
-
   transform: translate3d(calc(-1 * var(--sidebar-width)), 0, 0);
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }

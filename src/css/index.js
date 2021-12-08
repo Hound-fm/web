@@ -1,4 +1,5 @@
 import "./vars.css";
+import "./animation.css";
 import "./app.css";
 import "./header.css";
 import "./sidebar.css";
@@ -13,3 +14,4 @@ import "./favorite.css";
 import "./page.css";
 import "./empty-state.css";
 import "./loader.css";
+import "./menu.css";

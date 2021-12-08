@@ -63,3 +63,11 @@ export const BrokenHeart = memo((props) => {
     </svg>
   );
 });
+
+export const MenuRight = memo((props) => {
+  return (
+    <svg width="24px" height="24px" viewBox="0 0 24 24" {...props}>
+      <path fill="currentColor" d="M10,17L15,12L10,7V17Z" />
+    </svg>
+  );
+});

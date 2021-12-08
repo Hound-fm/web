@@ -40,3 +40,11 @@ const defaultPlaybackState = {
 };
 
 export const globalPlaybackState = createState(defaultPlaybackState);
+
+const defaultContextMenuState = {
+  position: { x: 0, y: 0 },
+  syncHide: true,
+  targetData: null,
+};
+
+export const globalContextMenuState = createState(defaultContextMenuState);

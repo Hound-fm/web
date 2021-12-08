@@ -38,7 +38,6 @@ const CardsGrid = memo(({ gridData, gridType }) => {
             subtitle={subtitle}
             thumbnail={metadata.thumbnail}
             rawThumbnail={metadata.rawThumbnail}
-            circularThumbnail={gridType === "artist"}
           />
         );
       })}
@@ -118,7 +117,6 @@ const CardsGridRow = memo(
               subtitle={subtitle}
               thumbnail={metadata.thumbnail}
               rawThumbnail={metadata.rawThumbnail}
-              circularThumbnail={rowType === "artist"}
             />
           );
         })}

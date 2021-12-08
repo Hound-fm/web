@@ -2,7 +2,7 @@ import Logo from "../logo.svg";
 import Link from "component/link";
 import { memo, useEffect, useRef, useState } from "react";
 import { Home, Heart, Search } from "lucide-react";
-import { useState as useHookState } from "@hookstate/core";
+import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { globalMobileAppState } from "store";
 import { useMediaQuery } from "react-responsive";
 import { clamp } from "util/core";
@@ -34,13 +34,14 @@ function findMainTouch(changedTouches) {
 function Sidebar() {
   const sidebarRef = useRef();
   const mobileAppState = useHookState(globalMobileAppState);
-  const open = mobileAppState.menuExpanded.value;
   const [, setLastPointerX] = useState(false);
   const [translateX, setTranslateX] = useState(false);
-
+  const [hidden, setHidden] = useState(false);
   const isTabletOrMobile = useMediaQuery({
     query: "(max-width: 720px)",
   });
+  const open = isTabletOrMobile ? mobileAppState.menuExpanded.value : null;
+  const openTracked = mobileAppState.menuExpanded.attach(Downgraded).value;
 
   const closeSidebar = (e) => {
     if (e) {
@@ -114,6 +115,18 @@ function Sidebar() {
     // eslint-disable-next-line
   }, [isTabletOrMobile]);
 
+  useEffect(() => {
+    if (openTracked) {
+      setHidden(false);
+    }
+  }, [openTracked]);
+
+  const handleAnimationEnd = (e) => {
+    if (e.animationName === "fadeOut") {
+      setHidden(true);
+    }
+  };
+
   return (
     <>
       <div
@@ -121,6 +134,10 @@ function Sidebar() {
         className="sidebar__overlay nonselectable"
         data-open={open}
         onClick={closeSidebar}
+        onAnimationEnd={handleAnimationEnd}
+        style={{
+          display: hidden && !open ? "none" : null,
+        }}
       />
       <div
         className="sidebar nonselectable"

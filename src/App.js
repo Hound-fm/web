@@ -9,6 +9,7 @@ import FavoritesPage from "pages/favorites";
 import PodcastPage from "pages/podcast";
 import PodcastsPage from "pages/podcasts";
 import QueuePage from "pages/queue";
+import ContextMenu from "component/contextMenu";
 import { ErrorNotFoundPage } from "pages/error";
 
 import clsx from "clsx";
@@ -62,6 +63,7 @@ function App() {
           <Route path="*" element={<ErrorNotFoundPage />} />
         </Routes>
         <Player />
+        <ContextMenu />
       </div>
     </Router>
   );

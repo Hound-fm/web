@@ -7,6 +7,7 @@ import Link from "component/link";
 import { useNavigate } from "react-router-dom";
 import { WEB_DOMAIN } from "constants.js";
 import { useMediaQuery } from "react-responsive";
+import useContextMenu from "hooks/useContextMenu";
 
 function CardItem(props) {
   const {
@@ -21,17 +22,21 @@ function CardItem(props) {
     layout = "vertical",
     thumbnail = "",
     rawThumbnail,
+    circularThumbnail,
     ...cardProps
   } = props;
 
   const navigate = useNavigate();
+
   const showPlayButton =
     metadata && metadata.stream_type && !metadata.fee_amount;
   const isChannel = metadata && !metadata.stream_type && metadata.channel_type;
   const isStream = metadata && metadata.stream_type && metadata.channel_type;
   const isGenre = metadata && metadata.category_type;
-  const isArtist = isChannel && metadata.channel_type === "artist";
-  const circularThumbnail = isArtist;
+  const isArtist =
+    (metadata && metadata.result_type === "artist") ||
+    (isChannel && metadata.channel_type === "artist");
+  const isCircularThumbnail = circularThumbnail || isArtist;
 
   let href;
   let linkTo;
@@ -61,17 +66,20 @@ function CardItem(props) {
     }
   };
 
+  const handleContextMenu = useContextMenu(metadata);
+
   return (
     <div
       data-id={id}
       className={clsx("card", layout && `card--${layout}`)}
       {...cardProps}
       onClick={handleClick}
+      onContextMenu={handleContextMenu}
     >
       <Thumbnail
         className={clsx(
           "card__thumbnail",
-          circularThumbnail && "card__thumbnail--circle"
+          isCircularThumbnail && "card__thumbnail--circle"
         )}
         rawSrc={rawThumbnail}
         src={thumbnail}

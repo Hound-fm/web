@@ -44,7 +44,6 @@ const SearchTopResults = memo(
               metadata={topResult}
               style={cardStyle}
               layout="horizontal"
-              circularThumbnail={topResult.result_type === "Artist"}
               title={topResult.result_title}
               thumbnail={topResult.thumbnail}
               rawThumbnail={rawThumbnail}

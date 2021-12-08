@@ -149,7 +149,7 @@ export default function FavoritesPage() {
     favoriteType,
     favorites.artist.length,
     favorites.music_recording.length,
-    favorites.podcast_series,
+    favorites.podcast_series.length,
     favorites.podcast_episode.length,
   ]);
 

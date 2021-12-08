@@ -4,7 +4,12 @@ import { globalAppState } from "store";
 
 export default function useFavorite(id, favoriteType) {
   const appState = useHookState(globalAppState);
-  const favorites = appState.favorites[favoriteType].attach(Downgraded).value;
+
+  // eslint-disable-next-line
+  const favorites = favoriteType
+    ? appState.favorites[favoriteType].attach(Downgraded).value
+    : [];
+
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = () => {
@@ -26,12 +31,10 @@ export default function useFavorite(id, favoriteType) {
   };
 
   useEffect(() => {
-    if (id && favoriteType) {
-      if (favorites.length) {
-        if (favorites.includes(id)) {
-          setIsFavorite(true);
-          return;
-        }
+    if (id && favoriteType && favorites && favorites.length) {
+      if (favorites.includes(id)) {
+        setIsFavorite(true);
+        return;
       }
     }
     setIsFavorite(false);

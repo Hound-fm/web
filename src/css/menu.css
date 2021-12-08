@@ -1,0 +1,55 @@
+.contextmenu {
+  position: fixed;
+  background: rgb(35, 35, 35);
+  padding: 0;
+  z-index: 5;
+  max-width: 180px;
+  padding: 8px;
+  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.contextmenu hr {
+  width: 100%;
+  height: 0;
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: rgba(60, 60, 60, 0.64);
+  margin: 4px 0;
+  padding: 0;
+}
+
+.contextmenu button {
+  padding: 2px 12px;
+  border-radius: 4px;
+  width: 100%;
+  text-align: left;
+  display: block;
+}
+
+.contextmenu button {
+  font-size: 0.84em;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.contextmenu .contextsubmenu__disclosure {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 2px;
+}
+
+.contextmenu .contextsubmenu__disclosure .icon {
+  height: 100%;
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.contextmenu button:hover {
+  background: rgb(60, 60, 60);
+}

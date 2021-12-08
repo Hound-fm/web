@@ -5,17 +5,20 @@ export const PODCAST_GENRES = [
   "health",
   "science",
   "sports",
+  "new age",
   "blockchain",
   "interview",
   "technology",
   "education",
   "politics",
+  "religion",
   "psychology",
   "philosophy",
 ];
 
 export const GENRES = [
   "podcasts",
+  "psytrance",
   "instrumental",
   "electronic",
   "rock",
