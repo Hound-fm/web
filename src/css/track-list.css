@@ -33,7 +33,7 @@
 .tracks-list__description {
   color: var(--subtext-color);
   margin: 24px 0;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .tracks-list__description span {
@@ -81,6 +81,7 @@
   margin: 0;
   padding: 0;
   border-radius: 0;
+  font-weight: 500;
   display: inline-block;
 }
 
@@ -88,6 +89,7 @@
   margin: 0;
   padding: 0;
   border-radius: 0;
+  font-weight: 500;
   color: var(--title-color);
 }
 
@@ -116,6 +118,8 @@ s.row__subtitle:active {
 
 .row__data {
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .button--play-row {
@@ -130,6 +134,7 @@ s.row__subtitle:active {
   width: 32px;
   height: 32px;
 }
+
 .button--play-row--active,
 .button--play-row:focus {
   opacity: 1;
