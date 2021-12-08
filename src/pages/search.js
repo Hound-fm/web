@@ -9,7 +9,7 @@ const categories = [
   { title: "electronic", color: "58, 60, 63" },
   { title: "edm", color: "134,49,172" },
   { title: "house", color: "46, 102, 174" },
-  { title: "rock", color: "160, 59, 58" },
+  { title: "rock", color: "147, 46, 53" },
   { title: "industrial", color: "146,67,6" },
   { title: "techno", color: "8, 77, 146" },
   { title: "hip hop", color: "182, 80, 94" },
