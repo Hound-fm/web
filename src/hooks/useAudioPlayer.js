@@ -4,11 +4,7 @@ import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { useQueueNavigation } from "hooks/useQueue";
 import { globalPlayerState, globalPlaybackState } from "store";
 
-import {
-  updateMediaMetadata,
-  updatePositionState,
-  registerMediaActions,
-} from "util/mediaSession";
+import appMediaSession from "util/mediaSession";
 
 const defaultState = {
   ready: false,
@@ -123,17 +119,15 @@ const useAudioPlayer = () => {
   };
 
   const triggerPlay = useCallback(() => {
-    const promise = player.current.play();
-    if (promise) {
-      promise
-        .then(() => {
-          setState((prevState) => ({ ...prevState, ready: true }));
-        })
-        .catch((e) => {
-          player.current.pause();
-          handleErrors(e);
-        });
-    }
+    player.current
+      .play()
+      .then(() => {
+        setState((prevState) => ({ ...prevState, ready: true }));
+      })
+      .catch((e) => {
+        player.current.pause();
+        handleErrors(e);
+      });
   }, [setState, handleErrors]);
 
   const handleReady = () => {
@@ -146,7 +140,8 @@ const useAudioPlayer = () => {
         ...prevState,
         duration: player.current.duration,
       }));
-      updatePositionState(player.current);
+      const { duration, currentTime, playbackRate } = player.current;
+      appMediaSession.updatePositionState(duration, currentTime, playbackRate);
     }
   };
 
@@ -184,6 +179,7 @@ const useAudioPlayer = () => {
     if (player.current.networkState === player.current.NETWORK_IDLE) {
       playbackState.playback.set("playing");
       playbackState.playbackSync.set("");
+      appMediaSession.updatePlaybackState("playing");
       setState((prevState) => ({
         ...prevState,
         ready: true,
@@ -205,13 +201,14 @@ const useAudioPlayer = () => {
       playbackState.playbackSync.set("");
       playbackState.playback.set("playing");
     }
-
-    updatePositionState(player.current);
+    const { duration, currentTime, playbackRate } = player.current;
+    appMediaSession.updatePositionState(duration, currentTime, playbackRate);
   };
 
   const handlePause = () => {
     playbackState.playback.set("paused");
     playbackState.playbackSync.set("");
+    appMediaSession.updatePlaybackState("paused");
   };
 
   const handleEnded = () => {
@@ -228,7 +225,6 @@ const useAudioPlayer = () => {
   };
 
   useEffect(() => {
-    player.current.autoplay = false;
     // Register audio player events
     player.current.addEventListener("error", handleErrors);
     player.current.addEventListener("canplaythrough", handleReady);
@@ -240,27 +236,25 @@ const useAudioPlayer = () => {
     player.current.addEventListener("timeupdate", handleTimeUpdate);
     player.current.addEventListener("ended", handleEnded);
 
-    /* Seek To (supported since Chrome 78) */
-    const seekHandler = [
-      "seekto",
-      (event) => {
-        if (event.fastSeek && "fastSeek" in player.current) {
-          return player.current.fastSeek(event.seekTime);
-        }
-        player.current.currentTime = event.seekTime;
-      },
-    ];
-
     // Register mediaSession actions
     const actions = [
-      seekHandler,
-      ["play", triggerPlay],
-      ["pause", () => player.current.pause()],
+      [
+        "play",
+        () => {
+          triggerPlay();
+        },
+      ],
+      [
+        "pause",
+        () => {
+          player.current.pause();
+        },
+      ],
       ["nexttrack", queueNext],
       ["previoustrack", queuePrev],
     ];
 
-    registerMediaActions(actions);
+    appMediaSession.registerMediaActions(actions);
 
     // Unmount
     return () => {
@@ -278,6 +272,7 @@ const useAudioPlayer = () => {
       );
       // eslint-disable-next-line
       player.current.removeEventListener("ended", handleEnded);
+      appMediaSession.unregisterMediaActions();
     };
     // eslint-disable-next-line
   }, []);
@@ -303,7 +298,6 @@ const useAudioPlayer = () => {
       player.current.pause();
       player.current.currentTime = 0;
       player.current.src = source;
-      player.current.autoplay = false;
       player.current.load();
 
       // Reset state with default values
@@ -313,7 +307,7 @@ const useAudioPlayer = () => {
         duration,
       }));
 
-      updateMediaMetadata(currentTrack);
+      appMediaSession.updateMediaMetadata(currentTrack);
     }
   }, [currentTrack, setState]);
 
@@ -330,7 +324,10 @@ const useAudioPlayer = () => {
       if (playback === "playing") {
         // Set current track as page
         document.title = `${currentTrack.title} - ${currentTrack.channel_title}`;
+        // Update mediaSession playback
+        // appMediaSession.updatePlaybackState("playing");
       } else if (playback === "paused") {
+        // appMediaSession.updatePlaybackState("paused");
         // TODO: Use previous document title
         document.title = "hound.fm";
       }
