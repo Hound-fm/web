@@ -10,7 +10,6 @@ const defaultState = {
   ready: false,
   ended: false,
   duration: 0,
-  currentTime: 0,
 };
 
 const cachedState = {
@@ -18,6 +17,7 @@ const cachedState = {
   muted: false,
   volume: 0.5,
   lastVolume: 0.5,
+  firstPlay: true,
 };
 
 const isPlaying = (audio) => {
@@ -31,7 +31,13 @@ const isPlaying = (audio) => {
 };
 
 const useAudioPlayer = () => {
-  const player = useRef(new Audio());
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const players = useRef({
+    player: new Audio(),
+    ghostPlayer: new Audio(),
+  });
+
   const { queueNext, queuePrev } = useQueueNavigation();
   const playerState = useHookState(globalPlayerState);
   const playbackState = useHookState(globalPlaybackState);
@@ -45,7 +51,6 @@ const useAudioPlayer = () => {
     (e) => {
       const error = e.target ? e.target.error : e;
       const NETWORK_ABORT_ERROR = 20;
-      console.info(error);
       // Audio playback failed - show a message saying why
       switch (error.code) {
         case NETWORK_ABORT_ERROR:
@@ -81,15 +86,16 @@ const useAudioPlayer = () => {
   );
 
   const seek = (nextTime) => {
-    // Force UI update
-    setState((prevState) => ({ ...prevState, currentTime: nextTime }));
     // Seek to new time
-    player.current.currentTime = nextTime;
+    setCurrentTime(nextTime);
+    players.current.player.currentTime = nextTime;
   };
 
   const updateVolume = (nextVolume) => {
     // Update new volume
-    player.current.volume = nextVolume;
+    players.current.player.volume = nextVolume;
+    // Sync ghost player
+    players.current.ghostPlayer.volume = nextVolume;
   };
 
   const toggleLoop = () => {
@@ -111,104 +117,117 @@ const useAudioPlayer = () => {
   };
 
   const toggleMuted = () => {
-    if (!player.current.muted) {
-      player.current.volume = 0;
+    if (!players.current.player.muted) {
+      players.current.player.volume = 0;
+      players.current.ghostPlayer.volume = 0;
     } else {
-      player.current.volume = state.lastVolume || 0.5;
+      players.current.player.volume = state.lastVolume || 0.5;
+      players.current.ghostPlayer.volume = state.lastVolume || 0.5;
     }
   };
 
   const triggerPlay = useCallback(() => {
-    player.current
+    players.current.player
       .play()
       .then(() => {
         setState((prevState) => ({ ...prevState, ready: true }));
       })
       .catch((e) => {
-        player.current.pause();
+        players.current.player.pause();
         handleErrors(e);
       });
   }, [setState, handleErrors]);
 
-  const handleReady = () => {
-    triggerPlay();
-  };
+  const handleReady = useCallback(() => {
+    setState((prevState) => {
+      console.info("once?")
+      if (prevState.firstPlay) {
+        return { ...prevState, firstPlay: false };
+      }
+      triggerPlay();
+      return prevState;
+    });
+  }, [triggerPlay, setState]);
 
   const handleDurationChange = () => {
-    if (player.current) {
-      setState((prevState) => ({
-        ...prevState,
-        duration: player.current.duration,
-      }));
-      const { duration, currentTime, playbackRate } = player.current;
-      appMediaSession.updatePositionState(duration, currentTime, playbackRate);
-    }
+    const player = players.current.player;
+    setCurrentTime(player.currentTime);
+    appMediaSession.updatePositionState(
+      player.duration,
+      player.currentTime,
+      player.playbackRate
+    );
   };
 
-  const handleVolumeChange = () => {
-    if (player.current) {
+  const handleVolumeChange = useEffect(() => {
+    // Sync ghost player
+    players.current.ghostPlayer.volume = players.current.player.volume;
+    players.current.ghostPlayer.muted = players.current.player.muted;
+
+    setState((prevState) => ({
+      ...prevState,
+      volume: players.current.player.volume,
+    }));
+
+    if (players.current.player.volume) {
       setState((prevState) => ({
         ...prevState,
-        volume: player.current.volume,
+        lastVolume: players.current.player.volume,
       }));
-
-      if (player.current.volume) {
-        setState((prevState) => ({
-          ...prevState,
-          lastVolume: player.current.volume,
-        }));
-      }
     }
 
-    if (!player.current.muted && player.current.volume === 0) {
-      player.current.muted = true;
+    if (!players.current.player.muted && players.current.player.volume === 0) {
+      players.current.player.muted = true;
       setState((prevState) => ({
         ...prevState,
         muted: true,
       }));
-    } else if (player.current.muted && player.current.volume > 0) {
-      player.current.muted = false;
+    } else if (
+      players.current.player.muted &&
+      players.current.player.volume > 0
+    ) {
+      players.current.player.muted = false;
       setState((prevState) => ({
         ...prevState,
         muted: false,
       }));
     }
-  };
+  }, [setState]);
 
   const handlePlaying = () => {
-    if (player.current.networkState === player.current.NETWORK_IDLE) {
+    if (
+      players.current.player.networkState ===
+      players.current.player.NETWORK_IDLE
+    ) {
       playbackState.playback.set("playing");
       playbackState.playbackSync.set("");
-      appMediaSession.updatePlaybackState("playing");
       setState((prevState) => ({
         ...prevState,
         ready: true,
+        fisrtPlay: false,
       }));
     }
   };
 
-  const handleWaiting = () => {
-    // ...
-  };
-
   const handleTimeUpdate = () => {
-    setState((prevState) => ({
-      ...prevState,
-      currentTime: player.current.currentTime,
-    }));
+    const player = players.current.player;
 
-    if (playbackState.playback.value === "paused") {
-      playbackState.playbackSync.set("");
+    if (playbackState.playback.value === "paused" && !player.paused) {
       playbackState.playback.set("playing");
+      playbackState.playbackSync.set("");
     }
-    const { duration, currentTime, playbackRate } = player.current;
-    appMediaSession.updatePositionState(duration, currentTime, playbackRate);
+
+    setCurrentTime(player.currentTime);
+    appMediaSession.updatePositionState(
+      player.duration,
+      player.currentTime,
+      player.playbackRate
+    );
   };
 
   const handlePause = () => {
     playbackState.playback.set("paused");
     playbackState.playbackSync.set("");
-    appMediaSession.updatePlaybackState("paused");
   };
 
   const handleEnded = () => {
@@ -217,69 +236,110 @@ const useAudioPlayer = () => {
   };
 
   const togglePlay = () => {
-    if (isPlaying(player.current)) {
-      player.current.pause();
+    if (isPlaying(players.current.player)) {
+      players.current.player.pause();
     } else {
       triggerPlay();
     }
   };
 
+  const updateMediaSession = useCallback(
+    (track) => {
+      appMediaSession.updateMediaMetadata(track);
+      appMediaSession.registerMediaActions([
+        [
+          "play",
+          () => {
+            triggerPlay();
+          },
+        ],
+        [
+          "pause",
+          () => {
+            players.current.player.pause();
+          },
+        ],
+        [
+          "nexttrack",
+          () => {
+            queueNext();
+          },
+        ],
+        [
+          "previoustrack",
+          () => {
+            queuePrev();
+          },
+        ],
+      ]);
+    },
+    [queueNext, queuePrev, triggerPlay]
+  );
+
+  const loadTrack = useCallback(
+    (source) => {
+      const { player, ghostPlayer } = players.current;
+      players.current.player = ghostPlayer;
+      players.current.ghostPlayer = player;
+      // Stop previous player
+      players.current.ghostPlayer.pause();
+      players.current.ghostPlayer.oncanplay = null;
+      players.current.ghostPlayer.onvolumechange = null;
+      // Load new track
+      players.current.player.src = source;
+      players.current.player.oncanplay = handleReady;
+      players.current.player.onvolumechange = handleVolumeChange;
+      players.current.player.load();
+    },
+    [handleReady, handleVolumeChange]
+  );
+
+  // Player Initialization
   useEffect(() => {
-    // Register audio player events
-    player.current.addEventListener("error", handleErrors);
-    player.current.addEventListener("canplaythrough", handleReady);
-    player.current.addEventListener("pause", handlePause);
-    player.current.addEventListener("playing", handlePlaying);
-    player.current.addEventListener("waiting", handleWaiting);
-    player.current.addEventListener("volumechange", handleVolumeChange);
-    player.current.addEventListener("durationchange", handleDurationChange);
-    player.current.addEventListener("timeupdate", handleTimeUpdate);
-    player.current.addEventListener("ended", handleEnded);
+    // GhostPlayer
+    const { player, ghostPlayer } = players.current;
+    ghostPlayer.onpause = handlePause;
+    ghostPlayer.onplaying = handlePlaying;
+    ghostPlayer.ondurationchange = handleDurationChange;
+    ghostPlayer.ontimeupdate = handleTimeUpdate;
+    ghostPlayer.onerror = handleErrors;
+    ghostPlayer.onended = handleEnded;
+    // Initialize player
+    player.onpause = handlePause;
+    player.onplaying = handlePlaying;
+    player.onvolumechange = handleVolumeChange;
+    player.ondurationchange = handleDurationChange;
+    player.ontimeupdate = handleTimeUpdate;
+    player.onerror = handleErrors;
+    player.onended = handleEnded;
 
-    // Register mediaSession actions
-    const actions = [
-      [
-        "play",
-        () => {
-          triggerPlay();
-        },
-      ],
-      [
-        "pause",
-        () => {
-          player.current.pause();
-        },
-      ],
-      ["nexttrack", queueNext],
-      ["previoustrack", queuePrev],
-    ];
-
-    appMediaSession.registerMediaActions(actions);
-
-    // Unmount
+    // Destructor
     return () => {
-      player.current.pause();
-      player.current.removeEventListener("error", handleErrors);
-      player.current.removeEventListener("canplaythrough", handleReady);
-      player.current.removeEventListener("pause", handlePause);
-      player.current.removeEventListener("playing", handlePlaying);
-      player.current.removeEventListener("waiting", handleWaiting);
-      player.current.removeEventListener("timeupdate", handleTimeUpdate);
-      player.current.removeEventListener("volumechange", handleVolumeChange);
-      player.current.removeEventListener(
-        "durationchange",
-        handleDurationChange
-      );
-      // eslint-disable-next-line
-      player.current.removeEventListener("ended", handleEnded);
-      appMediaSession.unregisterMediaActions();
+      // Main player
+      player.oncanplay = null;
+      player.onpause = null;
+      player.onplaying = null;
+      player.onvolumechange = null;
+      player.ondurationchange = null;
+      player.ontimeupdate = null;
+      player.onended = null;
+      player.onerror = null;
+      // Ghost player
+      ghostPlayer.oncanplay = null;
+      ghostPlayer.onpause = null;
+      ghostPlayer.onplaying = null;
+      ghostPlayer.onvolumechange = null;
+      ghostPlayer.ondurationchange = null;
+      ghostPlayer.ontimeupdate = null;
+      ghostPlayer.onended = null;
+      ghostPlayer.onerror = null;
     };
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if (player.current) {
-      player.current.loop = state.loop === "once";
+    if (players.current.player) {
+      players.current.player.loop = state.loop === "once";
     }
   }, [state.loop]);
 
@@ -291,14 +351,14 @@ const useAudioPlayer = () => {
 
   useEffect(() => {
     if (currentTrack) {
-      const { id, name, duration } = currentTrack;
-      const source = getStreamLink({ id, name });
+      updateMediaSession(currentTrack);
+      const { id, name, duration, fee_ammount } = currentTrack;
 
       // Reload player
-      player.current.pause();
-      player.current.currentTime = 0;
-      player.current.src = source;
-      player.current.load();
+      if (!fee_ammount) {
+        const source = getStreamLink({ id, name });
+        loadTrack(source);
+      }
 
       // Reset state with default values
       setState((prevState) => ({
@@ -307,15 +367,16 @@ const useAudioPlayer = () => {
         duration,
       }));
 
-      appMediaSession.updateMediaMetadata(currentTrack);
+      setCurrentTime(0);
     }
-  }, [currentTrack, setState]);
+    // eslint-disable-next-line
+  }, [currentTrack, setState, setCurrentTime ]);
 
   useEffect(() => {
     if (playbackSync === "playing") {
       triggerPlay();
     } else if (playbackSync === "paused") {
-      player.current.pause();
+      players.current.player.pause();
     }
   }, [playbackSync, triggerPlay]);
 
@@ -325,9 +386,7 @@ const useAudioPlayer = () => {
         // Set current track as page
         document.title = `${currentTrack.title} - ${currentTrack.channel_title}`;
         // Update mediaSession playback
-        // appMediaSession.updatePlaybackState("playing");
       } else if (playback === "paused") {
-        // appMediaSession.updatePlaybackState("paused");
         // TODO: Use previous document title
         document.title = "hound.fm";
       }
@@ -336,7 +395,7 @@ const useAudioPlayer = () => {
 
   return {
     seek,
-    player,
+    currentTime,
     togglePlay,
     toggleMuted,
     toggleLoop,

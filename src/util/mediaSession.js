@@ -1,6 +1,6 @@
 import { getThumbnailCdnUrl } from "util/lbry";
 
-const DEFAULT_ARTWORK_TYPE = "image/jpg";
+const DEFAULT_ARTWORK_TYPE = "image/png";
 const DEFAULT_ARTWORK_SIZES = "256X256";
 
 const getArtworkFromSrc = (thumbnail) => ({
@@ -16,15 +16,8 @@ const getMediaMetadata = (currentTrack) => {
 };
 
 class MediaSessionProvider {
-  constructor() {
-    if ("mediaSession" in navigator) {
-      this.session = navigator.mediaSession;
-    }
-  }
-
   updateMediaMetadata(currentTrack) {
-    console.info(this.session, currentTrack);
-    if (this.session) {
+    if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new window.MediaMetadata(
         getMediaMetadata(currentTrack)
       );
@@ -32,25 +25,24 @@ class MediaSessionProvider {
   }
 
   updatePlaybackState(state = "paused") {
-    console.info(state);
-    if (this.session && "playbackState" in this.session) {
-      navigator.mediaSession.playbackState = state;
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.playerState = state;
     }
   }
 
   /* Position state (supported since Chrome 81) */
   updatePositionState(duration, currentTime, playbackRate) {
-    if (this.session && "setPositionState" in this.session) {
+    if ("mediaSession" in navigator) {
       navigator.mediaSession.setPositionState({
         duration: duration || 0,
-        playbackRate: playbackRate || 1.0,
+        playbackRate: 1,
         position: currentTime || 0,
       });
     }
   }
 
   registerMediaActions(actions) {
-    if (this.session && "setActionHandler" in this.session) {
+    if ("mediaSession" in navigator) {
       for (let [action, handler] of actions) {
         try {
           navigator.mediaSession.setActionHandler(action, handler);
@@ -62,7 +54,7 @@ class MediaSessionProvider {
   }
 
   unregisterMediaActions() {
-    if (this.session && "setActionHandler" in this.session) {
+    if ("mediaSession" in navigator) {
       const actions = ["play", "pause", "nexttrack", "previoustrack"];
       for (let action in actions) {
         try {

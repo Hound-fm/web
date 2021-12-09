@@ -17,7 +17,7 @@ export const getStreamLink = ({ name, id }, download) => {
 };
 
 // Thubmnails
-const THUMBNAIL_CDN_URL = "https://image-optimizer.vanwanet.com/?address=";
+const THUMBNAIL_CDN_URL = "https://thumbnails.odysee.com/optimize/";
 const THUMBNAIL_HEIGHT = 256;
 const THUMBNAIL_WIDTH = 256;
 const THUMBNAIL_QUALITY = 80;
@@ -29,6 +29,8 @@ export function getThumbnailCdnUrl(props) {
     width = THUMBNAIL_WIDTH,
     quality = THUMBNAIL_QUALITY,
   } = props;
+  const opSize = `s:${width}:${height}`;
+  const opQuality = `q:${quality}`;
 
   if (
     !THUMBNAIL_CDN_URL ||
@@ -38,13 +40,5 @@ export function getThumbnailCdnUrl(props) {
     return thumbnail;
   }
 
-  if (thumbnail && !thumbnail.includes("https://spee.ch")) {
-    return `${THUMBNAIL_CDN_URL}${thumbnail}&quality=${quality}&height=${height}&width=${width}`;
-  }
-
-  if (thumbnail && thumbnail.includes("https://spee.ch")) {
-    return `${thumbnail}?quality=${quality}&height=${height}&width=${width}`;
-  }
-
-  return thumbnail;
+  return THUMBNAIL_CDN_URL + `${opSize}/${opQuality}/plain/${thumbnail}`;
 }

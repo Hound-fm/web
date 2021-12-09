@@ -14,7 +14,7 @@ import Link from "component/link";
 
 import Slider from "component/slider";
 
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, memo, useMemo } from "react";
 import { PlayCircle, PauseCircle } from "component/customIcons";
 import Button from "component/button";
 import Thumbnail from "component/thumbnail";
@@ -24,7 +24,7 @@ import { useMediaQuery } from "react-responsive";
 import { globalPlayerState, globalPlaybackState } from "store";
 import { useNavigate, useMatch } from "react-router-dom";
 import { getDurationTrackFormat } from "util/formatDuration";
-import { useState as useHookState, Downgraded } from "@hookstate/core";
+import { useState as useHookState } from "@hookstate/core";
 import { WEB_DOMAIN } from "constants.js";
 
 function StreamInfo() {
@@ -89,6 +89,16 @@ const TrackSlider = memo(({ currentTime, duration, seek, disabled }) => {
     update: [currentTime || 0],
   });
 
+  const currentTimeLabel = useMemo(() => {
+    return state.update && state.update[0]
+      ? getDurationTrackFormat(state.update[0])
+      : "0:00";
+  }, [state.update]);
+
+  const durationTimeLabel = useMemo(() => {
+    return duration ? getDurationTrackFormat(duration) : "0:00";
+  }, [duration]);
+
   const [userSeeking, setUserSeeking] = useState(false);
 
   const onUserChange = (userChange) => {
@@ -121,9 +131,7 @@ const TrackSlider = memo(({ currentTime, duration, seek, disabled }) => {
 
   return (
     <div className={clsx("slider player__slider", false && "slider--active")}>
-      <span className={"label"}>
-        {getDurationTrackFormat(state.update[0] || 0) || "0:00"}
-      </span>
+      <span className={"label"}>{currentTimeLabel}</span>
       <Slider
         disabled={disabled}
         step={1}
@@ -133,9 +141,7 @@ const TrackSlider = memo(({ currentTime, duration, seek, disabled }) => {
         onUpdate={onUpdate}
         onUserChange={onUserChange}
       />
-      <span className={"label"}>
-        {getDurationTrackFormat(duration) || "0:00"}
-      </span>
+      <span className={"label"}>{durationTimeLabel}</span>
     </div>
   );
 });
@@ -176,7 +182,7 @@ export default function Player() {
   };
 
   const playbackState = useHookState(globalPlaybackState);
-  const playback = playbackState.playback.attach(Downgraded).value;
+  const playback = playbackState.playback.value;
   const hidden = currentTrack && currentTrack.id ? false : true;
 
   const showMiniPlayer = useMediaQuery({
