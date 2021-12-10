@@ -23,6 +23,10 @@
   opacity: 0.64;
 }
 
+.app--mobile .card .card__play-button {
+  display: none;
+}
+
 .card:hover .card__play-button,
 .card__play-button:focus,
 .card .card__play-button--active {

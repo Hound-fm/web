@@ -37,6 +37,7 @@ function Thumbnail({ src, rawSrc, width, height, className, children }) {
         <img
           alt=""
           src={source}
+          loading="lazy"
           onLoad={handleLoad}
           onError={handleError}
           style={{ opacity: loaded && !error ? 1 : 0 }}

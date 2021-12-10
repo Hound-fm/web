@@ -289,7 +289,8 @@ const useAudioPlayer = () => {
           },
         ],
         [
-          "seekto", (details) => {
+          "seekto",
+          (details) => {
             if (details.fastSeek && "fastSeek" in players.current.player) {
               // Only use fast seek if supported.
               players.current.player.fastSeek(details.seekTime);
@@ -301,7 +302,7 @@ const useAudioPlayer = () => {
         ],
       ]);
     },
-    [queueNext, queuePrev, triggerPlay]
+    [queueNext, queuePrev, triggerPlay, state.duration]
   );
 
   const loadTrack = (source) => {
@@ -314,12 +315,12 @@ const useAudioPlayer = () => {
     // Swap events
     players.current.ghostPlayer.oncanplay = null;
     players.current.ghostPlayer.onvolumechange = null;
-    players.current.ghostPlayer.onpause = null
-    players.current.ghostPlayer.onplaying = null
-    players.current.ghostPlayer.ondurationchange = null
-    players.current.ghostPlayer.ontimeupdate = null
-    players.current.ghostPlayer.onerror = null
-    players.current.ghostPlayer.onended = null
+    players.current.ghostPlayer.onpause = null;
+    players.current.ghostPlayer.onplaying = null;
+    players.current.ghostPlayer.ondurationchange = null;
+    players.current.ghostPlayer.ontimeupdate = null;
+    players.current.ghostPlayer.onerror = null;
+    players.current.ghostPlayer.onended = null;
     //...
     players.current.player.oncanplay = handleReady;
     players.current.player.onvolumechange = handleVolumeChange;
@@ -404,7 +405,7 @@ const useAudioPlayer = () => {
       } else {
         // Pause player and skip paid track
         players.current.player.pause();
-        appMediaSession.updatePlaybackState('paused');
+        appMediaSession.updatePlaybackState("paused");
         // Todo: Skip track and provide UI feedback to user
       }
 
