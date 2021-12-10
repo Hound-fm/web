@@ -172,6 +172,10 @@ body::-webkit-scrollbar {
   width: 16px;
 }
 
+:root {
+  scrollbar-width: thin !important;
+}
+
 body {
   margin-right: 16px;
 }
