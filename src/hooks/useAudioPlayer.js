@@ -283,7 +283,7 @@ const useAudioPlayer = () => {
             seek(
               Math.min(
                 players.current.player.currentTime + skipTime,
-                players.current.player.duration
+                players.current.player.duration || state.duration || 0
               )
             );
           },
@@ -314,8 +314,21 @@ const useAudioPlayer = () => {
     // Swap events
     players.current.ghostPlayer.oncanplay = null;
     players.current.ghostPlayer.onvolumechange = null;
+    players.current.ghostPlayer.onpause = null
+    players.current.ghostPlayer.onplaying = null
+    players.current.ghostPlayer.ondurationchange = null
+    players.current.ghostPlayer.ontimeupdate = null
+    players.current.ghostPlayer.onerror = null
+    players.current.ghostPlayer.onended = null
+    //...
     players.current.player.oncanplay = handleReady;
     players.current.player.onvolumechange = handleVolumeChange;
+    players.current.player.onpause = handlePause;
+    players.current.player.onplaying = handlePlaying;
+    players.current.player.ondurationchange = handleDurationChange;
+    players.current.player.ontimeupdate = handleTimeUpdate;
+    players.current.player.onerror = handleErrors;
+    players.current.player.onended = handleEnded;
     // Keep previous volume
     players.current.player.volume = ghostPlayer.volume;
     // Reset position
@@ -330,12 +343,7 @@ const useAudioPlayer = () => {
     // GhostPlayer
     const { player, ghostPlayer } = players.current;
     ghostPlayer.volume = state.lastVolume;
-    ghostPlayer.onpause = handlePause;
-    ghostPlayer.onplaying = handlePlaying;
-    ghostPlayer.ondurationchange = handleDurationChange;
-    ghostPlayer.ontimeupdate = handleTimeUpdate;
-    ghostPlayer.onerror = handleErrors;
-    ghostPlayer.onended = handleEnded;
+
     // Initialize player
     player.volume = state.lastVolume || 0.5;
     player.onpause = handlePause;
@@ -388,11 +396,16 @@ const useAudioPlayer = () => {
   useEffect(() => {
     if (currentTrack) {
       updateMediaSession(currentTrack);
-      const { id, name, duration, fee_ammount } = currentTrack;
+      const { id, name, duration, fee_amount } = currentTrack;
       // Reload player
-      if (!fee_ammount) {
+      if (!fee_amount) {
         const source = getStreamLink({ id, name });
         loadTrack(source);
+      } else {
+        // Pause player and skip paid track
+        players.current.player.pause();
+        appMediaSession.updatePlaybackState('paused');
+        // Todo: Skip track and provide UI feedback to user
       }
 
       // Reset state with default values
