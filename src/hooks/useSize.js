@@ -2,10 +2,12 @@ import { useState, useLayoutEffect } from "react";
 import useResizeObserver from "@react-hook/resize-observer";
 
 const useSize = (target) => {
-  const [size, setSize] = useState();
+  const [size, setSize] = useState({});
 
   useLayoutEffect(() => {
-    setSize(target.current.getBoundingClientRect());
+    if (target.current) {
+      setSize(target.current.getBoundingClientRect());
+    }
   }, [target]);
 
   // Where the magic happens
