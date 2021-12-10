@@ -244,6 +244,7 @@
   padding: 0;
   border-radius: 0;
   color: var(--title-color);
+  width: fit-content;
 }
 
 .app--mobile .card__title {
@@ -291,6 +292,7 @@
   display: inline-block;
   border-radius: 0;
   color: var(--subtext-color);
+  width: fit-content;
 }
 
 a.card__subtitle:hover {

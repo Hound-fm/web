@@ -87,6 +87,7 @@
   border-radius: 0;
   font-weight: 500;
   display: inline-block;
+  width: fit-content;
 }
 
 .row__title {
@@ -95,6 +96,7 @@
   border-radius: 0;
   font-weight: 500;
   color: var(--title-color);
+  width: fit-content;
 }
 
 .row__end {
