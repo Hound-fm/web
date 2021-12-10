@@ -283,7 +283,7 @@ const useAudioPlayer = () => {
             seek(
               Math.min(
                 players.current.player.currentTime + skipTime,
-                players.current.player.duration || state.duration
+                players.current.player.duration
               )
             );
           },
