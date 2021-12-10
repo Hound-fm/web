@@ -9,7 +9,8 @@
   margin-left: 18px;
 }
 
-.app--mobile .row__title {
+.app--mobile .row__title,
+.app--mobile .row__subtitle {
   pointer-events: none;
 }
 
