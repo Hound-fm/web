@@ -11,13 +11,8 @@ const fetchSearchResults = (query, type = "") =>
   });
 
 export const useFetchResults = (searchQuery, searchType) =>
-  useQuery(
-    ["search", searchQuery, searchType],
-    () => fetchSearchResults(searchQuery, searchType),
-    {
-      keepPreviousData: true,
-      notifyOnChangeProps: ["data", "error"],
-    }
+  useQuery(["search", searchQuery, searchType], () =>
+    fetchSearchResults(searchQuery, searchType)
   );
 
 const fetchExploreGenre = (genre, sortBy) =>
@@ -31,14 +26,8 @@ const fetchExploreGenre = (genre, sortBy) =>
   });
 
 export const useFetchExploreGenre = (genre, sortBy) =>
-  useQuery(
-    ["explore-genre", genre, sortBy],
-    () => fetchExploreGenre(genre, sortBy),
-    {
-      retry: 2,
-      keepPreviousData: true,
-      notifyOnChangeProps: ["status", "data", "error"],
-    }
+  useQuery(["explore-genre", genre, sortBy], () =>
+    fetchExploreGenre(genre, sortBy)
   );
 
 const fetchExploreChannel = (channel_id, sortBy) =>
@@ -52,12 +41,8 @@ const fetchExploreChannel = (channel_id, sortBy) =>
   });
 
 export const useFetchExploreChannel = (channel_id, sortBy) =>
-  useQuery(
-    ["explore-channel", channel_id, sortBy],
-    () => fetchExploreChannel(channel_id, sortBy),
-    {
-      notifyOnChangeProps: ["data", "error"],
-    }
+  useQuery(["explore-channel", channel_id, sortBy], () =>
+    fetchExploreChannel(channel_id, sortBy)
   );
 
 const fetchExplorePodcasts = (sortBy) =>
@@ -71,9 +56,7 @@ const fetchExplorePodcasts = (sortBy) =>
   });
 
 export const useFetchExplorePodcasts = (sortBy) =>
-  useQuery(["explore-channel", sortBy], () => fetchExplorePodcasts(sortBy), {
-    notifyOnChangeProps: ["data", "error"],
-  });
+  useQuery(["explore-channel", sortBy], () => fetchExplorePodcasts(sortBy));
 
 const fetchResolve = (resolveData) =>
   fetch(API + `resolve`, {
@@ -93,6 +76,4 @@ const fetchResolve = (resolveData) =>
   });
 
 export const useFetchResolve = (resolveData) =>
-  useQuery(["resolve-ids", resolveData], () => fetchResolve(resolveData), {
-    keepPreviousData: true,
-  });
+  useQuery(["resolve-ids", resolveData], () => fetchResolve(resolveData));

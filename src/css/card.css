@@ -182,7 +182,6 @@
   grid-auto-rows: 0;
   grid-template-rows: 1fr;
   gap: 24px;
-  margin-bottom: 32px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
 }
@@ -193,6 +192,10 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+.collection {
+  margin-bottom: 24px;
 }
 
 .cards--grid {
@@ -278,7 +281,7 @@
 }
 
 .card__subtitle {
-  font-size: 0.84em;
+  font-size: 0.9em;
   margin: 0;
   padding: 0;
   display: inline-block;

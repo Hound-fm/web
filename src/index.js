@@ -6,7 +6,16 @@ import "./css";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 // Create a client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: 60 * 1000, // 1 minute
+      cacheTime: 60 * 1000 * 10, // 10 minutes
+      notifyOnChangeProps: "tracked",
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>

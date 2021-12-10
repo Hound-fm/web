@@ -1,8 +1,8 @@
 import SectionHeader from "component/sectionHeader";
 import { Card } from "component/card";
 import { getColumnCount } from "util/core";
-import { useState, useRef, useEffect, useLayoutEffect, memo } from "react";
-import useResizeObserver from "@react-hook/resize-observer";
+import { useState, useRef, useEffect, useCallback, memo, useMemo } from "react";
+import useSize from "hooks/useSize";
 
 const CardsGrid = memo(({ gridData, gridType }) => {
   return (
@@ -45,41 +45,31 @@ const CardsGrid = memo(({ gridData, gridType }) => {
   );
 });
 
-const useSize = (target) => {
-  const [size, setSize] = useState();
-
-  useLayoutEffect(() => {
-    setSize(target.current.getBoundingClientRect());
-  }, [target]);
-
-  // Where the magic happens
-  useResizeObserver(target, (entry) => setSize(entry.contentRect));
-  return size;
-};
-
 const CardsGridRow = memo(
   ({ title, queueTitle, rowType, rowsData, onResize }) => {
     const gridRef = useRef(null);
-    const size = useSize(gridRef);
-    const [columnCount, setColumnCount] = useState(rowsData.hits.length);
-    const [cardsData, setCardsData] = useState(rowsData.hits);
+    const { width } = useSize(gridRef);
+    const [columnCount, setColumnCount] = useState(0);
+    const [cardsData, setCardsData] = useState(rowsData);
 
     useEffect(() => {
-      setColumnCount((prevColumnCount) => {
-        const nextColumnCount = getColumnCount(gridRef.current);
-        if (prevColumnCount !== nextColumnCount) {
-          return nextColumnCount;
-        }
-        return prevColumnCount;
-      });
-    }, [setColumnCount, size]);
+      if (width && gridRef.current) {
+        setColumnCount((prevColumnCount) => {
+          const nextColumnCount = getColumnCount(gridRef.current);
+          if (prevColumnCount !== nextColumnCount) {
+            return nextColumnCount;
+          }
+          return prevColumnCount;
+        });
+      }
+    }, [setColumnCount, width]);
 
     useEffect(() => {
       onResize(columnCount);
     }, [onResize, columnCount]);
 
     useEffect(() => {
-      setCardsData(rowsData.hits.slice(0, columnCount));
+      setCardsData(rowsData.slice(0, columnCount));
     }, [rowsData, columnCount, setCardsData]);
 
     return (
@@ -148,17 +138,29 @@ export const CollectionPreviewRow = memo(
     collectionLink = "/search",
     collectionType = "artist",
     collectionData = { total: { value: 0 }, hits: [] },
+    maxItems = 10,
   }) => {
     const { hits, total } = collectionData;
     const [overflowed, setOverflowed] = useState(false);
     const showLink =
       overflowed || (collectionLink && total && total.value > hits.length);
 
-    const onResize = (columnCount) => {
-      if (hits && hits.length) {
-        setOverflowed(columnCount < hits.length);
+    const rowsData = useMemo(() => {
+      if (collectionData && collectionData.hits) {
+        return collectionData.hits.slice(0, maxItems);
+      } else {
+        return [];
       }
-    };
+    }, [collectionData, maxItems]);
+
+    const onResize = useCallback(
+      (columnCount) => {
+        if (hits && hits.length) {
+          setOverflowed(columnCount < hits.length);
+        }
+      },
+      [hits, setOverflowed]
+    );
 
     return (
       <div className={"collection"}>
@@ -167,12 +169,12 @@ export const CollectionPreviewRow = memo(
           description={description}
           expandLink={showLink ? collectionLink : null}
         />
-        {collectionType && collectionData && (
+        {collectionType && rowsData.length && (
           <CardsGridRow
             queueTitle={queueTitle}
             title={title}
             rowType={collectionType}
-            rowsData={collectionData}
+            rowsData={rowsData}
             onResize={onResize}
           />
         )}
