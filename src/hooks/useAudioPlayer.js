@@ -94,7 +94,6 @@ const useAudioPlayer = () => {
   const updateVolume = (nextVolume) => {
     // Update new volume
     players.current.player.volume = nextVolume;
-    // Sync ghost player
     players.current.ghostPlayer.volume = nextVolume;
   };
 
@@ -140,7 +139,7 @@ const useAudioPlayer = () => {
 
   const handleReady = useCallback(() => {
     setState((prevState) => {
-      console.info("once?")
+      console.info("once?");
       if (prevState.firstPlay) {
         return { ...prevState, firstPlay: false };
       }
@@ -159,11 +158,7 @@ const useAudioPlayer = () => {
     );
   };
 
-  const handleVolumeChange = useEffect(() => {
-    // Sync ghost player
-    players.current.ghostPlayer.volume = players.current.player.volume;
-    players.current.ghostPlayer.muted = players.current.player.muted;
-
+  const handleVolumeChange = () => {
     setState((prevState) => ({
       ...prevState,
       volume: players.current.player.volume,
@@ -178,6 +173,7 @@ const useAudioPlayer = () => {
 
     if (!players.current.player.muted && players.current.player.volume === 0) {
       players.current.player.muted = true;
+      players.current.ghostPlayer.muted = true;
       setState((prevState) => ({
         ...prevState,
         muted: true,
@@ -187,12 +183,13 @@ const useAudioPlayer = () => {
       players.current.player.volume > 0
     ) {
       players.current.player.muted = false;
+      players.current.ghostPlayer.muted = false;
       setState((prevState) => ({
         ...prevState,
         muted: false,
       }));
     }
-  }, [setState]);
+  };
 
   const handlePlaying = () => {
     if (
@@ -276,28 +273,32 @@ const useAudioPlayer = () => {
     [queueNext, queuePrev, triggerPlay]
   );
 
-  const loadTrack = useCallback(
-    (source) => {
-      const { player, ghostPlayer } = players.current;
-      players.current.player = ghostPlayer;
-      players.current.ghostPlayer = player;
-      // Stop previous player
-      players.current.ghostPlayer.pause();
-      players.current.ghostPlayer.oncanplay = null;
-      players.current.ghostPlayer.onvolumechange = null;
-      // Load new track
-      players.current.player.src = source;
-      players.current.player.oncanplay = handleReady;
-      players.current.player.onvolumechange = handleVolumeChange;
-      players.current.player.load();
-    },
-    [handleReady, handleVolumeChange]
-  );
+  const loadTrack = (source) => {
+    // Swap audio players
+    const { player, ghostPlayer } = players.current;
+    players.current.player = ghostPlayer;
+    players.current.ghostPlayer = player;
+    // Stop previous player
+    players.current.ghostPlayer.pause();
+    // Swap events
+    players.current.ghostPlayer.oncanplay = null;
+    players.current.ghostPlayer.onvolumechange = null;
+    players.current.player.oncanplay = handleReady;
+    players.current.player.onvolumechange = handleVolumeChange;
+    // Keep previous volume
+    players.current.player.volume = ghostPlayer.volume;
+    // Reset position
+    players.current.player.currentTime = 0;
+    // Load new track
+    players.current.player.src = source;
+    players.current.player.load();
+  };
 
   // Player Initialization
   useEffect(() => {
     // GhostPlayer
     const { player, ghostPlayer } = players.current;
+    ghostPlayer.volume = state.lastVolume;
     ghostPlayer.onpause = handlePause;
     ghostPlayer.onplaying = handlePlaying;
     ghostPlayer.ondurationchange = handleDurationChange;
@@ -305,6 +306,7 @@ const useAudioPlayer = () => {
     ghostPlayer.onerror = handleErrors;
     ghostPlayer.onended = handleEnded;
     // Initialize player
+    player.volume = state.lastVolume || 0.5;
     player.onpause = handlePause;
     player.onplaying = handlePlaying;
     player.onvolumechange = handleVolumeChange;
@@ -315,6 +317,8 @@ const useAudioPlayer = () => {
 
     // Destructor
     return () => {
+      // eslint-disable-next-line
+      const { player, ghostPlayer } = players.current;
       // Main player
       player.oncanplay = null;
       player.onpause = null;
@@ -340,6 +344,7 @@ const useAudioPlayer = () => {
   useEffect(() => {
     if (players.current.player) {
       players.current.player.loop = state.loop === "once";
+      players.current.ghostPlayer.loop = state.loop === "once";
     }
   }, [state.loop]);
 
@@ -353,7 +358,6 @@ const useAudioPlayer = () => {
     if (currentTrack) {
       updateMediaSession(currentTrack);
       const { id, name, duration, fee_ammount } = currentTrack;
-
       // Reload player
       if (!fee_ammount) {
         const source = getStreamLink({ id, name });
@@ -370,7 +374,7 @@ const useAudioPlayer = () => {
       setCurrentTime(0);
     }
     // eslint-disable-next-line
-  }, [currentTrack, setState, setCurrentTime ]);
+  }, [currentTrack, setState, setCurrentTime]);
 
   useEffect(() => {
     if (playbackSync === "playing") {
