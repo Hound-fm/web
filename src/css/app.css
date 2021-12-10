@@ -16,7 +16,7 @@ body {
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: auto;
+  overflow: overlay;
 }
 
 main {
@@ -165,4 +165,40 @@ svg,
 img {
   pointer-events: none;
   touch-action: none;
+}
+
+/* Scrollbar styles */
+body::-webkit-scrollbar {
+  width: 16px;
+}
+
+body {
+  margin-right: 16px;
+}
+
+@media (max-width: 900px) {
+  body {
+    margin-right: 0;
+  }
+  body::-webkit-scrollbar-track {
+    margin-bottom: calc(var(--player-min-height) + 18px) !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  body::-webkit-scrollbar-track {
+    margin-bottom: calc(var(--player-min-height) + 24px);
+  }
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+  margin-top: calc(var(--header-height) + 24px);
+  margin-bottom: calc(var(--player-height) + 24px);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--card-active-bg-color); /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 4px solid var(--bg-color); /* creates padding around scroll thumb */
 }
