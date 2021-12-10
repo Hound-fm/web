@@ -289,8 +289,7 @@ const useAudioPlayer = () => {
           },
         ],
         [
-          "seekto",
-          (details) => (details) => {
+          "seekto", (details) => {
             if (details.fastSeek && "fastSeek" in players.current.player) {
               // Only use fast seek if supported.
               players.current.player.fastSeek(details.seekTime);
