@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Hound.fm</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Hound.fm",
+        "description": "Audio media crawler for lbry.",
+        "url": "https://hound.fm",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://hound.fm/search?&q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/logo192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0c0c0c" />
+    <meta name="description" content="Audio media crawler for lbry." />
     <meta
-      name="description"
-      content="A simple audio content aggregator for lbry"
+      name="keywords"
+      content="hound, hound.fm, music, online, listen, streaming, play, digital, artist, podcast, episode"
     />
+    <meta property="og:title" content="Hound.fm" />
+    <meta property="og:description" content="Audio media crawler for lbry." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://hound.fm" />
+    <meta
+      property="og:image"
+      content="https://avatars.githubusercontent.com/u/75968706?s=400&u=7e0d6a0873a7e34a4e3dca39afdd57789f07bc6f&v=4"
+    />
+
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -24,7 +49,6 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Hound.fm</title>
     <link rel="stylesheet" href="%PUBLIC_URL%/fonts/inter.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
