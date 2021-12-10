@@ -18,8 +18,12 @@
   margin: 0;
 }
 
-.app--mobile .card .card__data {
+.app--mobile .card__title {
   pointer-events: none;
+}
+
+.app--mobile .card__subtitle {
+  font-size: 0.94em;
 }
 
 .app--mobile .card:hover {
@@ -42,7 +46,7 @@
 }
 
 .card__price-label {
-  background: rgba(246, 229, 141, 0.9);
+  background: rgb(246, 229, 141);
   text-align: center;
   color: var(--bg-color);
   font-size: 0.8em;
@@ -307,7 +311,7 @@ a.card__subtitle:active {
   aspect-ratio: 1;
 }
 
-.app--mobile.card__thumbnail {
+.app--mobile .card__thumbnail {
   box-shadow: none;
 }
 
