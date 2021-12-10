@@ -139,7 +139,6 @@ const useAudioPlayer = () => {
 
   const handleReady = useCallback(() => {
     setState((prevState) => {
-      console.info("once?");
       if (prevState.firstPlay) {
         return { ...prevState, firstPlay: false };
       }
@@ -266,6 +265,39 @@ const useAudioPlayer = () => {
           "previoustrack",
           () => {
             queuePrev();
+          },
+        ],
+        [
+          "seekbackward",
+          (details) => {
+            const skipTime = details.seekOffset || 15;
+            // User clicked "Seek Backward" media notification icon.
+            seek(Math.max(players.current.player.currentTime - skipTime, 0));
+          },
+        ],
+        [
+          "seekforward",
+          (details) => {
+            const skipTime = details.seekOffset || 15;
+            // User clicked "Seek Backward" media notification icon.
+            seek(
+              Math.min(
+                players.current.player.currentTime + skipTime,
+                players.current.player.duration || state.duration
+              )
+            );
+          },
+        ],
+        [
+          "seekto",
+          (details) => (details) => {
+            if (details.fastSeek && "fastSeek" in players.current.player) {
+              // Only use fast seek if supported.
+              players.current.player.fastSeek(details.seekTime);
+              return;
+            }
+            seek(details.seekTime);
+            // TODO: Update playback state.
           },
         ],
       ]);
