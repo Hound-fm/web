@@ -18,6 +18,10 @@
   margin: 0;
 }
 
+.app--mobile .card .card__data {
+  pointer-events: none;
+}
+
 .app--mobile .card:hover {
   background: transparent;
   opacity: 0.64;

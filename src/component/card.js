@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { WEB_DOMAIN } from "constants.js";
 import { useMediaQuery } from "react-responsive";
 import useContextMenu from "hooks/useContextMenu";
+import usePlayStream from "hooks/usePlayStream";
 
 function CardItem(props) {
   const {
@@ -27,6 +28,9 @@ function CardItem(props) {
   } = props;
 
   const navigate = useNavigate();
+  const isTabletOrMobile = useMediaQuery({
+    query: "(max-width: 720px)",
+  });
 
   const showPlayButton =
     metadata && metadata.stream_type && !metadata.fee_amount;
@@ -59,10 +63,18 @@ function CardItem(props) {
   } else if (metadata && metadata.stream_type) {
     href = `${WEB_DOMAIN}/${metadata.url}`;
   }
+  const { play, selected } = usePlayStream({
+    index,
+    metadata,
+    queueTitle,
+    queueData,
+  });
 
   const handleClick = (e) => {
     if (linkTo) {
       navigate(linkTo);
+    } else if (isTabletOrMobile && isStream) {
+      play(e);
     }
   };
 
@@ -71,7 +83,11 @@ function CardItem(props) {
   return (
     <div
       data-id={id}
-      className={clsx("card", layout && `card--${layout}`)}
+      className={clsx(
+        "card",
+        layout && `card--${layout}`,
+        selected && "card--selected"
+      )}
       {...cardProps}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
