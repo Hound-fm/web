@@ -6,14 +6,13 @@ import Thumbnail from "component/thumbnail";
 import { FixedSizeList as List, areEqual } from "react-window";
 import { WindowScroller } from "react-virtualized";
 import Link from "component/link";
-import { useState as useHookState } from "@hookstate/core";
-import { globalPlayerState } from "store";
 import { WEB_DOMAIN } from "constants.js";
 import StreamPlayButton from "component/streamPlayButton";
 import FavoriteButton from "component/favoriteButton";
 import { useMediaQuery } from "react-responsive";
 import useSize from "hooks/useSize";
 import useContextMenu from "hooks/useContextMenu";
+import usePlayStream from "hooks/usePlayStream";
 
 // If list items are expensive to render,
 // Consider using React.memo or shouldComponentUpdate to avoid unnecessary re-renders.
@@ -24,13 +23,16 @@ const Row = memo(({ data, index, style }) => {
   // Data passed to List as "itemData" is available as props.data
   const { items, queueTitle, startIndex, isTabletOrMobile } = data;
   const metadata = items[index];
-  const playerState = useHookState(globalPlayerState);
-  const currentTrack = playerState.currentTrack.value;
-  const selected = currentTrack && metadata && metadata.id === currentTrack.id;
   const showPlayButton = metadata && !metadata.fee_amount;
   const streamUrl = metadata ? `${WEB_DOMAIN}/${metadata.url}` : "";
   const queueData = queueTitle ? items : null;
   const handleContextMenu = useContextMenu(metadata);
+  const { play, selected } = usePlayStream({
+    index,
+    metadata,
+    queueTitle,
+    queueData,
+  });
 
   return (
     <div
@@ -40,6 +42,7 @@ const Row = memo(({ data, index, style }) => {
       )}
       style={style}
       onContextMenu={handleContextMenu}
+      onClick={play}
     >
       <div className="row__cell">
         {!isTabletOrMobile && (

@@ -9,6 +9,10 @@
   margin-left: 18px;
 }
 
+.app--mobile .row__title {
+  pointer-events: none;
+}
+
 .tracks-list .tracks-list__row {
   margin: 0;
   padding: 0;
