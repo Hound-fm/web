@@ -50,13 +50,13 @@ const CardsGridRow = memo(
     const gridRef = useRef(null);
     const { width } = useSize(gridRef);
     const [columnCount, setColumnCount] = useState(0);
-    const [cardsData, setCardsData] = useState(rowsData);
+    const [cardsData, setCardsData] = useState([]);
 
     useEffect(() => {
       if (width && gridRef.current) {
         setColumnCount((prevColumnCount) => {
           const nextColumnCount = getColumnCount(gridRef.current);
-          if (prevColumnCount !== nextColumnCount) {
+          if (nextColumnCount && prevColumnCount !== nextColumnCount) {
             return nextColumnCount;
           }
           return prevColumnCount;
@@ -65,11 +65,15 @@ const CardsGridRow = memo(
     }, [setColumnCount, width]);
 
     useEffect(() => {
-      onResize(columnCount);
+      if (columnCount) {
+        onResize(columnCount);
+      }
     }, [onResize, columnCount]);
 
     useEffect(() => {
-      setCardsData(rowsData.slice(0, columnCount));
+      if (columnCount && rowsData && rowsData.length) {
+        setCardsData(rowsData.slice(0, columnCount));
+      }
     }, [rowsData, columnCount, setCardsData]);
 
     return (
@@ -142,9 +146,11 @@ export const CollectionPreviewRow = memo(
   }) => {
     const { hits, total } = collectionData;
     const [overflowed, setOverflowed] = useState(false);
-    const showLink =
-      overflowed || (collectionLink && total && total.value > hits.length);
-
+    const showLink = useMemo(
+      () =>
+        overflowed || (collectionLink && total && total.value > hits.length),
+      [overflowed, collectionLink, total, hits]
+    );
     const rowsData = useMemo(() => {
       if (collectionData && collectionData.hits) {
         return collectionData.hits.slice(0, maxItems);
