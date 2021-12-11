@@ -2,6 +2,7 @@ export const WEB_DOMAIN = "https://odysee.com";
 
 export const PODCAST_GENRES = [
   "news",
+  "horror",
   "health",
   "science",
   "sports",

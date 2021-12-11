@@ -24,6 +24,7 @@ const categories = [
   { title: "funk", color: "217, 72, 44" },
   { title: "jazz", color: "190, 104, 69" },
   { title: "folk", color: "98, 115, 61" },
+  { title: "experimental", color: "194, 79, 59" },
   { title: "pop", color: "131, 72, 141" },
   { title: "reggae", color: "187, 106, 45" },
 ];

@@ -36,7 +36,7 @@
 .sidebar__overlay[data-open="false"] {
   opacity: 1;
   animation: 0.3s fadeOut;
-  animation-fill-mode: both;
+  animation-fill-mode: forwards;
 }
 
 .sidebar__overlay[data-open="true"] {

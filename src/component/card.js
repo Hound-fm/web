@@ -63,7 +63,7 @@ function CardItem(props) {
   } else if (metadata && metadata.stream_type) {
     href = `${WEB_DOMAIN}/${metadata.url}`;
   }
-  const { play, selected } = usePlayStream({
+  const { play, selected, playback } = usePlayStream({
     index,
     metadata,
     queueTitle,
@@ -105,6 +105,9 @@ function CardItem(props) {
             {`${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`}
           </div>
         )}
+        {showPlayButton && selected && !isTabletOrMobile && playback === "playing" &&
+          <div className="pulse-wave" />
+        }
         {showPlayButton && (
           <StreamPlayButton
             index={index}

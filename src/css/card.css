@@ -40,6 +40,26 @@
   opacity: 1;
 }
 
+
+.pulse-wave {
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  opacity: 0;
+  animation-duration: 1s;
+  animation-name: pulse;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+  background: var(--accent-color);
+  
+}
+
+
+
 .card__play-button:active {
   background: var(--dark-accent-color) !important;
 }
