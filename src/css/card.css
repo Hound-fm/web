@@ -40,7 +40,6 @@
   opacity: 1;
 }
 
-
 .pulse-wave {
   position: absolute;
   right: -20px;
@@ -55,10 +54,7 @@
   animation-iteration-count: 1;
   animation-timing-function: ease;
   background: var(--accent-color);
-  
 }
-
-
 
 .card__play-button:active {
   background: var(--dark-accent-color) !important;
@@ -346,4 +342,5 @@ a.card__subtitle:active {
   text-overflow: ellipsis;
   -webkit-line-clamp: 1;
   overflow: hidden;
+  word-break: break-all;
 }
