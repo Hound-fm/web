@@ -41,6 +41,12 @@ class MediaSessionProvider {
     }
   }
 
+  resetPositionState() {
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.setPositionState(null);
+    }
+  }
+
   registerMediaActions(actions) {
     if ("mediaSession" in navigator) {
       for (let [action, handler] of actions) {

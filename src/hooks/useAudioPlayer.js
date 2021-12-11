@@ -191,10 +191,8 @@ const useAudioPlayer = () => {
   };
 
   const handlePlaying = () => {
-    if (
-      players.current.player.networkState ===
-      players.current.player.NETWORK_IDLE
-    ) {
+    const player = players.current.player;
+    if (player.networkState === player.NETWORK_IDLE) {
       playbackState.playback.set("playing");
       playbackState.playbackSync.set("");
       setState((prevState) => ({
@@ -202,6 +200,14 @@ const useAudioPlayer = () => {
         ready: true,
         fisrtPlay: false,
       }));
+
+      setCurrentTime(player.currentTime);
+      appMediaSession.updatePlaybackState("playing");
+      appMediaSession.updatePositionState(
+        player.duration,
+        player.currentTime,
+        player.playbackRate
+      );
     }
   };
 
@@ -211,19 +217,20 @@ const useAudioPlayer = () => {
     if (playbackState.playback.value === "paused" && !player.paused) {
       playbackState.playback.set("playing");
       playbackState.playbackSync.set("");
+      appMediaSession.updatePlaybackState("playing");
+      appMediaSession.updatePositionState(
+        player.duration,
+        player.currentTime,
+        player.playbackRate
+      );
     }
-
     setCurrentTime(player.currentTime);
-    appMediaSession.updatePositionState(
-      player.duration,
-      player.currentTime,
-      player.playbackRate
-    );
   };
 
   const handlePause = () => {
     playbackState.playback.set("paused");
     playbackState.playbackSync.set("");
+    appMediaSession.updatePlaybackState("paused");
   };
 
   const handleEnded = () => {
@@ -270,24 +277,38 @@ const useAudioPlayer = () => {
         [
           "seekbackward",
           (details) => {
-            const skipTime = details.seekOffset || 15;
+            const player = players.current.player;
+            const skipTime = details.seekOffset || 20;
             // User clicked "Seek Backward" media notification icon.
-            seek(Math.max(players.current.player.currentTime - skipTime, 0));
+            seek(Math.max(player.currentTime - skipTime, 0));
+            appMediaSession.updatePositionState(
+              player.duration,
+              player.currentTime,
+              player.playbackRate
+            );
           },
         ],
         [
           "seekforward",
           (details) => {
-            const skipTime = details.seekOffset || 15;
+            const player = players.current.player;
+            const skipTime = details.seekOffset || 20;
             // User clicked "Seek Backward" media notification icon.
             seek(
               Math.min(
-                players.current.player.currentTime + skipTime,
-                players.current.player.duration || state.duration || 0
+                player.currentTime + skipTime,
+                player.duration || state.duration || 0
               )
+            );
+            appMediaSession.updatePositionState(
+              player.duration,
+              player.currentTime,
+              player.playbackRate
             );
           },
         ],
+        /*
+        Disabled: Unresponsive behavior
         [
           "seekto",
           (details) => {
@@ -299,7 +320,7 @@ const useAudioPlayer = () => {
             seek(details.seekTime);
             // TODO: Update playback state.
           },
-        ],
+        ],*/
       ]);
     },
     [queueNext, queuePrev, triggerPlay, state.duration]
@@ -334,6 +355,7 @@ const useAudioPlayer = () => {
     players.current.player.volume = ghostPlayer.volume;
     // Reset position
     players.current.player.currentTime = 0;
+    appMediaSession.resetPositionState();
     // Load new track
     players.current.player.src = source;
     players.current.player.load();
