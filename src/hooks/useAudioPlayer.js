@@ -230,7 +230,6 @@ const useAudioPlayer = () => {
   const handlePause = () => {
     playbackState.playback.set("paused");
     playbackState.playbackSync.set("");
-    appMediaSession.updatePlaybackState("paused");
   };
 
   const handleEnded = () => {
@@ -307,20 +306,23 @@ const useAudioPlayer = () => {
             );
           },
         ],
-        /*
-        Disabled: Unresponsive behavior
         [
           "seekto",
           (details) => {
-            if (details.fastSeek && "fastSeek" in players.current.player) {
+            const player = players.current.player;
+            if (details.fastSeek && "fastSeek" in player) {
               // Only use fast seek if supported.
-              players.current.player.fastSeek(details.seekTime);
-              return;
+              player.fastSeek(details.seekTime);
+            } else {
+              seek(details.seekTime);
             }
-            seek(details.seekTime);
-            // TODO: Update playback state.
+            appMediaSession.updatePositionState(
+              player.duration,
+              player.currentTime,
+              player.playbackRate
+            );
           },
-        ],*/
+        ],
       ]);
     },
     [queueNext, queuePrev, triggerPlay, state.duration]
