@@ -57,8 +57,14 @@
 }
 
 .card__play-button:active {
-  background: var(--dark-accent-color) !important;
+  background: var(--accent-color) !important;
+  transform: scale(0.9);
 }
+
+.card__play-button:focus-visible {
+  outline: 0 !important;
+}
+
 
 .card__price-label {
   background: rgb(246, 229, 141);
