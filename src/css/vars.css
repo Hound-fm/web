@@ -15,4 +15,5 @@
   --player-min-height: 68px;
   --card-bg-color: rgba(24, 24, 24, 0.92);
   --card-active-bg-color: rgba(35, 35, 35, 0.92);
+  --card-border-radius: 6px;
 }

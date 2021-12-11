@@ -1,3 +1,8 @@
+import clsx from "clsx";
+import { useMediaQuery } from "react-responsive";
+import { ErrorNotFoundPage } from "pages/error";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Sidebar from "component/sidebar";
 import Header from "component/header";
 import Player from "component/player";
@@ -10,11 +15,7 @@ import PodcastPage from "pages/podcast";
 import PodcastsPage from "pages/podcasts";
 import QueuePage from "pages/queue";
 import ContextMenu from "component/contextMenu";
-import { ErrorNotFoundPage } from "pages/error";
-
-import clsx from "clsx";
-import { useMediaQuery } from "react-responsive";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import usePlayerHidden from "hooks/usePlayerHidden";
 
 function App() {
   const isSmallScreen = useMediaQuery({
@@ -28,6 +29,9 @@ function App() {
   const showMiniPlayer = useMediaQuery({
     query: "(max-width: 900px)",
   });
+
+  // Notify player visibility to UI
+  usePlayerHidden();
 
   return (
     <Router>

@@ -74,15 +74,16 @@ export default function HomePage() {
     <Page>
       {homeData.music_recording && (
         <CollectionPreviewRow
-          title="Community Picks"
+          title="Community picks"
           collectionType="Music"
+          queueTitle="Community picks"
           collectionData={homeData.music_recording}
           description="Awesome music curated by humans"
         />
       )}
       {homeData.artist && (
         <CollectionPreviewRow
-          title="Discover Artists"
+          title="Discover artists"
           collectionType="Artist"
           collectionData={homeData.artist}
           description="Find your next favorite artist"
@@ -90,7 +91,7 @@ export default function HomePage() {
       )}
       {homeData.podcast_series && (
         <CollectionPreviewRow
-          title="Top Podcasts"
+          title="Top podcasts"
           collectionType="Podcast"
           collectionData={homeData.podcast_series}
           description="Listen to some of the best shows"

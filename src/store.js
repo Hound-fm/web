@@ -24,6 +24,7 @@ export const globalMobileAppState = createState(defaultMobileAppState);
 
 const defaultPlayerState = {
   // Playback state
+  hidden: true,
   currentTrack: null,
   // Queue state
   queueData: [],

@@ -1,7 +1,7 @@
 .category-card {
   aspect-ratio: 1;
   width: 100%;
-  border-radius: 8px;
+  border-radius: var(--card-border-radius);
   overflow: hidden;
   position: relative;
   background-color: rgba(188, 43, 71);

@@ -138,6 +138,14 @@
   display: none;
 }
 
+:root[data-player-hidden="true"] .sidebar {
+  padding-bottom: 0;
+}
+
+:root[data-player-hidden="true"] .sidebar::after {
+  bottom: 3vh;
+}
+
 .sidebar ul {
   margin: 0 calc(var(--space-margin) * 0.85);
   padding: 0;

@@ -40,6 +40,7 @@ const useAudioPlayer = () => {
 
   const { queueNext, queuePrev } = useQueueNavigation();
   const playerState = useHookState(globalPlayerState);
+  const hidden = playerState.hidden.attach(Downgraded).value;
   const playbackState = useHookState(globalPlaybackState);
   const currentTrack = playerState.currentTrack.attach(Downgraded).value;
   const playback = playbackState.playback.attach(Downgraded).value;
@@ -202,7 +203,6 @@ const useAudioPlayer = () => {
       }));
 
       setCurrentTime(player.currentTime);
-      appMediaSession.updatePlaybackState("playing");
       appMediaSession.updatePositionState(
         player.duration,
         player.currentTime,
@@ -217,7 +217,6 @@ const useAudioPlayer = () => {
     if (playbackState.playback.value === "paused" && !player.paused) {
       playbackState.playback.set("playing");
       playbackState.playbackSync.set("");
-      appMediaSession.updatePlaybackState("playing");
       appMediaSession.updatePositionState(
         player.duration,
         player.currentTime,
@@ -444,6 +443,16 @@ const useAudioPlayer = () => {
     }
     // eslint-disable-next-line
   }, [currentTrack, setState, setCurrentTime]);
+
+  // Player visibility detection
+  useEffect(() => {
+    if (currentTrack && hidden) {
+      playerState.hidden.set(false);
+    } else if (!currentTrack && !hidden) {
+      playerState.hidden.set(true);
+    }
+    // eslint-disable-next-line
+  }, [currentTrack, hidden]);
 
   useEffect(() => {
     if (playbackSync === "playing") {
