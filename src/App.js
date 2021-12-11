@@ -14,6 +14,9 @@ import FavoritesPage from "pages/favorites";
 import PodcastPage from "pages/podcast";
 import PodcastsPage from "pages/podcasts";
 import QueuePage from "pages/queue";
+import PlaylistPage from "pages/playlist";
+import DiscoverArtistsPage from "pages/discoverArtists";
+import DiscoverPodcastsPage from "pages/discoverPodcasts";
 import ContextMenu from "component/contextMenu";
 import usePlayerHidden from "hooks/usePlayerHidden";
 
@@ -64,6 +67,17 @@ function App() {
           <Route exact path="/podcasts" element={<PodcastsPage />}>
             <Route exact path=":sortBy" element={<PodcastsPage />} />
           </Route>
+          <Route exact path="/community-picks" element={<PlaylistPage />} />
+          <Route
+            exact
+            path="/featured-podcasts"
+            element={<DiscoverPodcastsPage />}
+          />
+          <Route
+            exact
+            path="/featured-artists"
+            element={<DiscoverArtistsPage />}
+          />
           <Route path="*" element={<ErrorNotFoundPage />} />
         </Routes>
         <Player />
