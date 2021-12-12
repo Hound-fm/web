@@ -31,6 +31,7 @@ function CustomLink({ icon, children, exact, onClick, draggable, ...props }) {
       onClick={handleClick}
       aria-current={match ? "page" : null}
       onDragStart={stopDragging}
+      rel={props.href ? "noreferrer noopener" : null}
       {...props}
     >
       {icon && <Icon icon={icon} className={"icon link__icon"} />}
