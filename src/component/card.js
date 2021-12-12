@@ -76,12 +76,17 @@ function CardItem(props) {
   const handleClick = (e) => {
     if (linkTo) {
       navigate(linkTo);
-    } else if (isTabletOrMobile && isStream) {
+    } else if (isTabletOrMobile && isStream && !priceLabel) {
       play(e);
     }
   };
 
   const handleContextMenu = useContextMenu(metadata);
+
+  const priceLabel =
+    metadata &&
+    metadata.fee_amount > 0 &&
+    `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`;
 
   return (
     <div
@@ -103,11 +108,7 @@ function CardItem(props) {
         rawSrc={rawThumbnail}
         src={thumbnail}
       >
-        {metadata && metadata.fee_amount > 0 && (
-          <div className={"card__price-label"}>
-            {`${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`}
-          </div>
-        )}
+        {priceLabel && <div className={"card__price-label"}>{priceLabel}</div>}
         {showPlayButton && (
           <StreamPlayButton
             index={index}
@@ -122,7 +123,9 @@ function CardItem(props) {
       </Thumbnail>
       <div className="card__data">
         <Link
-          className="card__title text-overflow"
+          className={`card__title ${
+            isTabletOrMobile ? "text-overflow-2" : "text-overflow"
+          }`}
           to={linkTo}
           href={href}
           title={title}

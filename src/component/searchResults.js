@@ -215,7 +215,7 @@ const SearchAllResults = memo(({ searchQuery }) => {
             title={COLLECTION_TYPES_MAPPINGS[key]}
             queueTitle={
               key === "Songs" || key === "Episodes"
-                ? `Search Results · ${key}`
+                ? `Search Results • ${key}`
                 : null
             }
             collectionType={key}

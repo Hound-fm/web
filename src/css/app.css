@@ -26,6 +26,21 @@ main {
   margin-bottom: var(--player-height);
 }
 
+.label__price {
+  font-weight: 600;
+  display: inline-block;
+  background: #f0e68c;
+  padding: 0px 4px;
+  border-radius: 3px;
+  font-size: 1em;
+  margin: 4px 0px;
+  color: var(--bg-color);
+}
+
+.label__separator {
+  margin: 0 4px;
+}
+
 :root[data-player-hidden="true"] main {
   margin-bottom: 0;
 }

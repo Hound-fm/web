@@ -2,8 +2,12 @@ import { useQueueUpdate } from "hooks/useQueue";
 import { useState as useHookState } from "@hookstate/core";
 import { globalPlayerState, globalPlaybackState } from "store";
 
-
-export default function useSPlayStream ({ index, metadata, queueTitle, queueData })  {
+export default function useSPlayStream({
+  index,
+  metadata,
+  queueTitle,
+  queueData,
+}) {
   const playerState = useHookState(globalPlayerState);
   const playbackState = useHookState(globalPlaybackState);
   const currentTrack = playerState.currentTrack.value;
@@ -13,8 +17,8 @@ export default function useSPlayStream ({ index, metadata, queueTitle, queueData
   const updateQueue = useQueueUpdate();
 
   const play = (e) => {
-    e.preventDefault()
-    e.stopPropagation();
+    // e.preventDefault()
+    // e.stopPropagation();
     if (metadata && !currentTrack) {
       playbackState.playback.set("paused");
       playerState.currentTrack.set(metadata);
@@ -39,5 +43,5 @@ export default function useSPlayStream ({ index, metadata, queueTitle, queueData
     }
   };
 
-  return {play, playback, selected  }
+  return { play, playback, selected };
 }

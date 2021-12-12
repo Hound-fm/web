@@ -32,7 +32,7 @@ const ExplorePreview = memo(({ genre }) => {
     <Page title={genre}>
       {resultsData && resultsData.latest && (
         <CollectionPreviewRow
-          queueTitle={`${genre} · Latest`}
+          queueTitle={`${genre} • Latest`}
           title={"Latest"}
           collectionType={"music_recording"}
           collectionData={resultsData.latest}
@@ -41,7 +41,7 @@ const ExplorePreview = memo(({ genre }) => {
       )}
       {resultsData && resultsData.popular && (
         <CollectionPreviewRow
-          queueTitle={`${genre} · Popular`}
+          queueTitle={`${genre} • Popular`}
           title={"Popular"}
           collectionType={"music_recording"}
           collectionData={resultsData.popular}
@@ -81,9 +81,9 @@ const ExploreList = memo(({ genre, sortBy }) => {
     <Page>
       {resultsData && (
         <TrackList
-          title={`${genre} · ${sortBy}`}
+          title={`${genre} • ${sortBy}`}
           trackData={resultsData}
-          queueTitle={`${genre} · ${sortBy}`}
+          queueTitle={`${genre} • ${sortBy}`}
         />
       )}
     </Page>

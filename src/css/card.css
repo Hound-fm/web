@@ -366,11 +366,17 @@ a.card__subtitle:active {
   border-radius: 100%;
 }
 
-.text-overflow {
+.text-overflow,
+.text-overflow-2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   -webkit-line-clamp: 1;
   overflow: hidden;
   word-break: break-all;
+}
+
+.text-overflow-2 {
+  -webkit-line-clamp: 2;
+  word-break: normal;
 }

@@ -7,6 +7,8 @@
 
 .app--mobile .tracks-list .row__thumbnail {
   margin-left: 18px;
+  width: 82px;
+  height: 82px;
 }
 
 .app--mobile .row__title,
@@ -19,10 +21,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-.tracks-list__row--selected {
-  background: var(--card-active-bg-color);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+.app:not(.app--mobile) .tracks-list__row--selected .row__title {
+  color: var(--accent-color);
 }
+
 .tracks-list__container {
   margin: 0;
   width: 100%;
@@ -80,6 +83,15 @@
   background: transparent;
   box-shadow: none;
   display: none;
+}
+
+.row__subtitle.row__label {
+  font-size: 0.9em;
+}
+
+.row__subtitle.row__playback-status {
+  color: var(--accent-color);
+  font-size: 0.9em;
 }
 
 .row__subtitle {
@@ -142,6 +154,7 @@ s.row__subtitle:active {
   height: 32px;
 }
 
+/*
 .button--play-row--active,
 .button--play-row:focus {
   opacity: 1;
@@ -149,9 +162,15 @@ s.row__subtitle:active {
   color: var(--text-color);
 }
 
+
 .button--play-row--active + .row__index,
 .button--play-row:focus + .row__index {
   opacity: 0;
+}
+*/
+
+.button--play-row--active + .row__index {
+  color: var(--accent-color);
 }
 
 .tracks-list__row:hover .button--play-row {

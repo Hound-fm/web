@@ -54,7 +54,7 @@ const PodcastPreview = memo(({ channel_id }) => {
       )}
       {resultsData && resultsData.latest && (
         <CollectionPreviewRow
-          queueTitle={`${title} · Latest`}
+          queueTitle={`${title} • Latest`}
           title={"Latest"}
           collectionType={"podcast_episode"}
           collectionData={resultsData.latest}
@@ -63,7 +63,7 @@ const PodcastPreview = memo(({ channel_id }) => {
       )}
       {resultsData && resultsData.popular && (
         <CollectionPreviewRow
-          queueTitle={`${title} · Popular`}
+          queueTitle={`${title} • Popular`}
           title={"Popular"}
           collectionType={"podcast_episode"}
           collectionData={resultsData.popular}
@@ -82,7 +82,7 @@ const PodcastList = memo(({ channel_id, sortBy }) => {
   );
   const title =
     resultsData && resultsData.channel
-      ? `${resultsData.channel.channel_title} · ${sortBy}`
+      ? `${resultsData.channel.channel_title} • ${sortBy}`
       : "";
 
   useEffect(() => {

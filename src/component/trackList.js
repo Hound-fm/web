@@ -27,13 +27,23 @@ const Row = memo(({ data, index, style }) => {
   const streamUrl = metadata ? `${WEB_DOMAIN}/${metadata.url}` : "";
   const queueData = queueTitle ? items : null;
   const handleContextMenu = useContextMenu(metadata);
-  const { play, selected } = usePlayStream({
-    index,
+  const { play, selected, playback } = usePlayStream({
+    index: index + startIndex,
     metadata,
     queueTitle,
     queueData,
   });
-
+  const priceLabel =
+    metadata && metadata.fee_amount
+      ? `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`
+      : null;
+  const metaLabel = durationTrackFormat(metadata.duration);
+  const playbackStatus = selected && playback ? "NOW PLAYING" : null;
+  const handleClick = (e) => {
+    if (isTabletOrMobile && !priceLabel) {
+      play(e);
+    }
+  };
   return (
     <div
       className={clsx(
@@ -42,7 +52,7 @@ const Row = memo(({ data, index, style }) => {
       )}
       style={style}
       onContextMenu={handleContextMenu}
-      onClick={play}
+      onClick={handleClick}
     >
       <div className="row__cell">
         {!isTabletOrMobile && (
@@ -64,7 +74,9 @@ const Row = memo(({ data, index, style }) => {
         <Thumbnail className="row__thumbnail" src={metadata.thumbnail} />
         <div className="row__data">
           <Link
-            className="row__title text-overflow"
+            className={`row__title ${
+              isTabletOrMobile ? "text-overflow-2" : "text-overflow"
+            }`}
             href={streamUrl}
             target={"_blank"}
           >
@@ -76,6 +88,22 @@ const Row = memo(({ data, index, style }) => {
           >
             {metadata.channel_title}
           </Link>
+          {isTabletOrMobile &&
+            (!playbackStatus ? (
+              <div className="row__subtitle row__label">
+                {priceLabel && (
+                  <>
+                    <b className="label__price">{`${priceLabel}`}</b>
+                    <span className="label__separator">{" • "}</span>
+                  </>
+                )}
+                {metaLabel}
+              </div>
+            ) : (
+              <div className="row__subtitle row__playback-status">
+                {playbackStatus}
+              </div>
+            ))}
         </div>
       </div>
       {!isTabletOrMobile && (
@@ -86,9 +114,7 @@ const Row = memo(({ data, index, style }) => {
               !metadata || (!metadata.fee_amount && "row__price--free")
             )}
           >
-            {metadata && metadata.fee_amount
-              ? `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`
-              : ""}
+            {priceLabel}
           </div>
           <div className="row__metadata">
             <FavoriteButton
@@ -188,6 +214,8 @@ function TrackList({
     }
   };
 
+  const rowHeight = isTabletOrMobile ? 112 : 64;
+
   return (
     <>
       {title && <h1 className="tracks-list__title">{title}</h1>}
@@ -200,10 +228,10 @@ function TrackList({
           <List
             ref={listRef}
             width={width}
-            height={trackData.length * 64}
+            height={trackData.length * rowHeight}
             itemCount={trackData.length}
             itemData={itemData}
-            itemSize={64}
+            itemSize={rowHeight}
             className="tracks-list window-scroller-override"
           >
             {Row}

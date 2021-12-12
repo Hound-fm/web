@@ -61,11 +61,11 @@ const FavoritesList = ({ favoriteType, favorites }) => {
   }
 
   return (
-    <Page title={`Favorites · ${COLLECTION_TYPES_MAPPINGS[favoriteType]}`}>
+    <Page title={`Favorites • ${COLLECTION_TYPES_MAPPINGS[favoriteType]}`}>
       {resultsData && (
         <TrackList
           trackData={resultsData}
-          queueTitle={`Favorites · ${COLLECTION_TYPES_MAPPINGS[favoriteType]}`}
+          queueTitle={`Favorites • ${COLLECTION_TYPES_MAPPINGS[favoriteType]}`}
         />
       )}
     </Page>
@@ -109,7 +109,7 @@ const FavoritesPreview = ({ favorites }) => {
           value.hits.length && (
             <CollectionPreviewRow
               key={`${key}-${value.hits.length}`}
-              queueTitle={`${title} · ${COLLECTION_TYPES_MAPPINGS[key]}`}
+              queueTitle={`${title} • ${COLLECTION_TYPES_MAPPINGS[key]}`}
               title={COLLECTION_TYPES_MAPPINGS[key]}
               collectionType={key}
               collectionData={value}

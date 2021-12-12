@@ -56,7 +56,7 @@ const ArtistPreview = memo(({ channel_id }) => {
       )}
       {resultsData && resultsData.latest && (
         <CollectionPreviewRow
-          queueTitle={`${title} · Latest`}
+          queueTitle={`${title} • Latest`}
           title={"Latest"}
           collectionType={"music_recording"}
           collectionData={resultsData.latest}
@@ -65,7 +65,7 @@ const ArtistPreview = memo(({ channel_id }) => {
       )}
       {resultsData && resultsData.popular && (
         <CollectionPreviewRow
-          queueTitle={`${title} · Popular`}
+          queueTitle={`${title} • Popular`}
           title={"Popular"}
           collectionType={"music_recording"}
           collectionData={resultsData.popular}
@@ -84,7 +84,7 @@ const ArtistList = memo(({ channel_id, sortBy }) => {
   );
   const title =
     resultsData && resultsData.channel
-      ? `${resultsData.channel.channel_title} · ${sortBy}`
+      ? `${resultsData.channel.channel_title} • ${sortBy}`
       : "";
 
   useEffect(() => {

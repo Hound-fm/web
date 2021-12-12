@@ -31,7 +31,7 @@ const ExplorePreview = memo(({ sortBy }) => {
     <Page title={"Podcasts"}>
       {resultsData && resultsData.latest && (
         <CollectionPreviewRow
-          queueTitle={`Podcasts · Latest`}
+          queueTitle={`Podcasts • Latest`}
           title={"Latest"}
           collectionType={"podcast_episode"}
           collectionData={resultsData.latest}
@@ -40,7 +40,7 @@ const ExplorePreview = memo(({ sortBy }) => {
       )}
       {resultsData && resultsData.popular && (
         <CollectionPreviewRow
-          queueTitle={`Podcasts · Popular`}
+          queueTitle={`Podcasts • Popular`}
           title={"Popular"}
           collectionType={"podcast_episode"}
           collectionData={resultsData.popular}
@@ -75,9 +75,9 @@ const ExploreList = memo(({ sortBy }) => {
     <Page>
       {resultsData && (
         <TrackList
-          title={`Podcasts · ${sortBy}`}
+          title={`Podcasts • ${sortBy}`}
           trackData={resultsData}
-          queueTitle={`Podcasts · ${sortBy}`}
+          queueTitle={`Podcasts • ${sortBy}`}
         />
       )}
     </Page>
