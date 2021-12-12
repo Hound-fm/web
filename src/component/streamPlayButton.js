@@ -13,17 +13,21 @@ function StreamPlayButton({
   queueData,
   className,
   classNameActive,
+  showPulse = false,
 }) {
 
   const { play, playback, selected } = usePlayStream({ index, metadata, queueTitle, queueData });
   let buttonIcon = playback === "playing" && selected ? Pause : Play;
 
   return (
+    <>
+    { showPulse && <div className={clsx("pulse-wave", (selected && playback === "playing") && "pulse-wave--active", className && `pulse-wave--${className}`)} /> }
     <Button
       icon={buttonIcon}
       className={clsx(className, selected && classNameActive)}
       onClick={play}
     />
+    </>
   );
 }
 

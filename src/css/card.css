@@ -42,13 +42,35 @@
 
 .pulse-wave {
   position: absolute;
-  right: -20px;
-  bottom: -20px;
-  display: block;
+  right: 0;
+  bottom: 0;
   width: 100px;
   height: 100px;
+  display: block;
   border-radius: 100px;
   opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 0;
+  transform: scale(0);
+  pointer-events: none;
+}
+
+ .pulse-wave--card__play-button  {
+  right: -20px;
+  bottom: -20px;
+  width: 100px;
+  height: 100px;
+}
+
+.pulse-wave--card__play-button  {
+ right: -20px;
+ bottom: -20px;
+ width: 100px;
+ height: 100px;
+}
+
+
+.pulse-wave--active {
   animation-duration: 0.8s;
   animation-name: pulse;
   animation-iteration-count: 1;
@@ -96,6 +118,7 @@
   box-sizing: content-box;
   opacity: 0;
   transition: all 0.3s ease;
+  z-index: 1;
 }
 
 .card__play-button svg {
