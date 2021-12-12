@@ -33,7 +33,10 @@ function CardItem(props) {
   });
 
   const showPlayButton =
-    metadata && metadata.stream_type && !metadata.fee_amount;
+    !isTabletOrMobile &&
+    metadata &&
+    metadata.stream_type &&
+    !metadata.fee_amount;
   const isChannel = metadata && !metadata.stream_type && metadata.channel_type;
   const isStream = metadata && metadata.stream_type && metadata.channel_type;
   const isGenre = metadata && metadata.category_type;
