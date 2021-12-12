@@ -55,20 +55,19 @@
   pointer-events: none;
 }
 
- .pulse-wave--card__play-button  {
+.pulse-wave--card__play-button {
   right: -20px;
   bottom: -20px;
   width: 100px;
   height: 100px;
 }
 
-.pulse-wave--card__play-button  {
- right: -20px;
- bottom: -20px;
- width: 100px;
- height: 100px;
+.pulse-wave--card__play-button {
+  right: -20px;
+  bottom: -20px;
+  width: 100px;
+  height: 100px;
 }
-
 
 .pulse-wave--active {
   animation-duration: 0.8s;
@@ -86,7 +85,6 @@
 .card__play-button:focus-visible {
   outline: 0 !important;
 }
-
 
 .card__price-label {
   background: rgb(246, 229, 141);
@@ -146,7 +144,9 @@
   margin: 0 8px;
   background-size: cover;
 }
-
+.app--mobile .card--horizontal {
+  align-items: flex-start;
+}
 .app--mobile .card--horizontal .card__thumbnail {
   margin-left: 0;
 }
@@ -161,6 +161,7 @@
 }
 
 .card--horizontal .card__subtitle {
+  font-size: 0.75em;
 }
 
 .card:hover {
@@ -243,7 +244,7 @@
 }
 
 .collection {
-  margin-bottom: 32px;
+  margin-bottom: 48px;
 }
 
 .cards--grid {
@@ -324,9 +325,9 @@
   padding: 0;
   font-size: 0.74em;
   margin-top: 0;
+  font-weight: inherit;
   background: transparent;
   text-transform: capitalize;
-  opacity: 0.64;
 }
 
 .card__subtitle {

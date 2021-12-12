@@ -4,7 +4,7 @@ import TrackListPreview from "component/trackListPreview";
 import TrackList from "component/trackList";
 import LoadingPage from "pages/loading";
 import { ErrorAPIPage } from "pages/error";
-
+import { durationShortFormat } from "util/formatDuration";
 import { Card } from "component/card";
 import { useEffect, useState, memo } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -48,7 +48,12 @@ const SearchTopResults = memo(
               thumbnail={topResult.thumbnail}
               rawThumbnail={rawThumbnail}
               subtitle={topResult.stream_type && topResult.channel_title}
-              label={topResult.result_type}
+              label={
+                topResult.result_type +
+                (topResult.duration
+                  ? ` •  ${durationShortFormat(topResult.duration)} `
+                  : "")
+              }
             />
           </div>
         )}

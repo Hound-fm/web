@@ -123,6 +123,7 @@ button:focus-visible {
 
 .section__title {
   margin: 0;
+  line-height: 1em;
 }
 
 .app--mobile .section__description {
@@ -132,6 +133,8 @@ button:focus-visible {
 .section__description {
   margin: 0;
   color: var(--subtext-color);
+  font-size: 0.96em;
+  margin-top: 4px;
 }
 
 *[disabled] {

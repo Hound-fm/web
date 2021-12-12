@@ -164,7 +164,7 @@
 .sidebar__link {
   list-style: none;
   width: 100%;
-  margin-bottom: calc(var(--space-margin) * 0.5);
+  margin-bottom: calc(var(--space-margin) * 0.4);
 }
 
 .sidebar__link a {
@@ -173,8 +173,7 @@
   margin: 0;
   padding: calc(var(--space-margin) * 0.25) calc(var(--space-margin) * 0.15);
   text-decoration: none;
-  border-radius: 0;
-  border-radius: 25em;
+  border-radius: 6px;
   transition-duration: 0.3s;
   transition-timing-function: ease;
   transition-property: color, background-color;
@@ -182,7 +181,6 @@
 
 .sidebar__link a:hover {
   color: var(--text-color);
-  background: var(--card-bg-color);
 }
 .sidebar__link a:focus,
 .sidebar__link a:hover,
@@ -193,6 +191,7 @@
 
 .sidebar__link a[aria-current="page"] {
   color: var(--text-color);
+  background: var(--card-active-bg-color);
 }
 
 .sidebar__message {
