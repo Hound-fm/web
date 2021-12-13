@@ -30,7 +30,7 @@ main {
 main h1,
 main h2,
 main h4 {
-  padding: 0 24px !important;
+  padding: 0 24px;
 }
 
 main h4 {
@@ -78,9 +78,8 @@ main h4 {
 
 main h1 {
   font-size: 2.4em;
-  line-height: 1.32em;
+  line-height: 1.25em;
   margin: 0;
-  padding: 0;
   margin-bottom: 24px;
   text-transform: capitalize;
 }

@@ -60,7 +60,19 @@
 }
 
 .button--header {
-  margin: 0 8px 0 0;
+  margin: 8px 18px 0 0;
+  padding: 0;
+  box-shadow: 0;
+}
+
+.button--header:hover,
+.button--header:active {
+  background: transparent;
+}
+
+.button--header .icon {
+  width: 1.64em;
+  height: 1.64em;
 }
 
 .app--compact .header {

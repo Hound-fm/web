@@ -27,7 +27,6 @@
 
 .app--mobile .card:hover {
   background: transparent;
-  opacity: 0.64;
 }
 
 .app--mobile .card .card__play-button {

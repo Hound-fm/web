@@ -2,23 +2,38 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 48px;
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
 .header__thumbnail {
-  height: 124px;
-  width: 124px;
+  height: 148px;
+  width: 148px;
   padding: 0;
-  margin: 0 8px;
+  margin: 0;
+  margin-right: 24px;
   background: #353535;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
-.page__metadata .page__title {
+.page__metadata .page__title,
+.page__metadata .page__subtitle {
   margin: 0;
+  padding: 0;
 }
+
+.page__metadata .page__subtitle {
+  color: var(--subtext-color);
+  margin: 0;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  text-transform: capitalize;
+}
+
 .page__metadata {
-  margin: 0 24px;
+  margin: 0;
+  max-width: 720px;
 }
 
 .header__thumbnail--circle {

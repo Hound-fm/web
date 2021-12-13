@@ -14,8 +14,8 @@ function PageHeader(props) {
         src={thumbnail}
       />
       <div className="page__metadata">
-        {title && <h1 className="page__title">{title}</h1>}
-        {subtitle && <p className="page__subtitle">{subtitle}</p>}
+        {title && <h1 className="page__title text-overflow-2">{title}</h1>}
+        {subtitle && <p className="page__subtitle text-overflow">{subtitle}</p>}
         {props.children}
       </div>
     </div>
