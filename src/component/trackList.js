@@ -37,7 +37,9 @@ const Row = memo(({ data, index, style }) => {
     metadata && metadata.fee_amount
       ? `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`
       : null;
-  const metaLabel = durationTrackFormat(metadata.duration);
+  const metaLabel = metadata.duration
+    ? durationTrackFormat(metadata.duration)
+    : null;
   const playbackStatus =
     selected && playback === "playing" ? "Now playing" : null;
   const handleClick = (e) => {

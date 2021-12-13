@@ -9,6 +9,8 @@ import { WEB_DOMAIN } from "constants.js";
 import { useMediaQuery } from "react-responsive";
 import useContextMenu from "hooks/useContextMenu";
 import usePlayStream from "hooks/usePlayStream";
+import PlaybackStatusAnimated from "component/playbackStatusAnimated";
+import { durationTrackFormat } from "util/formatDuration";
 
 function CardItem(props) {
   const {
@@ -66,7 +68,7 @@ function CardItem(props) {
   } else if (metadata && metadata.stream_type) {
     href = `${WEB_DOMAIN}/${metadata.url}`;
   }
-  const { play, selected } = usePlayStream({
+  const { play, selected, playback } = usePlayStream({
     index,
     metadata,
     queueTitle,
@@ -87,6 +89,12 @@ function CardItem(props) {
     metadata &&
     metadata.fee_amount > 0 &&
     `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`;
+
+  const metaLabel = metadata.duration
+    ? durationTrackFormat(metadata.duration)
+    : null;
+  const playbackStatus =
+    selected && playback === "playing" ? "Now playing" : null;
 
   return (
     <div
@@ -140,6 +148,16 @@ function CardItem(props) {
         ) : (
           <div className={"card__subtitle text-overflow"}>{subtitle}</div>
         )}
+        {isTabletOrMobile &&
+          (playbackStatus ? (
+            <div
+              className={"card__subtitle card__playback-status text-overflow"}
+            >
+              <PlaybackStatusAnimated /> {playbackStatus}
+            </div>
+          ) : (
+            <div className={"card__subtitle text-overflow"}>{metaLabel}</div>
+          ))}
         {label && <div className={"card__label"}>{label}</div>}
       </div>
     </div>

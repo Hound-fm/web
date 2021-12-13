@@ -366,6 +366,21 @@ a.card__subtitle:active {
   border-radius: 100%;
 }
 
+.card__subtitle.card__playback-status {
+  color: var(--accent-color);
+  font-size: 0.9em;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.card__subtitle.card__playback-status .playback-status__indicator {
+  width: 16px;
+  height: 12px;
+  position: relative;
+  margin-right: 8px;
+}
+
 .text-overflow,
 .text-overflow-2 {
   display: -webkit-box;
