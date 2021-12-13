@@ -24,7 +24,6 @@
   }
 }
 
-
 @keyframes pulse {
   from {
     opacity: 0;
@@ -36,5 +35,45 @@
   to {
     opacity: 0;
     transform: scale(1);
+  }
+}
+
+@keyframes playback-bar {
+  from {
+    height: 30%;
+  }
+  30% {
+    height: 15%;
+  }
+  to {
+    height: 80%;
+  }
+}
+
+@keyframes playback-bar-2 {
+  from {
+    height: 25%;
+  }
+  70% {
+    height: 70%;
+  }
+  to {
+    height: 35%;
+  }
+}
+
+@keyframes playback-bar-3 {
+  from {
+    height: 100%;
+  }
+  30% {
+    height: 70%;
+  }
+  50% {
+    height: 90%;
+  }
+
+  to {
+    height: 10%;
   }
 }

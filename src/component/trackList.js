@@ -13,7 +13,7 @@ import { useMediaQuery } from "react-responsive";
 import useSize from "hooks/useSize";
 import useContextMenu from "hooks/useContextMenu";
 import usePlayStream from "hooks/usePlayStream";
-
+import PlaybackStatusAnimated from "component/playbackStatusAnimated";
 // If list items are expensive to render,
 // Consider using React.memo or shouldComponentUpdate to avoid unnecessary re-renders.
 // https://reactjs.org/docs/react-api.html#reactmemo
@@ -38,7 +38,8 @@ const Row = memo(({ data, index, style }) => {
       ? `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`
       : null;
   const metaLabel = durationTrackFormat(metadata.duration);
-  const playbackStatus = selected && playback ? "NOW PLAYING" : null;
+  const playbackStatus =
+    selected && playback === "playing" ? "Now playing" : null;
   const handleClick = (e) => {
     if (isTabletOrMobile && !priceLabel) {
       play(e);
@@ -67,7 +68,13 @@ const Row = memo(({ data, index, style }) => {
                 queueData={queueData}
               />
             )}
-            <div className="row__index">{index + startIndex + 1}</div>
+            <div className="row__index">
+              {playbackStatus ? (
+                <PlaybackStatusAnimated />
+              ) : (
+                index + startIndex + 1
+              )}
+            </div>
           </div>
         )}
 
@@ -101,6 +108,7 @@ const Row = memo(({ data, index, style }) => {
               </div>
             ) : (
               <div className="row__subtitle row__playback-status">
+                <PlaybackStatusAnimated />
                 {playbackStatus}
               </div>
             ))}
