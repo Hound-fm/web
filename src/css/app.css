@@ -211,12 +211,6 @@ body {
   }
 }
 
-@media (max-width: 1200px) {
-  body::-webkit-scrollbar-track {
-    margin-bottom: calc(var(--player-min-height) + 24px);
-  }
-}
-
 body::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0);
   margin-top: calc(var(--header-height) + 24px);
