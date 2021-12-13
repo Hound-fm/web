@@ -1,26 +1,23 @@
-import { useRef, useState, useEffect } from "react";
-import { getStreamLink } from "utils/lbry";
-import { useQueueDispatch, useQueueState } from "store/queueContext";
-import {
-  updateMediaMetadata,
-  updatePlaybackState,
-  updatePositionState,
-  registerMediaActions,
-} from "utils/mediaSession";
-import useGetTrack from "hooks/useGetTrack";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { getStreamLink } from "util/lbry";
+import { useState as useHookState, Downgraded } from "@hookstate/core";
+import { useQueueNavigation } from "hooks/useQueue";
+import { globalPlayerState, globalPlaybackState } from "store";
 
-const defaultPersistentState = {
-  muted: false,
-};
+import appMediaSession from "util/mediaSession";
 
 const defaultState = {
   ready: false,
-  source: null,
-  loading: false,
+  ended: false,
   duration: 0,
-  currentTime: 0,
-  paused: false,
-  playing: false,
+};
+
+const cachedState = {
+  loop: false,
+  muted: false,
+  volume: 0.5,
+  lastVolume: 0.5,
+  firstPlay: true,
 };
 
 const isPlaying = (audio) => {
@@ -34,258 +31,460 @@ const isPlaying = (audio) => {
 };
 
 const useAudioPlayer = () => {
-  const audioRef = useRef();
-  const queueDispatch = useQueueDispatch();
-  const { queue, nextQueue } = useQueueState();
-  const { currentTrack } = useGetTrack();
-  const [state, setState] = useState({
-    ...defaultState,
-    ...defaultPersistentState,
-  });
-  const stateRef = useRef(state);
+  const [currentTime, setCurrentTime] = useState(0);
 
-  const updateState = (newState) => {
-    setState((prevState) => {
-      const updated = { ...prevState, ...newState };
-      stateRef.current = updated;
-      return updated;
-    });
-  };
+  const players = useRef({
+    player: new Audio(),
+    ghostPlayer: new Audio(),
+  });
+
+  const { queueNext, queuePrev } = useQueueNavigation();
+  const playerState = useHookState(globalPlayerState);
+  const hidden = playerState.hidden.attach(Downgraded).value;
+  const playbackState = useHookState(globalPlaybackState);
+  const currentTrack = playerState.currentTrack.attach(Downgraded).value;
+  const playback = playbackState.playback.attach(Downgraded).value;
+  const playbackSync = playbackState.playbackSync.attach(Downgraded).value;
+
+  const [state, setState] = useState({ ...defaultState, ...cachedState });
+
+  const handleErrors = useCallback(
+    (e) => {
+      const error = e.target ? e.target.error : e;
+      const NETWORK_ABORT_ERROR = 20;
+      // Audio playback failed - show a message saying why
+      switch (error.code) {
+        case NETWORK_ABORT_ERROR:
+        case error.MEDIA_ERR_ABORTED:
+          console.error("You aborted the video playback.");
+          break;
+        case error.MEDIA_ERR_NETWORK:
+          console.error("A network error caused the audio download to fail.");
+          break;
+        case error.MEDIA_ERR_DECODE:
+          console.error(
+            "The audio playback was aborted due to a corruption problem or because the video used features your browser did not support."
+          );
+          break;
+        case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          console.error(
+            "The video audio not be loaded, either because the server or network failed or because the format is not supported."
+          );
+          break;
+        default:
+          console.error("An unknown error occurred.");
+          break;
+      }
+      setState((prevState) => ({
+        ...prevState,
+        ready: false,
+        error: true,
+      }));
+      playbackState.playback.set("paused");
+    },
+    // eslint-disable-next-line
+    [setState]
+  );
 
   const seek = (nextTime) => {
-    const player = audioRef.current;
-    // Force UI update
-    setState((prevState) => ({ ...prevState, currentTime: nextTime }));
     // Seek to new time
-    player.currentTime = nextTime;
+    setCurrentTime(nextTime);
+    players.current.player.currentTime = nextTime;
+  };
+
+  const updateVolume = (nextVolume) => {
+    // Update new volume
+    players.current.player.volume = nextVolume;
+    players.current.ghostPlayer.volume = nextVolume;
   };
 
   const toggleLoop = () => {
-    // Loop current playlist
-    if (!state.loop) {
-      updateState({ loop: "playlist" });
-    }
-
-    // Loop current track
-    if (state.loop === "playlist") {
-      updateState({ loop: "once" });
-    }
-
-    // No loop
-    if (state.loop === "once") {
-      updateState({ loop: false });
-    }
+    setState((prevState) => {
+      // Loop current playlist
+      if (!prevState.loop) {
+        return { ...prevState, loop: "playlist" };
+      }
+      // Loop current track
+      else if (prevState.loop === "playlist") {
+        return { ...prevState, loop: "once" };
+      }
+      // No loop
+      else if (prevState.loop === "once") {
+        return { ...prevState, loop: false };
+      }
+      return prevState;
+    });
   };
 
   const toggleMuted = () => {
-    const player = audioRef.current;
-    player.muted = !player.muted;
-    setState((prevState) => ({ ...prevState, muted: player.muted }));
-  };
-
-  const triggerPause = () => {
-    const player = audioRef.current;
-    player.pause();
-  };
-
-  const triggerPlay = () => {
-    const player = audioRef.current;
-    const promise = player.play();
-    if (promise) {
-      promise
-        .then(() => {})
-        .catch(() => {
-          triggerPause();
-        });
+    if (!players.current.player.muted) {
+      players.current.player.volume = 0;
+      players.current.ghostPlayer.volume = 0;
+    } else {
+      players.current.player.volume = state.lastVolume || 0.5;
+      players.current.ghostPlayer.volume = state.lastVolume || 0.5;
     }
   };
 
-  const handleReady = () => {
-    setState((prevState) => ({ ...prevState, loading: false, ready: true }));
-    triggerPlay();
-  };
+  const triggerPlay = useCallback(() => {
+    players.current.player
+      .play()
+      .then(() => {
+        setState((prevState) => ({ ...prevState, ready: true }));
+      })
+      .catch((e) => {
+        players.current.player.pause();
+        handleErrors(e);
+      });
+  }, [setState, handleErrors]);
+
+  const handleReady = useCallback(() => {
+    setState((prevState) => {
+      if (prevState.firstPlay) {
+        return { ...prevState, firstPlay: false };
+      }
+      triggerPlay();
+      return prevState;
+    });
+  }, [triggerPlay, setState]);
 
   const handleDurationChange = () => {
-    const player = audioRef.current;
+    const player = players.current.player;
+    setCurrentTime(player.currentTime);
+    appMediaSession.updatePositionState(
+      player.duration,
+      player.currentTime,
+      player.playbackRate
+    );
+  };
+
+  const handleVolumeChange = () => {
     setState((prevState) => ({
       ...prevState,
-      duration: player.duration,
+      volume: players.current.player.volume,
     }));
-    updatePositionState(player);
+
+    if (players.current.player.volume) {
+      setState((prevState) => ({
+        ...prevState,
+        lastVolume: players.current.player.volume,
+      }));
+    }
+
+    if (!players.current.player.muted && players.current.player.volume === 0) {
+      players.current.player.muted = true;
+      players.current.ghostPlayer.muted = true;
+      setState((prevState) => ({
+        ...prevState,
+        muted: true,
+      }));
+    } else if (
+      players.current.player.muted &&
+      players.current.player.volume > 0
+    ) {
+      players.current.player.muted = false;
+      players.current.ghostPlayer.muted = false;
+      setState((prevState) => ({
+        ...prevState,
+        muted: false,
+      }));
+    }
   };
 
   const handlePlaying = () => {
-    setState((prevState) => ({
-      ...prevState,
-      paused: false,
-      playing: true,
-      loading: false,
-    }));
-    updatePlaybackState("playing");
-  };
+    const player = players.current.player;
+    if (player.networkState === player.NETWORK_IDLE) {
+      playbackState.playback.set("playing");
+      playbackState.playbackSync.set("");
+      setState((prevState) => ({
+        ...prevState,
+        ready: true,
+        fisrtPlay: false,
+      }));
 
-  const handleWaiting = () => {
-    setState((prevState) => ({
-      ...prevState,
-      playing: false,
-      paused: false,
-      loading: true,
-    }));
+      setCurrentTime(player.currentTime);
+      appMediaSession.updatePositionState(
+        player.duration,
+        player.currentTime,
+        player.playbackRate
+      );
+    }
   };
 
   const handleTimeUpdate = () => {
-    const player = audioRef.current;
-    setState((prevState) => ({
-      ...prevState,
-      currentTime: player.currentTime,
-    }));
-    updatePositionState(player);
+    const player = players.current.player;
+
+    if (playbackState.playback.value === "paused" && !player.paused) {
+      playbackState.playback.set("playing");
+      playbackState.playbackSync.set("");
+      appMediaSession.updatePositionState(
+        player.duration,
+        player.currentTime,
+        player.playbackRate
+      );
+    }
+    setCurrentTime(player.currentTime);
   };
 
   const handlePause = () => {
-    updateState({ pause: true, playing: false });
-    updatePlaybackState("paused");
+    playbackState.playback.set("paused");
+    playbackState.playbackSync.set("");
   };
 
   const handleEnded = () => {
-    if (stateRef.current.loop === "playlist") {
-      queueDispatch({ type: "setNextTrack" });
-    }
-
-    setState((prevState) => ({ ...prevState, playing: false, pause: false }));
+    playbackState.playback.set("paused");
+    setState((prevState) => ({ ...prevState, ended: true }));
   };
 
   const togglePlay = () => {
-    const player = audioRef.current;
-    if (isPlaying(player)) {
-      triggerPause();
+    if (isPlaying(players.current.player)) {
+      players.current.player.pause();
     } else {
       triggerPlay();
     }
   };
 
-  const handleErrors = (e) => {
-    const error = e.target.error;
-    // Audio playback failed - show a message saying why
-    switch (error.code) {
-      case error.MEDIA_ERR_ABORTED:
-        console.error("You aborted the video playback.");
-        break;
-      case error.MEDIA_ERR_NETWORK:
-        console.error("A network error caused the audio download to fail.");
-        break;
-      case error.MEDIA_ERR_DECODE:
-        console.error(
-          "The audio playback was aborted due to a corruption problem or because the video used features your browser did not support."
-        );
-        break;
-      case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-        console.error(
-          "The video audio not be loaded, either because the server or network failed or because the format is not supported."
-        );
-        break;
-      default:
-        console.error("An unknown error occurred.");
-        break;
-    }
+  const updateMediaSession = useCallback(
+    (track) => {
+      appMediaSession.updateMediaMetadata(track);
+      appMediaSession.registerMediaActions([
+        [
+          "play",
+          () => {
+            triggerPlay();
+          },
+        ],
+        [
+          "pause",
+          () => {
+            players.current.player.pause();
+          },
+        ],
+        [
+          "nexttrack",
+          () => {
+            queueNext();
+          },
+        ],
+        [
+          "previoustrack",
+          () => {
+            queuePrev();
+          },
+        ],
+        [
+          "seekbackward",
+          (details) => {
+            const player = players.current.player;
+            const skipTime = details.seekOffset || 20;
+            // User clicked "Seek Backward" media notification icon.
+            seek(Math.max(player.currentTime - skipTime, 0));
+            appMediaSession.updatePositionState(
+              player.duration,
+              player.currentTime,
+              player.playbackRate
+            );
+          },
+        ],
+        [
+          "seekforward",
+          (details) => {
+            const player = players.current.player;
+            const skipTime = details.seekOffset || 20;
+            // User clicked "Seek Backward" media notification icon.
+            seek(
+              Math.min(
+                player.currentTime + skipTime,
+                player.duration || state.duration || 0
+              )
+            );
+            appMediaSession.updatePositionState(
+              player.duration,
+              player.currentTime,
+              player.playbackRate
+            );
+          },
+        ],
+        [
+          "seekto",
+          (details) => {
+            const player = players.current.player;
+            if (details.fastSeek && "fastSeek" in player) {
+              // Only use fast seek if supported.
+              player.fastSeek(details.seekTime);
+            } else {
+              seek(details.seekTime);
+            }
+            appMediaSession.updatePositionState(
+              player.duration,
+              player.currentTime,
+              player.playbackRate
+            );
+          },
+        ],
+      ]);
+    },
+    [queueNext, queuePrev, triggerPlay, state.duration]
+  );
 
-    setState((prevState) => ({
-      ...prevState,
-      loading: false,
-      ready: false,
-      error: true,
-    }));
+  const loadTrack = (source) => {
+    // Swap audio players
+    const { player, ghostPlayer } = players.current;
+    players.current.player = ghostPlayer;
+    players.current.ghostPlayer = player;
+    // Stop previous player
+    players.current.ghostPlayer.pause();
+    // Swap events
+    players.current.ghostPlayer.oncanplay = null;
+    players.current.ghostPlayer.onvolumechange = null;
+    players.current.ghostPlayer.onpause = null;
+    players.current.ghostPlayer.onplaying = null;
+    players.current.ghostPlayer.ondurationchange = null;
+    players.current.ghostPlayer.ontimeupdate = null;
+    players.current.ghostPlayer.onerror = null;
+    players.current.ghostPlayer.onended = null;
+    //...
+    players.current.player.oncanplay = handleReady;
+    players.current.player.onvolumechange = handleVolumeChange;
+    players.current.player.onpause = handlePause;
+    players.current.player.onplaying = handlePlaying;
+    players.current.player.ondurationchange = handleDurationChange;
+    players.current.player.ontimeupdate = handleTimeUpdate;
+    players.current.player.onerror = handleErrors;
+    players.current.player.onended = handleEnded;
+    // Keep previous volume
+    players.current.player.volume = ghostPlayer.volume;
+    // Reset position
+    players.current.player.currentTime = 0;
+    appMediaSession.resetPositionState();
+    // Load new track
+    players.current.player.src = source;
+    players.current.player.load();
   };
 
+  // Player Initialization
   useEffect(() => {
-    if (currentTrack) {
-      updateMediaMetadata(currentTrack);
-    }
-  }, [currentTrack]);
+    // GhostPlayer
+    const { player, ghostPlayer } = players.current;
+    ghostPlayer.volume = state.lastVolume;
+
+    // Initialize player
+    player.volume = state.lastVolume || 0.5;
+    player.onpause = handlePause;
+    player.onplaying = handlePlaying;
+    player.onvolumechange = handleVolumeChange;
+    player.ondurationchange = handleDurationChange;
+    player.ontimeupdate = handleTimeUpdate;
+    player.onerror = handleErrors;
+    player.onended = handleEnded;
+
+    // Destructor
+    return () => {
+      // eslint-disable-next-line
+      const { player, ghostPlayer } = players.current;
+      // Main player
+      player.oncanplay = null;
+      player.onpause = null;
+      player.onplaying = null;
+      player.onvolumechange = null;
+      player.ondurationchange = null;
+      player.ontimeupdate = null;
+      player.onended = null;
+      player.onerror = null;
+      // Ghost player
+      ghostPlayer.oncanplay = null;
+      ghostPlayer.onpause = null;
+      ghostPlayer.onplaying = null;
+      ghostPlayer.onvolumechange = null;
+      ghostPlayer.ondurationchange = null;
+      ghostPlayer.ontimeupdate = null;
+      ghostPlayer.onended = null;
+      ghostPlayer.onerror = null;
+    };
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
-    if (!currentTrack && nextQueue.length && !queue.length) {
-      queueDispatch({ type: "loadNextQueue" });
-      queueDispatch({ type: "setTrack", data: 0 });
-    }
-  }, [currentTrack, nextQueue, queue, queueDispatch]);
-
-  useEffect(() => {
-    const player = audioRef.current;
-    if (player) {
-      player.loop = state.loop === "once";
+    if (players.current.player) {
+      players.current.player.loop = state.loop === "once";
+      players.current.ghostPlayer.loop = state.loop === "once";
     }
   }, [state.loop]);
 
   useEffect(() => {
+    if (state.ended && state.loop === "playlist") {
+      queueNext();
+    }
+  }, [state.ended, state.loop, queueNext]);
+
+  useEffect(() => {
     if (currentTrack) {
-      const { id, name } = currentTrack;
-      const source = getStreamLink({ id, name });
+      updateMediaSession(currentTrack);
+      const { id, name, duration, fee_amount } = currentTrack;
+      // Reload player
+      if (!fee_amount) {
+        const source = getStreamLink({ id, name });
+        loadTrack(source);
+      } else {
+        // Pause player and skip paid track
+        players.current.player.pause();
+        appMediaSession.updatePlaybackState("paused");
+        // Todo: Skip track and provide UI feedback to user
+      }
+
       // Reset state with default values
       setState((prevState) => ({
         ...prevState,
         ...defaultState,
-        loading: true,
-        ready: false,
-        source,
+        duration,
       }));
+
+      setCurrentTime(0);
     }
-  }, [currentTrack, setState]);
+    // eslint-disable-next-line
+  }, [currentTrack, setState, setCurrentTime]);
+
+  // Player visibility detection
+  useEffect(() => {
+    if (currentTrack && hidden) {
+      playerState.hidden.set(false);
+    } else if (!currentTrack && !hidden) {
+      playerState.hidden.set(true);
+    }
+    // eslint-disable-next-line
+  }, [currentTrack, hidden]);
 
   useEffect(() => {
-    const player = audioRef.current;
-    // Register audio player events
-    player.addEventListener("error", handleErrors);
-    player.addEventListener("canplay", handleReady);
-    player.addEventListener("pause", handlePause);
-    player.addEventListener("playing", handlePlaying);
-    player.addEventListener("waiting", handleWaiting);
-    player.addEventListener("durationchange", handleDurationChange);
-    player.addEventListener("timeupdate", handleTimeUpdate);
-    player.addEventListener("ended", handleEnded);
+    if (playbackSync === "playing") {
+      triggerPlay();
+    } else if (playbackSync === "paused") {
+      players.current.player.pause();
+    }
+  }, [playbackSync, triggerPlay]);
 
-    /* Seek To (supported since Chrome 78) */
-    const seekHandler = [
-      "seekto",
-      (event) => {
-        if (event.fastSeek && "fastSeek" in player) {
-          return player.fastSeek(event.seekTime);
-        }
-        player.currentTime = event.seekTime;
-      },
-    ];
-
-    // Register mediaSession actions
-    const actions = [
-      seekHandler,
-      ["play", () => triggerPlay()],
-      ["pause", () => triggerPause()],
-      ["nexttrack", () => queueDispatch({ type: "setNextTrack" })],
-      ["previoustrack", () => queueDispatch({ type: "setPrevTrack" })],
-    ];
-
-    registerMediaActions(actions);
-
-    // Unmount
-    return () => {
-      player.removeEventListener("error", handleErrors);
-      player.removeEventListener("canplay", handleReady);
-      player.removeEventListener("pause", handlePause);
-      player.removeEventListener("playing", handlePlaying);
-      player.removeEventListener("waiting", handleWaiting);
-      player.removeEventListener("timeupdate", handleTimeUpdate);
-      player.removeEventListener("durationchange", handleDurationChange);
-      player.removeEventListener("ended", handleEnded);
-    };
-  });
+  useEffect(() => {
+    if (currentTrack && currentTrack.id) {
+      if (playback === "playing") {
+        // Set current track as page
+        document.title = `${currentTrack.title} - ${currentTrack.channel_title}`;
+        // Update mediaSession playback
+      } else if (playback === "paused") {
+        // TODO: Use previous document title
+        document.title = "hound.fm";
+      }
+    }
+  }, [playback, currentTrack]);
 
   return {
-    audioRef,
-    currentTrack,
+    seek,
+    currentTime,
     togglePlay,
     toggleMuted,
     toggleLoop,
-    seek,
+    updateVolume,
+    currentTrack,
+    queueNext,
+    queuePrev,
     ...state,
   };
 };

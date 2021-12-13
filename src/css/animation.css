@@ -1,15 +1,79 @@
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
+@keyframes min-bounce {
   to {
-    transform: rotate(360deg);
+    opacity: 0.3;
+    transform: translate3d(0, -0.8rem, 0);
   }
 }
 
-.animated--spin {
-  animation-name: spin;
-  animation-duration: 0.54s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+@keyframes bounce {
+  to {
+    opacity: 0.3;
+    transform: translate3d(0, -1rem, 0);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes playback-bar {
+  from {
+    height: 30%;
+  }
+  30% {
+    height: 15%;
+  }
+  to {
+    height: 80%;
+  }
+}
+
+@keyframes playback-bar-2 {
+  from {
+    height: 25%;
+  }
+  70% {
+    height: 70%;
+  }
+  to {
+    height: 35%;
+  }
+}
+
+@keyframes playback-bar-3 {
+  from {
+    height: 100%;
+  }
+  30% {
+    height: 70%;
+  }
+  50% {
+    height: 90%;
+  }
+
+  to {
+    height: 10%;
+  }
 }

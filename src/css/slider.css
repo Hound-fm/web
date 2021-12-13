@@ -1,0 +1,22 @@
+/*! nouislider - 14.7.0 - 4/6/2021 */
+/* Functional styling;
+ * These styles are required for noUiSlider to function.
+ * You don't need to change these rules to apply your design.
+ */
+
+.slider {
+  min-width: 100px;
+}
+
+.slider__container {
+  min-width: 100px;
+}
+
+.slider__handler {
+  opacity: 0;
+}
+
+.react-compound-slider--active .slider__handler,
+.slider__handler:focus {
+  opacity: 1;
+}

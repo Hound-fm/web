@@ -1,0 +1,7 @@
+.button--favorite[aria-pressed="true"] svg {
+  fill: currentColor;
+}
+
+.button--favorite[aria-pressed="true"] {
+  color: var(--accent-color);
+}

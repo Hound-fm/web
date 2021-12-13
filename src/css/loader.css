@@ -1,0 +1,30 @@
+.loading {
+  display: flex;
+  justify-content: center;
+}
+.loading div {
+  width: 1rem;
+  height: 1rem;
+  margin: 2rem 0.3rem;
+  background: var(--subtext-color);
+  border-radius: 50%;
+  animation: 0.9s bounce infinite alternate;
+}
+
+.app--compact .loading div,
+.app--mobile .loading div {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 1.8rem 0.3rem;
+  background: var(--subtext-color);
+  border-radius: 50%;
+  animation: 0.9s min-bounce infinite alternate;
+}
+
+.loading div:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.loading div:nth-child(3) {
+  animation-delay: 0.6s;
+}

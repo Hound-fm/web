@@ -1,0 +1,48 @@
+.empty-state {
+  position: fixed;
+  right: 0;
+  top: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  bottom: var(--player-height);
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 0;
+  text-align: center;
+}
+
+.empty-state__title {
+  margin: 0;
+  font-size: 2.25em;
+}
+
+.empty-state img {
+  width: 10vw;
+  height: 10vw;
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 140px;
+  max-height: 140px;
+  margin: 24px !important;
+}
+.empty-state__message {
+  color: var(--subtext-color);
+  margin: 4px 24px;
+}
+
+.app--compact .empty-state {
+  left: var(--sidebar-min-width);
+}
+
+.app--mobile .empty-state {
+  left: 0;
+  margin: 24px;
+  font-size: 0.94em;
+}
+
+.app--min-player .empty-state {
+  bottom: var(--player-min-height);
+}

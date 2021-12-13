@@ -1,40 +1,33 @@
 {
-  "name": "hound.fm",
-  "version": "0.1.0",
+  "name": "web",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
-    "@mdi/js": "^5.8.55",
-    "@mdi/react": "^1.4.0",
+    "@hookstate/core": "^3.0.13",
+    "@hookstate/persistence": "^3.0.0",
+    "@react-hook/resize-observer": "^1.2.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "add": "^2.0.6",
     "clsx": "^1.1.1",
-    "luxon": "^1.25.0",
-    "rc-slider": "^9.7.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-query": "^3.2.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1",
-    "reakit": "^1.3.4",
-    "web-vitals": "^0.2.4",
-    "workbox-background-sync": "^5.1.3",
-    "workbox-broadcast-update": "^5.1.3",
-    "workbox-cacheable-response": "^5.1.3",
-    "workbox-core": "^5.1.3",
-    "workbox-expiration": "^5.1.3",
-    "workbox-google-analytics": "^5.1.3",
-    "workbox-navigation-preload": "^5.1.3",
-    "workbox-precaching": "^5.1.3",
-    "workbox-range-requests": "^5.1.3",
-    "workbox-routing": "^5.1.3",
-    "workbox-strategies": "^5.1.3",
-    "workbox-streams": "^5.1.3"
-  },
-  "devDependencies": {
-    "husky": "^4.3.6",
-    "prettier": "^2.2.1",
-    "pretty-quick": "^3.1.0"
+    "history": "5",
+    "lucide-react": "^0.16.19",
+    "luxon": "^2.0.2",
+    "memoize-one": "^5.2.1",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-compound-slider": "^3.3.1",
+    "react-dom": "^17.0.2",
+    "react-query": "^3.25.1",
+    "react-responsive": "^8.2.0",
+    "react-router-dom": "6",
+    "react-scripts": "4.0.3",
+    "react-virtualized": "^9.22.3",
+    "react-window": "^1.8.6",
+    "reakit": "^1.3.11",
+    "web-vitals": "^1.0.1",
+    "yarn": "^1.22.15"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,11 +35,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "pretty-quick"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   },
   "eslintConfig": {
     "extends": [
@@ -65,5 +53,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^7.0.1",
+    "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
