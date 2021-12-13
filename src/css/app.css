@@ -17,13 +17,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: overlay;
+  overflow-x: hidden;
 }
 
 main {
-  padding: 24px;
+  padding: 24px 0;
   margin-left: var(--sidebar-width);
   margin-top: var(--header-height);
   margin-bottom: var(--player-height);
+}
+
+main h1,
+main h2,
+main h4 {
+  padding: 0 24px !important;
+}
+
+main h4 {
+  font-weight: 500;
+}
+
+.section__header-actions {
+  padding: 0 24px;
 }
 
 .label__price {
@@ -190,16 +205,20 @@ img {
 }
 
 /* Scrollbar styles */
-body::-webkit-scrollbar {
-  width: 16px;
+
+@supports selector(body::-webkit-scrollbar) {
+  body {
+    margin-right: 16px;
+  }
 }
 
-:root {
+:root,
+.sidebar {
   scrollbar-width: thin !important;
 }
 
-body {
-  margin-right: 16px;
+body::-webkit-scrollbar {
+  width: 16px;
 }
 
 @media (max-width: 900px) {
