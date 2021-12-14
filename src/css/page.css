@@ -23,6 +23,12 @@
   padding: 0;
 }
 
+.page__metadata .page__subtitle a {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
 .page__metadata .page__subtitle {
   color: var(--subtext-color);
   margin: 0;

@@ -5,6 +5,7 @@ import LoadingPage from "pages/loading";
 import { ErrorAPIPage } from "pages/error";
 import TrackList from "component/trackList";
 import Button from "component/button";
+import Link from "component/link";
 import FavoriteButton from "component/favoriteButton";
 import { useFetchExploreChannel } from "api";
 import { Rss } from "lucide-react";
@@ -23,7 +24,18 @@ export const ChannelPreview = memo(({ channel_id, channel_type }) => {
   const channelData = resultsData ? resultsData.channel : null;
   const title = channelData ? channelData.channel_title : "";
   const total = resultsData.latest && resultsData.latest.total.value;
-
+  let genre =
+    channelData &&
+    channelData.content_genres &&
+    channelData.content_genres.length
+      ? channelData.content_genres[0]
+      : null;
+  if (!genre) {
+    genre =
+      channelData && channelData.genres && channelData.genres.length
+        ? channelData.genres[0]
+        : null;
+  }
   // Todo: copy instead of open
   const openRSSLink = () => {
     if (channelData && channel_id) {
@@ -57,8 +69,11 @@ export const ChannelPreview = memo(({ channel_id, channel_type }) => {
         <PageHeader
           title={channelData.channel_title}
           subtitle={
-            `${channelType.name}` +
-            (total && total > 1 ? ` • ${total} ${channelType.content}` : "")
+            <>
+              {channelType.name + (genre ? ` • ` : "")}
+              {genre && <Link to={`/genre/${genre}`}> {genre} </Link>}
+              {total && total > 1 ? ` • ${total} ${channelType.content}` : ""}
+            </>
           }
           thumbnail={channelData.thumbnail}
           circularThumbnail={channelType.name === "artist"}
