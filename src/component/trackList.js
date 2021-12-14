@@ -33,6 +33,10 @@ const Row = memo(({ data, index, style }) => {
     queueTitle,
     queueData,
   });
+  const channelType =
+    metadata && metadata.channel_type === "podcast_series"
+      ? "podcast"
+      : "artist";
   const priceLabel =
     metadata && metadata.fee_amount
       ? `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`
@@ -93,7 +97,7 @@ const Row = memo(({ data, index, style }) => {
           </Link>
           <Link
             className="row__subtitle text-overflow"
-            to={`/artist/${metadata.channel_id}`}
+            to={`/${channelType}/${metadata.channel_id}`}
           >
             {metadata.channel_title}
           </Link>
