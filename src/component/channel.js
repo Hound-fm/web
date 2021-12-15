@@ -25,15 +25,16 @@ export const ChannelPreview = memo(({ channel_id, channel_type }) => {
   const title = channelData ? channelData.channel_title : "";
   const total = resultsData.latest && resultsData.latest.total.value;
   let genre =
-    channelData &&
-    channelData.content_genres &&
-    channelData.content_genres.length
-      ? channelData.content_genres[0]
+    channelData && channelData.genres && channelData.genres.length
+      ? channelData.genres[0]
       : null;
+
   if (!genre) {
     genre =
-      channelData && channelData.genres && channelData.genres.length
-        ? channelData.genres[0]
+      channelData &&
+      channelData.content_genres &&
+      channelData.content_genres.length
+        ? channelData.content_genres[0]
         : null;
   }
   // Todo: copy instead of open
