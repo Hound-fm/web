@@ -6,7 +6,6 @@ import TrackList from "component/trackList";
 import { useParams } from "react-router-dom";
 import { useFetchExploreGenre } from "api";
 import { CollectionPreviewRow } from "component/collection";
-import { GENRES } from "constants.js";
 
 const ExplorePreview = memo(({ genre }) => {
   const [resultsData, setResultsData] = useState({});
@@ -46,6 +45,12 @@ const ExplorePreview = memo(({ genre }) => {
           collectionType={"music_recording"}
           collectionData={resultsData.popular}
           collectionLink={`/genre/${genre}/popular`}
+        />
+      )}
+      {resultsData && resultsData.channels && (
+        <CollectionPreviewRow
+          title={"Channels"}
+          collectionData={resultsData.channels}
         />
       )}
     </Page>
@@ -95,12 +100,6 @@ export default function GenrePage() {
 
   if (sortBy) {
     if (sortBy !== "latest" && sortBy !== "popular") {
-      return <ErrorNotFoundPage />;
-    }
-  }
-
-  if (genre) {
-    if (!GENRES.includes(genre)) {
       return <ErrorNotFoundPage />;
     }
   }

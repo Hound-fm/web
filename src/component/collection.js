@@ -139,7 +139,7 @@ export const CollectionPreviewRow = memo(
     title,
     queueTitle,
     description,
-    collectionLink = "/search",
+    collectionLink,
     collectionType = "artist",
     collectionData = { total: { value: 0 }, hits: [] },
     maxItems = 10,
@@ -148,7 +148,8 @@ export const CollectionPreviewRow = memo(
     const [overflowed, setOverflowed] = useState(false);
     const showLink = useMemo(
       () =>
-        overflowed || (collectionLink && total && total.value > hits.length),
+        (overflowed && collectionLink) ||
+        (collectionLink && total && total.value > hits.length),
       [overflowed, collectionLink, total, hits]
     );
     const rowsData = useMemo(() => {

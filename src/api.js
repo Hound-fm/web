@@ -2,6 +2,8 @@ import { useQuery } from "react-query";
 
 export const FEATURE_CONTENT = {
   music_recording: [
+    "2e7e47315f4afcd8fe547874ab311ecec33d78f0",
+    "91803366353193d27298c7c72ff09b36c131163e",
     "e2b0a0191f4e239c996f160ef07c452621691a61",
     "bf7344fe7191bc40b742bd49a60b3965d0bd3626",
     "943974dad05701664246aadd0334fb58c4835a08",
