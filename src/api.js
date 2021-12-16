@@ -2,6 +2,8 @@ import { useQuery } from "react-query";
 
 export const FEATURE_CONTENT = {
   music_recording: [
+    "7ca59d9c57841130ad74abacbfcd8ade81951e00",
+    "60744d9f68310d7d266bb94fba61ef964d57b37b",
     "2e7e47315f4afcd8fe547874ab311ecec33d78f0",
     "91803366353193d27298c7c72ff09b36c131163e",
     "e2b0a0191f4e239c996f160ef07c452621691a61",
@@ -23,6 +25,10 @@ export const FEATURE_CONTENT = {
     "8976e6ee4a71d72365e1c157d622d31a32d731a1",
   ],
   artist: [
+    "e4a76e4d1fea8b17c735573769b88f1f44b7016c",
+    "b13d3dc4fba4a80e21a077f8ba15b938fc422a5f",
+    "bfe66a3f585c8851565e9931fff7335a13b1c574",
+    "ac2dcfdf79e7047d8c3cbdf7ab6ad13402b60996",
     "61ed988923c77f58e76aa8bd645b8d3453e1c9c7",
     "8ca3f96c78cbc4e36a133c62ad38b05a2b676254",
     "dc6f41ade5640711c6d8bdbea757a35067e13ea2",
@@ -49,11 +55,11 @@ export const FEATURE_CONTENT = {
     "1da718d3b905323e597aaccac5a6b0feb276cc37",
     "8092ac3335d2716af7ddf59c0bd2c7464acd2055",
     "1f4409e8178df3900c541527515257c89c3ea80c",
-    "c0aba61eb6c871b3f79cf14c30133d516d3c45b7",
-    "ffe6c7b74c849b215b567635de0c45ed6dfe03a1",
     "675dfbb1fff53d76b14db389ff3448561037d311",
     "f5ce6db853d27d0992f0d1b558060b09ecb876c2",
     "98833736432fedd4933c706cbb2305fa63260b8f",
+    "c0aba61eb6c871b3f79cf14c30133d516d3c45b7",
+    "ffe6c7b74c849b215b567635de0c45ed6dfe03a1",
     "6cdab7eef134ef78c327e30b22783404d5ef1227",
     "1cdcfeb4c8fb5fe7a0cee8d94502fe25a0d5ef1a",
     "3bbca94b0ca64fdcc2e20eb113a39675b6106427",

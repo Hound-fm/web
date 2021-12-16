@@ -17,6 +17,16 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
+.app--mobile .header__thumbnail {
+  margin: 0 18px 0 0;
+  height: 132px;
+  width: 132px;
+}
+
+.app--mobile .page__metadata {
+  min-width: 0;
+}
+
 .page__metadata .page__title,
 .page__metadata .page__subtitle {
   margin: 0;
@@ -44,4 +54,32 @@
 
 .header__thumbnail--circle {
   border-radius: 100%;
+}
+
+@media (max-width: 480px) {
+  .page__header {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .page__metadata .header__actions {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page__metadata .page__title {
+    font-size: 1.64em;
+    margin: 0 18px;
+  }
+
+  .page__metadata .page__subtitle {
+    margin-top: 8px;
+  }
+
+  .app--mobile .header__thumbnail {
+    margin: 0 0 18px 0;
+    height: 120px;
+    width: 120px;
+  }
 }

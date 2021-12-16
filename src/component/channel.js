@@ -1,4 +1,4 @@
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo, useMemo } from "react";
 import Page from "component/page";
 import PageHeader from "component/pageHeader";
 import LoadingPage from "pages/loading";
@@ -16,6 +16,28 @@ const CHANNEL_TYPES = {
   podcast_series: { name: "podcast", content: "episodes" },
 };
 
+const getTopGenre = (channelData) => {
+  let genre =
+    channelData && channelData.genres && channelData.genres.length
+      ? channelData.genres[0]
+      : null;
+
+  if (
+    channelData &&
+    channelData.content_genres &&
+    channelData.content_genres.length
+  ) {
+    // Unique genre
+    const keep =
+      genre && channelData.content_genres.slice(0, 3).includes(genre);
+
+    if (!keep) {
+      genre = channelData.content_genres[0];
+    }
+  }
+  return genre;
+};
+
 export const ChannelPreview = memo(({ channel_id, channel_type }) => {
   const channelType = CHANNEL_TYPES[channel_type] || {};
   const [resultsData, setResultsData] = useState({});
@@ -24,19 +46,8 @@ export const ChannelPreview = memo(({ channel_id, channel_type }) => {
   const channelData = resultsData ? resultsData.channel : null;
   const title = channelData ? channelData.channel_title : "";
   const total = resultsData.latest && resultsData.latest.total.value;
-  let genre =
-    channelData && channelData.genres && channelData.genres.length
-      ? channelData.genres[0]
-      : null;
+  const genre = useMemo(() => getTopGenre(channelData), [channelData]);
 
-  if (!genre) {
-    genre =
-      channelData &&
-      channelData.content_genres &&
-      channelData.content_genres.length
-        ? channelData.content_genres[0]
-        : null;
-  }
   // Todo: copy instead of open
   const openRSSLink = () => {
     if (channelData && channel_id) {
