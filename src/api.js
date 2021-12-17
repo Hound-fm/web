@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 
 export const FEATURE_CONTENT = {
   music_recording: [
+    "448d6a6606b42954e6f1a2bc37a0a02d861e8fdf",
     "a22214435916fe39a76c11d4ad0892e82b061d0d",
     "51c95aaa014a973bc406985978ce263d93ca6497",
     "52ecd2adbf3bb8948cab4da490f4e23d0aedc751",
@@ -28,6 +29,7 @@ export const FEATURE_CONTENT = {
     "8976e6ee4a71d72365e1c157d622d31a32d731a1",
   ],
   artist: [
+    "cbccaeba6814b86e4fc14fddcc9fb5fef4271151",
     "b22a9f8a7bf091c5d4a2416d21e28f97492e4c54",
     "d9789c0cf6f72a5cbb1e202ade9343ac849fc695",
     "e4a76e4d1fea8b17c735573769b88f1f44b7016c",
