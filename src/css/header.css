@@ -109,7 +109,9 @@
 .header__title {
   font-size: 1.32em;
   opacity: 0;
-  margin: var(--space-margin);
+  margin-left: 8px;
+  text-transform: capitalize;
+  transition: 0.3s ease;
 }
 
 .overlay .header__title {

@@ -1,9 +1,16 @@
 import clsx from "clsx";
-import { memo } from "react";
+import { memo, useEffect } from "react";
+import useTitle from "hooks/useTitle";
 import Thumbnail from "component/thumbnail";
 
 function PageHeader(props) {
   const { title, subtitle, thumbnail, circularThumbnail } = props;
+  const { setTitle } = useTitle();
+  useEffect(() => {
+    setTitle(title);
+    // eslint-disable-next-line
+  }, [title]);
+
   return (
     <div className="page__header">
       <Thumbnail

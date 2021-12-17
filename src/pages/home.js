@@ -4,10 +4,19 @@ import Page from "component/page";
 import { CollectionPreviewRow } from "component/collection";
 import LoadingPage from "pages/loading";
 import { ErrorAPIPage } from "pages/error";
+import useTitle from "hooks/useTitle";
+import { getRandomGreetings } from "util/core";
 
 export default function HomePage() {
   const { data, status, isLoading, isError } = useFetchResolve(FEATURE_CONTENT);
   const [homeData, setHomeData] = useState();
+  const { setTitle } = useTitle();
+
+  // Set page title
+  useEffect(() => {
+    setTitle(getRandomGreetings());
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (status === "success" && data) {

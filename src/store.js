@@ -3,6 +3,7 @@ import { Persistence } from "@hookstate/persistence";
 
 const defaultAppState = {
   theme: "dark",
+  title: "Hound.fm",
   searchQuery: null,
   favorites: {
     artist: [],

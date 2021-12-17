@@ -39,10 +39,9 @@ function FavoritesEmptyState() {
 }
 
 const FavoritesList = ({ favoriteType, favorites }) => {
-  const fetchData = {};
-  const [resultsData, setResultsData] = useState([]);
-  fetchData[favoriteType] = favorites[favoriteType];
+  const fetchData = { [favoriteType]: favorites[favoriteType] };
   const { data, status, isLoading, isError } = useFetchResolve(fetchData);
+  const [resultsData, setResultsData] = useState([]);
 
   useEffect(() => {
     if (status === "success" && data) {

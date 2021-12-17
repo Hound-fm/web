@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback, memo } from "react";
 import { useState as useHookState } from "@hookstate/core";
 import { globalMobileAppState } from "store";
+import useTitle from "hooks/useTitle";
 
 const MAX_SCROLL = 35;
 
@@ -55,11 +56,11 @@ function MobileMenuButton() {
 }
 
 function Header(props) {
-  const { title } = props;
+  const { title } = useTitle();
   const overlay = useIsOverlay();
   const location = useLocation();
   const navigate = useNavigate();
-  const showSearch = location.pathname === "/search";
+  const showSearch = !title && location.pathname === "/search";
 
   const isTabletOrMobile = useMediaQuery({
     query: "(max-width: 720px)",
