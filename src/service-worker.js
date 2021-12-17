@@ -1,5 +1,7 @@
 // Self-destroying ServiceWorker:
 // https://github.com/NekR/self-destroying-sw
+// eslint-disable-next-line no-restricted-globals
+const ignored = self.__WB_MANIFEST;
 
 self.addEventListener("install", function (e) {
   console.info("Installing service worker...");
