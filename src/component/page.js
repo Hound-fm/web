@@ -4,7 +4,9 @@ function Page(props) {
   const { title } = props;
   const { setTitle } = useTitle();
   useEffect(() => {
-    setTitle(title);
+    if (title) {
+      setTitle(title);
+    }
     // eslint-disable-next-line
   }, [title]);
   return (

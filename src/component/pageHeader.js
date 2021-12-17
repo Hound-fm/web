@@ -7,7 +7,9 @@ function PageHeader(props) {
   const { title, subtitle, thumbnail, circularThumbnail } = props;
   const { setTitle } = useTitle();
   useEffect(() => {
-    setTitle(title);
+    if (title) {
+      setTitle(title);
+    }
     // eslint-disable-next-line
   }, [title]);
 

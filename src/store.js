@@ -3,7 +3,6 @@ import { Persistence } from "@hookstate/persistence";
 
 const defaultAppState = {
   theme: "dark",
-  title: "Hound.fm",
   searchQuery: null,
   favorites: {
     artist: [],
@@ -12,6 +11,8 @@ const defaultAppState = {
     podcast_episode: [],
   },
 };
+
+export const globalPageState = createState({ title: null });
 
 export const globalAppState = createState(defaultAppState);
 // Persistence for currentTrack (Last track played)

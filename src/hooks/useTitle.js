@@ -1,8 +1,8 @@
 import { useState as useHookState } from "@hookstate/core";
-import { globalAppState } from "store";
+import { globalPageState } from "store";
 
 const useTitle = () => {
-  const appState = useHookState(globalAppState);
+  const appState = useHookState(globalPageState);
   const title = appState.title.value;
   const setTitle = (newTitle) => {
     appState.title.set(newTitle);
