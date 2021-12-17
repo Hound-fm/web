@@ -7,7 +7,7 @@ import { ErrorAPIPage } from "pages/error";
 
 export default function HomePage() {
   const { data, status, isLoading, isError } = useFetchResolve(FEATURE_CONTENT);
-  const [homeData, setHomeData] = useState({});
+  const [homeData, setHomeData] = useState();
 
   useEffect(() => {
     if (status === "success" && data) {
@@ -32,7 +32,7 @@ export default function HomePage() {
 
   return (
     <Page>
-      {homeData.music_recording && (
+      {homeData && homeData.music_recording && (
         <CollectionPreviewRow
           title="Community picks"
           collectionType="Music"
@@ -42,7 +42,7 @@ export default function HomePage() {
           description="Awesome music curated by humans"
         />
       )}
-      {homeData.artist && (
+      {homeData && homeData.artist && (
         <CollectionPreviewRow
           title="Discover artists"
           collectionType="Artist"
@@ -51,7 +51,7 @@ export default function HomePage() {
           description="Find your next favorite artist"
         />
       )}
-      {homeData.podcast_series && (
+      {homeData && homeData.podcast_series && (
         <CollectionPreviewRow
           title="Top podcasts"
           collectionType="Podcast"
