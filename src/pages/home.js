@@ -15,8 +15,6 @@ export default function HomePage() {
       if (data.data) {
         setHomeData(data.data);
       }
-
-      console.info(data);
     }
   }, [data, status, setHomeData]);
 
@@ -24,7 +22,11 @@ export default function HomePage() {
     return <LoadingPage />;
   }
 
-  if (isError || (data && data.error)) {
+  if (
+    isError ||
+    (homeData && !Object.keys(homeData).length) ||
+    (data && data.error)
+  ) {
     return <ErrorAPIPage />;
   }
 

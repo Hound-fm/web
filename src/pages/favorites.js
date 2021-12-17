@@ -96,7 +96,11 @@ const FavoritesPreview = ({ favorites }) => {
     return <LoadingPage />;
   }
 
-  if (isError) {
+  if (
+    isError ||
+    (favoritesData && !Object.keys(favoritesData).length) ||
+    (data && data.error)
+  ) {
     return <ErrorAPIPage />;
   }
 
