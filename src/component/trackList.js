@@ -228,7 +228,7 @@ function TrackList({
     }
   };
 
-  const rowHeight = isTabletOrMobile ? 112 : 64;
+  const rowHeight = isTabletOrMobile ? 112 : 68;
 
   return (
     <>
