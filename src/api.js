@@ -1,91 +1,5 @@
 import { useQuery } from "react-query";
 
-export const FEATURE_CONTENT = {
-  music_recording: [
-    "476afcedd65639cb41a6930731477496009fb04b",
-    "ab8bd5346e085a17ab5030b24e901f618405bbbb",
-    "2e5ecbf9a9934e58c1e3e5da19f5ed6fa7af199c",
-    "8c8dfd0086b962821625048a0eaed301e06489d1",
-    "95ca50d296b8639f2002f1346703674aa86d1f40",
-    "448d6a6606b42954e6f1a2bc37a0a02d861e8fdf",
-    "a22214435916fe39a76c11d4ad0892e82b061d0d",
-    "51c95aaa014a973bc406985978ce263d93ca6497",
-    "52ecd2adbf3bb8948cab4da490f4e23d0aedc751",
-    "7ca59d9c57841130ad74abacbfcd8ade81951e00",
-    "60744d9f68310d7d266bb94fba61ef964d57b37b",
-    "2e7e47315f4afcd8fe547874ab311ecec33d78f0",
-    "91803366353193d27298c7c72ff09b36c131163e",
-    "e2b0a0191f4e239c996f160ef07c452621691a61",
-    "bf7344fe7191bc40b742bd49a60b3965d0bd3626",
-    "943974dad05701664246aadd0334fb58c4835a08",
-    "144fd24cade94b0779d42d830514d53efe31f34a",
-    "16523b6ca4c7743fd7835d096412bc22904be4be",
-    "4a695269dc132022ef8b5bed717f646c60d6c6e4",
-    "676cfd68c3276430b96d73c89546f9ef43ab484a",
-    "e8381767409945de9cf5427e3fcc5bbfafebe05f",
-    "0f7c47e2bd55b4816151219156576ef8d74d7d87",
-    "faafa7e8dfc9f0b13987adde4cb5d5b1d5369ff2",
-    "746ac2b8ce740a9edc5321dcdf3e520026747b38",
-    "ae0fa08293f7a218e7453d31f8a73b59535ca0b7",
-    "997c8405f0c67269ff3cab2fde588c2b21367b17",
-    "1b28f78160f873b825285ff8e52fd6c1ec1a7457",
-    "c75f45ce314980afe76e7475b7cb157fe83e966e",
-    "b396680c8994ebd185f0974038410c66823cfa9a",
-    "8976e6ee4a71d72365e1c157d622d31a32d731a1",
-  ],
-  artist: [
-    "8438e1f8cc5065b26b974d93f664be7c51113cc7",
-    "4ada3f406c22dc4b7a81c843da59d82473d6d504",
-    "cbccaeba6814b86e4fc14fddcc9fb5fef4271151",
-    "b22a9f8a7bf091c5d4a2416d21e28f97492e4c54",
-    "d9789c0cf6f72a5cbb1e202ade9343ac849fc695",
-    "e4a76e4d1fea8b17c735573769b88f1f44b7016c",
-    "b13d3dc4fba4a80e21a077f8ba15b938fc422a5f",
-    "bfe66a3f585c8851565e9931fff7335a13b1c574",
-    "ac2dcfdf79e7047d8c3cbdf7ab6ad13402b60996",
-    "61ed988923c77f58e76aa8bd645b8d3453e1c9c7",
-    "8ca3f96c78cbc4e36a133c62ad38b05a2b676254",
-    "dc6f41ade5640711c6d8bdbea757a35067e13ea2",
-    "6812e2e1488c2443ce6eb99fa396d20cd0e3d5ce",
-    "f0fe6b0791e81641800ccf67624f7e7053f42879",
-    "f87fded10f62f5ebe5ea5e8792b97d414a98d6a4",
-    "6f3449831083bc2cd2e27916720caf693e6b550d",
-    "06dc91c1246d5fa7c47c72b9592ac3d93acd62d9",
-    "a47bef89f2a6ead3a26affbfb53923e687a9f326",
-    "5b26f662aadef31f171a1b06ff210fb740601117",
-    "3046c2e97f2f7be54fb699a08431a6d35864b7b6",
-    "f3ea3f47375be51b1d7ef48a2b27dcbc6f751965",
-    "685033d346cd41af939b7098be0a7ecdda9e0100",
-    "039ada4d62c41308643f7945957ee914419d3ce4",
-    "62d37ab718a598a7faf29729bb1d8e3bead2c6ea",
-    "8b0049a7ead4e50d83b9b73fb34d019c6d257d0e",
-    "289502d52dce8c3955cf38f0626b0aced6f033f0",
-    "2042a6b4a3a48b5bbccde4805e4d8d84ad4efce1",
-    "8191b527e438e102c4b42246e38cb8cffc27f30d",
-    "631ca9fce459f1116ae5317486c7f4af69554742",
-  ],
-  podcast_series: [
-    "fe4cfc71a4748003dd3868d51cd68db38ca8457e",
-    "1da718d3b905323e597aaccac5a6b0feb276cc37",
-    "8092ac3335d2716af7ddf59c0bd2c7464acd2055",
-    "1f4409e8178df3900c541527515257c89c3ea80c",
-    "675dfbb1fff53d76b14db389ff3448561037d311",
-    "f5ce6db853d27d0992f0d1b558060b09ecb876c2",
-    "98833736432fedd4933c706cbb2305fa63260b8f",
-    "c0aba61eb6c871b3f79cf14c30133d516d3c45b7",
-    "ffe6c7b74c849b215b567635de0c45ed6dfe03a1",
-    "6cdab7eef134ef78c327e30b22783404d5ef1227",
-    "1cdcfeb4c8fb5fe7a0cee8d94502fe25a0d5ef1a",
-    "3bbca94b0ca64fdcc2e20eb113a39675b6106427",
-    "860000c67c5cada11ab7ada4216e82b271e800db",
-    "e5e9ed95a09abf573a59da4de82b2957d4771c3e",
-    "eaf488c9e84b8402cbc8bfef4b19c9fcdf58d2ed",
-    "7b6f7517f6b816827d076fa0eaad550aa315a4e7",
-    "ec8edadbb133f21d6d2c0e0d6d685ae5d392a80a",
-    "a605a1aa0b9a225dacd7dd144ee650611a466fd0",
-  ],
-};
-
 const API = "https://api.hound.fm/";
 
 const fetchSearchResults = (query, type = "") =>
@@ -163,3 +77,33 @@ const fetchResolve = (resolveData) =>
 
 export const useFetchResolve = (resolveData) =>
   useQuery(["resolve-ids", resolveData], () => fetchResolve(resolveData));
+
+// Todo store / load from a database
+const fetchFeature = () => {
+  return fetch(
+    "https://raw.githubusercontent.com/Hound-fm/podcatcher/main/data/collections.json"
+  )
+    .then((response) => {
+      if (!response || !response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (!data || Object.keys(data).length <= 0) {
+        throw new Error("Failed to load feature data ");
+      }
+      const resolveData = {
+        artist: data["featured-artists"]["claims"],
+        music_recording: data["community-picks"]["claims"],
+        podcast_series: data["featured-podcasts"]["claims"],
+      };
+      return fetchResolve(resolveData);
+    });
+};
+
+export const useFetchFeature = () =>
+  useQuery(["feature"], () => fetchFeature(), {
+    cacheTime: 30 * 60 * 1000, // 30 minutes
+    keepPreviousData: true,
+  });

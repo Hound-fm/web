@@ -3,13 +3,11 @@ import Page from "component/page";
 import LoadingPage from "pages/loading";
 import { ErrorAPIPage } from "pages/error";
 import TrackList from "component/trackList";
-import { useFetchResolve, FEATURE_CONTENT } from "api";
+import { useFetchFeature } from "api";
 
 export default function PlaylistPage() {
   const [resultsData, setResultsData] = useState(null);
-  const { data, status, isLoading, isError } = useFetchResolve({
-    music_recording: FEATURE_CONTENT.music_recording,
-  });
+  const { data, status, isLoading, isError } = useFetchFeature();
 
   useEffect(() => {
     if (status === "success" && data) {

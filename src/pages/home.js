@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FEATURE_CONTENT, useFetchResolve } from "api";
+import { useFetchFeature } from "api";
 import Page from "component/page";
 import { CollectionPreviewRow } from "component/collection";
 import LoadingPage from "pages/loading";
@@ -8,7 +8,7 @@ import useTitle from "hooks/useTitle";
 import { getRandomGreetings } from "util/core";
 
 export default function HomePage() {
-  const { data, status, isLoading, isError } = useFetchResolve(FEATURE_CONTENT);
+  const { data, status, isLoading, isError } = useFetchFeature();
   const [homeData, setHomeData] = useState();
   const { setTitle } = useTitle();
 
@@ -21,6 +21,7 @@ export default function HomePage() {
   useEffect(() => {
     if (status === "success" && data) {
       // Process results
+      console.info(data);
       if (data.data) {
         setHomeData(data.data);
       }
