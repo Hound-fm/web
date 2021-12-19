@@ -173,7 +173,7 @@
   margin: 0;
   padding: calc(var(--space-margin) * 0.25) calc(var(--space-margin) * 0.15);
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   transition-duration: 0.3s;
   transition-timing-function: ease;
   transition-property: color, background-color;

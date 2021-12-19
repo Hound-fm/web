@@ -27,7 +27,6 @@
 
 .app--mobile .card:hover {
   background: transparent;
-  opacity: 0.64;
 }
 
 .app--mobile .card .card__play-button {
@@ -158,10 +157,13 @@
 
 .card--horizontal .card__title {
   margin: 0;
+  line-height: 1.25em;
+  font-size: 0.9em;
 }
 
 .card--horizontal .card__subtitle {
   font-size: 0.75em;
+  margin: 4px 0;
 }
 
 .card:hover {
@@ -252,6 +254,11 @@
   gap: 24px;
   grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
 }
+
+.cards--grid,
+.cards--grid-row {
+  margin: 0 24px;
+}
 /*
 .app--mobile .cards--grid-row {
   min-width: 420px;
@@ -321,13 +328,7 @@
 }
 
 .app--mobile .card__label {
-  border-radius: 0;
-  padding: 0;
-  font-size: 0.74em;
-  margin-top: 0;
-  font-weight: inherit;
-  background: transparent;
-  text-transform: capitalize;
+  display: none;
 }
 
 .card__subtitle {
@@ -368,10 +369,13 @@ a.card__subtitle:active {
 
 .card__subtitle.card__playback-status {
   color: var(--accent-color);
-  font-size: 0.9em;
   font-weight: 500;
   display: flex;
   align-items: center;
+}
+
+.card:not(.card--horizontal) .card__playback-status {
+  font-size: 0.9em;
 }
 
 .card__subtitle.card__playback-status .playback-status__indicator {

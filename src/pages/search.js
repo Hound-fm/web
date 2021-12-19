@@ -3,6 +3,8 @@ import SectionHeader from "component/sectionHeader";
 import SearchResults from "component/searchResults";
 import { CategoryCard } from "component/card";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import useTitle from "hooks/useTitle";
 
 const categories = [
   { title: "podcasts", color: "0,130,131" },
@@ -49,6 +51,13 @@ export default function SearchPage() {
   const searchQuery = new URLSearchParams(search).get("q");
   const searchType = new URLSearchParams(search).get("type");
   const showResults = searchQuery && searchQuery.length;
+  const { setTitle } = useTitle();
+
+  // Reset page title
+  useEffect(() => {
+    setTitle(null);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Page>

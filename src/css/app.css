@@ -17,13 +17,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: overlay;
+  overflow-x: hidden;
 }
 
 main {
-  padding: 24px;
+  padding: 24px 0;
   margin-left: var(--sidebar-width);
   margin-top: var(--header-height);
   margin-bottom: var(--player-height);
+}
+
+main h1,
+main h2,
+main h4 {
+  padding: 0 24px;
+}
+
+main h4 {
+  font-weight: 500;
+}
+
+.section__header-actions {
+  padding: 0 24px;
 }
 
 .label__price {
@@ -63,11 +78,14 @@ main {
 
 main h1 {
   font-size: 2.4em;
-  line-height: 1.32em;
+  line-height: 1.25em;
   margin: 0;
-  padding: 0;
   margin-bottom: 24px;
   text-transform: capitalize;
+}
+
+.app--mobile main h1 {
+  font-size: 2.3em;
 }
 
 /*
@@ -190,16 +208,20 @@ img {
 }
 
 /* Scrollbar styles */
-body::-webkit-scrollbar {
-  width: 16px;
+
+@supports selector(body::-webkit-scrollbar) {
+  body {
+    margin-right: 16px;
+  }
 }
 
-:root {
+:root,
+.sidebar {
   scrollbar-width: thin !important;
 }
 
-body {
-  margin-right: 16px;
+body::-webkit-scrollbar {
+  width: 16px;
 }
 
 @media (max-width: 900px) {
@@ -208,12 +230,6 @@ body {
   }
   body::-webkit-scrollbar-track {
     margin-bottom: calc(var(--player-min-height) + 18px) !important;
-  }
-}
-
-@media (max-width: 1200px) {
-  body::-webkit-scrollbar-track {
-    margin-bottom: calc(var(--player-min-height) + 24px);
   }
 }
 

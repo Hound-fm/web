@@ -21,8 +21,9 @@ import ContextMenu from "component/contextMenu";
 import usePlayerHidden from "hooks/usePlayerHidden";
 
 function App() {
+  // Compact design
   const isSmallScreen = useMediaQuery({
-    query: "(max-width: 1200px)",
+    query: "(max-width: 1080px)",
   });
 
   const isTabletOrMobile = useMediaQuery({

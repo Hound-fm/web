@@ -1,5 +1,5 @@
 :root {
-  --accent-color: #4387F5;
+  --accent-color: #4387f5;
   --dark-accent-color: #474787;
   --bg-color: #0c0c0c; /*#121212;*/
   --text-color: white;
@@ -7,8 +7,8 @@
   --header-height: 68px;
   --header-min-height: 68px;
   --space-margin: 32px;
-  --border-radius: 4px;
-  --sidebar-width: 270px;
+  --border-radius: 6px;
+  --sidebar-width: 264px;
   --sidebar-min-width: 68px;
   --player-bg-color: rgba(24, 24, 24, 0.94);
   --player-height: 94px;

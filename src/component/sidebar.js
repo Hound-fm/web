@@ -1,7 +1,7 @@
 import Logo from "../logo.svg";
 import Link from "component/link";
 import { memo, useEffect, useRef, useState } from "react";
-import { Home, Heart, Search } from "lucide-react";
+import { Home, Heart, Search, Layers } from "lucide-react";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { globalMobileAppState } from "store";
 import { useMediaQuery } from "react-responsive";
@@ -161,6 +161,7 @@ function Sidebar() {
         <SidebarLink icon={BookOpen} label={"Audiobooks"} />
         */}
           <SidebarLink to={"/favorites"} icon={Heart} label={"Favorites"} />
+          <SidebarLink to={"/queue"} icon={Layers} label={"Queue"} />
         </ul>
         <p className={"sidebar__message"}>
           Powered by

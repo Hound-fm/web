@@ -52,9 +52,16 @@ input[type="search"]::-webkit-search-cancel-button {
 .search__top-results {
   display: grid;
   gap: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
   margin-bottom: 32px;
   grid-auto-rows: 1fr;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.search__top-results .section__header .section__title,
+.search__top-results .section__header .section__header-actions {
+  padding: 0 !important;
 }
 
 .search__top-results .top-result {
@@ -68,13 +75,26 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .search__top-results .list-result {
   grid-column: 3/-1;
-  position: relative;
   margin-bottom: 16px;
+}
+
+@media (max-width: 1280px) {
+  .search__top-results .top-result {
+    grid-column: 1/-1;
+  }
+  .search__top-results .list-result {
+    grid-column: 1/-1;
+  }
+}
+
+@media (max-width: 720px) {
+  .search__top-results {
+    grid-auto-rows: 0fr;
+  }
 }
 
 .tracks-list {
   display: grid;
-  border-radius: 4px;
 }
 
 .tracks-list__row {
@@ -87,6 +107,10 @@ input[type="search"]::-webkit-search-cancel-button {
   justify-content: space-between;
 }
 
+.tracks-list .tracks-list__row {
+  border-radius: 0;
+}
+
 .row__cell {
   display: flex;
   align-items: center;
@@ -97,9 +121,15 @@ input[type="search"]::-webkit-search-cancel-button {
   margin: 0 16px;
 }
 
+.app--mobile .row__data {
+  margin: 0;
+  margin-left: 18px;
+  margin-right: 24px;
+}
+
 .row__data .row__title {
-  font-weight: 600;
-  font-size: 1em;
+  font-weight: 500;
+  font-size: 0.98em;
 }
 
 .row__data .row__subtitle {
@@ -121,5 +151,5 @@ input[type="search"]::-webkit-search-cancel-button {
   width: 40px;
   height: 40px;
   background-color: #353535;
-  border-radius: 2px;
+  border-radius: 3px;
 }

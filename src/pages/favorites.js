@@ -39,10 +39,9 @@ function FavoritesEmptyState() {
 }
 
 const FavoritesList = ({ favoriteType, favorites }) => {
-  const fetchData = {};
-  const [resultsData, setResultsData] = useState([]);
-  fetchData[favoriteType] = favorites[favoriteType];
+  const fetchData = { [favoriteType]: favorites[favoriteType] };
   const { data, status, isLoading, isError } = useFetchResolve(fetchData);
+  const [resultsData, setResultsData] = useState([]);
 
   useEffect(() => {
     if (status === "success" && data) {
@@ -96,7 +95,11 @@ const FavoritesPreview = ({ favorites }) => {
     return <LoadingPage />;
   }
 
-  if (isError) {
+  if (
+    isError ||
+    (favoritesData && !Object.keys(favoritesData).length) ||
+    (data && data.error)
+  ) {
     return <ErrorAPIPage />;
   }
 

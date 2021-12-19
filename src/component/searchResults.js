@@ -7,7 +7,6 @@ import { ErrorAPIPage } from "pages/error";
 import { durationShortFormat } from "util/formatDuration";
 import { Card } from "component/card";
 import { useEffect, useState, memo } from "react";
-import { useMediaQuery } from "react-responsive";
 import { useFetchResults } from "api";
 import { getResultType, getTrackListType, formatSearchQuery } from "util/core";
 
@@ -21,13 +20,6 @@ const COLLECTION_TYPES_MAPPINGS = {
 
 const SearchTopResults = memo(
   ({ searchQuery, showTracksLink, topResult, topTracks }) => {
-    const expanded = useMediaQuery({ query: "(max-width: 1080px)" });
-    const gridStyle = expanded ? { gridAutoRows: "0fr" } : {};
-    const topResultStyle = expanded
-      ? { gridColumn: "1/-1", display: "block" }
-      : {};
-    const gridColumnStyle = expanded ? { gridColumn: "1/-1" } : {};
-    const cardStyle = expanded ? { flexGrow: "0" } : {};
     const tracksListType = getTrackListType(topTracks);
     const rawThumbnail = topResult.label
       ? "/images/" +
@@ -36,13 +28,12 @@ const SearchTopResults = memo(
       : false;
 
     return (
-      <div className="search__top-results" style={gridStyle}>
+      <div className="search__top-results">
         {topResult && (
-          <div className={"top-result"} style={topResultStyle}>
+          <div className={"top-result"}>
             <SectionHeader title="Top result" />
             <Card
               metadata={topResult}
-              style={cardStyle}
               layout="horizontal"
               title={topResult.result_title}
               thumbnail={topResult.thumbnail}
@@ -58,7 +49,7 @@ const SearchTopResults = memo(
           </div>
         )}
         {topTracks && topTracks.length > 0 && (
-          <div className={"list-result"} style={gridColumnStyle}>
+          <div className={"list-result"}>
             <SectionHeader
               title={COLLECTION_TYPES_MAPPINGS[tracksListType]}
               expandLink={

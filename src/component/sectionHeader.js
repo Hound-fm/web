@@ -12,7 +12,7 @@ function SectionHeader({ title, description, expandLink }) {
     <div className="section__header">
       <div className="section__header-info">
         {title && <h2 className="section__title">{title}</h2>}
-        {description && <p className="section__description">{description}</p>}
+        {description && <h4 className="section__description">{description}</h4>}
       </div>
       {expandLink && (
         <div className="section__header-actions">

@@ -5,6 +5,20 @@ import { ErrorAPIPage } from "pages/error";
 import { useFetchResolve } from "api";
 import { CollectionGrid } from "component/collection";
 
+export const RawChannelsList = memo(
+  ({ title = "", channelType = "artist", list = [] }) => {
+    return (
+      <Page>
+        <CollectionGrid
+          title={title}
+          collectionData={list}
+          collectionType={channelType}
+        />
+      </Page>
+    );
+  }
+);
+
 export const ResolveChannelsList = memo(
   ({ title = "", channelType = "artist", list = [] }) => {
     const [resultsData, setResultsData] = useState([]);
@@ -36,7 +50,7 @@ export const ResolveChannelsList = memo(
         <CollectionGrid
           title={title}
           collectionData={resultsData}
-          collectionType={"artist"}
+          collectionType={channelType}
         />
       </Page>
     );

@@ -12,6 +12,8 @@ const defaultAppState = {
   },
 };
 
+export const globalPageState = createState({ title: null });
+
 export const globalAppState = createState(defaultAppState);
 // Persistence for currentTrack (Last track played)
 globalAppState.attach(Persistence("hound-local-store-favorites"));

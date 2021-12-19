@@ -1,17 +1,27 @@
 import { useEffect, useState } from "react";
-import { FEATURE_CONTENT, useFetchResolve } from "api";
+import { useFetchFeature } from "api";
 import Page from "component/page";
 import { CollectionPreviewRow } from "component/collection";
 import LoadingPage from "pages/loading";
 import { ErrorAPIPage } from "pages/error";
+import useTitle from "hooks/useTitle";
+import { getRandomGreetings } from "util/core";
 
 export default function HomePage() {
-  const { data, status, isLoading, isError } = useFetchResolve(FEATURE_CONTENT);
-  const [homeData, setHomeData] = useState({});
+  const { data, status, isLoading, isError } = useFetchFeature();
+  const [homeData, setHomeData] = useState();
+  const { setTitle } = useTitle();
+
+  // Set page title
+  useEffect(() => {
+    setTitle(getRandomGreetings());
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (status === "success" && data) {
       // Process results
+      console.info(data);
       if (data.data) {
         setHomeData(data.data);
       }
@@ -22,13 +32,17 @@ export default function HomePage() {
     return <LoadingPage />;
   }
 
-  if (isError) {
+  if (
+    isError ||
+    (homeData && !Object.keys(homeData).length) ||
+    (data && data.error)
+  ) {
     return <ErrorAPIPage />;
   }
 
   return (
     <Page>
-      {homeData.music_recording && (
+      {homeData && homeData.music_recording && (
         <CollectionPreviewRow
           title="Community picks"
           collectionType="Music"
@@ -38,7 +52,7 @@ export default function HomePage() {
           description="Awesome music curated by humans"
         />
       )}
-      {homeData.artist && (
+      {homeData && homeData.artist && (
         <CollectionPreviewRow
           title="Discover artists"
           collectionType="Artist"
@@ -47,7 +61,7 @@ export default function HomePage() {
           description="Find your next favorite artist"
         />
       )}
-      {homeData.podcast_series && (
+      {homeData && homeData.podcast_series && (
         <CollectionPreviewRow
           title="Top podcasts"
           collectionType="Podcast"

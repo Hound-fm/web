@@ -90,9 +90,18 @@ function CardItem(props) {
     metadata.fee_amount > 0 &&
     `${metadata.fee_amount.toFixed(1)} ${metadata.fee_currency}`;
 
-  const metaLabel = metadata.duration
+  const formatDuration = metadata.duration
     ? durationTrackFormat(metadata.duration)
     : null;
+  let metaLabel = metadata.result_type ? `${metadata.result_type}` : null;
+
+  if (formatDuration) {
+    if (metaLabel) {
+      metaLabel = metaLabel + " • " + formatDuration;
+    } else {
+      metaLabel = formatDuration;
+    }
+  }
   const playbackStatus =
     selected && playback === "playing" ? "Now playing" : null;
 
@@ -132,7 +141,9 @@ function CardItem(props) {
       <div className="card__data">
         <Link
           className={`card__title ${
-            isTabletOrMobile ? "text-overflow-2" : "text-overflow"
+            isTabletOrMobile || layout === "horizontal"
+              ? "text-overflow-2"
+              : "text-overflow"
           }`}
           to={linkTo}
           href={href}
