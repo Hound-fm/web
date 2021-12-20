@@ -13,7 +13,6 @@ const defaultState = {
 };
 
 const cachedState = {
-  loop: false,
   muted: false,
   volume: 0.5,
   lastVolume: 0.5,
@@ -40,6 +39,8 @@ const useAudioPlayer = () => {
 
   const { queueNext, queuePrev } = useQueueNavigation();
   const playerState = useHookState(globalPlayerState);
+  const loop = playerState.loop.value;
+  const loopState = playerState.loop.attach(Downgraded).value;
   const hidden = playerState.hidden.attach(Downgraded).value;
   const playbackState = useHookState(globalPlaybackState);
   const currentTrack = playerState.currentTrack.attach(Downgraded).value;
@@ -99,20 +100,20 @@ const useAudioPlayer = () => {
   };
 
   const toggleLoop = () => {
-    setState((prevState) => {
+    playerState.loop.set((prev) => {
       // Loop current playlist
-      if (!prevState.loop) {
-        return { ...prevState, loop: "playlist" };
+      if (!prev) {
+        return "playlist";
       }
       // Loop current track
-      else if (prevState.loop === "playlist") {
-        return { ...prevState, loop: "once" };
+      else if (prev === "playlist") {
+        return "once";
       }
       // No loop
-      else if (prevState.loop === "once") {
-        return { ...prevState, loop: false };
+      else if (prev === "once") {
+        return false;
       }
-      return prevState;
+      return prev;
     });
   };
 
@@ -231,10 +232,12 @@ const useAudioPlayer = () => {
     playbackState.playbackSync.set("");
   };
 
-  const handleEnded = () => {
+  const handleEnded = useCallback(() => {
     playbackState.playback.set("paused");
     setState((prevState) => ({ ...prevState, ended: true }));
-  };
+    queueNext();
+    // eslint-disable-next-line
+  }, [setState]);
 
   const togglePlay = () => {
     if (isPlaying(players.current.player)) {
@@ -406,16 +409,10 @@ const useAudioPlayer = () => {
 
   useEffect(() => {
     if (players.current.player) {
-      players.current.player.loop = state.loop === "once";
-      players.current.ghostPlayer.loop = state.loop === "once";
+      players.current.player.loop = loopState === "once";
+      players.current.ghostPlayer.loop = loopState === "once";
     }
-  }, [state.loop]);
-
-  useEffect(() => {
-    if (state.ended && state.loop === "playlist") {
-      queueNext();
-    }
-  }, [state.ended, state.loop, queueNext]);
+  }, [loopState]);
 
   useEffect(() => {
     if (currentTrack) {
@@ -476,6 +473,7 @@ const useAudioPlayer = () => {
   }, [playback, currentTrack]);
 
   return {
+    loop,
     seek,
     currentTime,
     togglePlay,
