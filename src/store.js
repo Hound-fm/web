@@ -29,6 +29,7 @@ const defaultPlayerState = {
   hidden: true,
   currentTrack: null,
   // Queue state
+  loop: false,
   queueData: [],
   queueTitle: "",
   queueIndex: 0,

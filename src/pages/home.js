@@ -21,7 +21,6 @@ export default function HomePage() {
   useEffect(() => {
     if (status === "success" && data) {
       // Process results
-      console.info(data);
       if (data.data) {
         setHomeData(data.data);
       }

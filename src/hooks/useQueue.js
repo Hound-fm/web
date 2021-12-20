@@ -96,13 +96,23 @@ export function useQueueUpdate() {
 export function useQueueNavigation() {
   const playerState = useHookState(globalPlayerState);
 
-  function queueNavigate(step) {
+  function queueNavigate(step, forceLoop) {
     const prevQueueData = playerState.queueData.attach(Downgraded).value;
+    const loop = playerState.loop.value;
+    if (loop === "once" && !forceLoop) return;
+
     playerState.queueIndex.set((prev) => {
       const min = 0;
       const max = prevQueueData ? prevQueueData.length - 1 : 0;
-      const index = clamp(prev + step, min, max);
-
+      const next = prev + step;
+      let index = prev;
+      // Repeat playlist
+      if (next === prevQueueData.length && loop) {
+        index = 0;
+      } else {
+        // Play next track
+        index = clamp(next, min, max);
+      }
       if (prevQueueData && prevQueueData.length) {
         const item = prevQueueData[index];
         if (item && item._id && item._source) {
@@ -119,8 +129,8 @@ export function useQueueNavigation() {
   }
 
   // Next track on queue
-  const queueNext = () => {
-    queueNavigate(1);
+  const queueNext = (loop) => {
+    queueNavigate(1, loop);
   };
 
   // Previous track on queue
