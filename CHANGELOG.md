@@ -18,4 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Minor css updates to improve responsive design.
 
 ### Fixed
+- Fix autoplay next track on queue ([#21](https://github.com/Hound-fm/web/issues/21))
+- Fix repeat playlist wrong behavior ([#20](https://github.com/Hound-fm/web/issues/20))
 - Unregister old service worker preventing updates.
