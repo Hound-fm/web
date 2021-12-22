@@ -107,3 +107,13 @@ export const useFetchFeature = () =>
     cacheTime: 30 * 60 * 1000, // 30 minutes
     keepPreviousData: true,
   });
+
+const fetchFeed = (resolveData) =>
+  fetch(API + `feed`).then((response) => {
+    if (!response.ok) {
+      throw new Error("HTTP error " + response.status);
+    }
+    return response.json();
+  });
+
+export const useFetchFeed = () => useQuery(["resolve-ids"], () => fetchFeed());

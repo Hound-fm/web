@@ -13,6 +13,7 @@ import ArtistPage from "pages/artist";
 import FavoritesPage from "pages/favorites";
 import PodcastPage from "pages/podcast";
 import PodcastsPage from "pages/podcasts";
+import FeedPage from "pages/feed";
 import QueuePage from "pages/queue";
 import PlaylistPage from "pages/playlist";
 import DiscoverArtistsPage from "pages/discoverArtists";
@@ -51,6 +52,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route index element={<HomePage />} />
+          <Route exact path="/feed" element={<FeedPage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route exact path="/genre/:genre" element={<GenrePage />}>
             <Route exact path=":sortBy" element={<GenrePage />} />

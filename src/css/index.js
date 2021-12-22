@@ -15,3 +15,4 @@ import "./page.css";
 import "./empty-state.css";
 import "./loader.css";
 import "./menu.css";
+import "./feed.css";

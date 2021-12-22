@@ -155,6 +155,7 @@ function Sidebar() {
         <ul>
           <SidebarLink to={"/"} exact icon={Home} label={"Home"} />
           <SidebarLink to={"/search"} icon={Search} label={"Search"} />
+          {/* <SidebarLink to={"/feed"} exact icon={Rss} label={"Feed"} /> */}
           {/*
         <SidebarLink icon={Music} label={"Music"} current />
         <SidebarLink icon={Podcast} label={"Podcats"} />
