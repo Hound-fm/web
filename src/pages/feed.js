@@ -9,13 +9,14 @@ import Link from "component/link";
 import { durationShortFormat } from "util/formatDuration";
 import StreamPlayButton from "component/streamPlayButton";
 import { Upload, Radio, Repeat } from "lucide-react";
+import InfiniteScroller from "component/infiniteScroller";
 
 const EVENT_ICON = { discover: Radio, publish: Upload, repost: Repeat };
 
 const formatDate = (iso) =>
   DateTime.fromISO(iso).toRelativeCalendar({ base: DateTime.now() });
 
-const EmbedStream = ({ eventData }) => {
+const EmbedStream = ({ eventData = {} }) => {
   console.info(eventData.id);
   return (
     <div className="embed-stream">
@@ -49,29 +50,37 @@ const EmbedStream = ({ eventData }) => {
   );
 };
 
-const FeedEvent = ({ eventData, showEmbedStream }) => (
-  <div className={clsx("event", !showEmbedStream && "event--linked")}>
-    <div className="event__header">
-      <div
-        className={`event__header__thumbnail event__header__thumbnail--${eventData.event_type}`}
-      >
-        <Icon
-          icon={EVENT_ICON[eventData.event_type]}
-          className={"icon button__icon"}
-        />
+const FeedEvent = ({ eventData = {}, showEmbedStream }) => {
+  return (
+    <div className={clsx("event", !showEmbedStream && "event--linked")}>
+      <div className="event__header">
+        {eventData.event_type && (
+          <div
+            className={`event__header__thumbnail event__header__thumbnail--${eventData.event_type}`}
+          >
+            <Icon
+              icon={EVENT_ICON[eventData.event_type]}
+              className={"icon button__icon"}
+            />
+          </div>
+        )}
+        <div className="event__header__data text-overflow">
+          <span className="event__author-link">{eventData.author_title}</span>
+          {/* <span className="event__type">{action}</span> */}
+          {eventData.event_date && (
+            <>
+              <span className="text-separator"> • </span>
+              {formatDate(eventData.event_date)}
+            </>
+          )}
+        </div>
       </div>
-      <div className="event__header__data">
-        <span className="event__author-link">{eventData.author_title}</span>
-        {/* <span className="event__type">{action}</span> */}
-        <span className="text-separator"> • </span>
-        {formatDate(eventData.event_date)}
+      <div className={"event_message"}>
+        {showEmbedStream && <EmbedStream eventData={eventData} />}
       </div>
     </div>
-    <div className={"event_message"}>
-      {showEmbedStream && <EmbedStream eventData={eventData} />}
-    </div>
-  </div>
-);
+  );
+};
 
 export default function Feed() {
   const { data, status } = useFetchFeed();
@@ -89,6 +98,27 @@ export default function Feed() {
 
   return (
     <Page title={"Feed"}>
+      <InfiniteScroller rows={resultsData}>
+        {(rows, rowdata, virtualRow) => {
+          let showEmbedStream = true;
+          let next = virtualRow.index + 1;
+          next = next > -1 ? rows[next] : false;
+          const feedEventData = {
+            ...rowdata._source,
+            id: rowdata._source.event_stream_id,
+          };
+          if (next && next._source.event_stream_id === feedEventData.id) {
+            showEmbedStream = false;
+          }
+          return (
+            <FeedEvent
+              eventData={feedEventData}
+              showEmbedStream={showEmbedStream}
+            />
+          );
+        }}
+      </InfiniteScroller>
+      {/*
       <section className="feed__container">
         {resultsData &&
           resultsData.map((feedEventRaw, index) => {
@@ -115,7 +145,9 @@ export default function Feed() {
               />
             );
           })}
+
       </section>
+      */}
     </Page>
   );
 }
