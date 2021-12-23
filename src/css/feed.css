@@ -9,6 +9,11 @@
   justify-content: space-around;
 }
 
+.app--mobile .event {
+  margin: 0;
+  padding: 18px 24px;
+}
+
 .event--first {
   border-top: 1px solid var(--card-bg-color);
 }
@@ -19,11 +24,16 @@
   display: inline-block;
   border-radius: 0;
 }
-.event--linked {
+.event--linked,
+.app--mobile .event--linked {
   border-bottom: 0;
   padding-bottom: 0;
   padding-left: 42px;
   font-size: 0.94em;
+}
+
+.app--mobile .event--linked {
+  padding-left: 66px;
 }
 
 .event__header__thumbnail {
