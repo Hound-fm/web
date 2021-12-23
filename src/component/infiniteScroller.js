@@ -1,17 +1,44 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useVirtual } from "react-virtual";
 
 export default function InfiniteScroller({
-  rows = [],
+  data = { pages: [] },
+  fetchNextPage = () => {},
+  isFetchingNextPage = false,
+  hasNextPage = false,
   children = ({ virtualRow }) => virtualRow.index,
 }) {
   const parentRef = useRef(null);
 
+  const rows = data && data.pages ? data.pages.flat() : [];
   const rowVirtualizer = useVirtual({
     parentRef,
-    size: rows.length,
+    size: hasNextPage ? rows.length + 1 : rows.length,
     windowRef: useRef(window),
   });
+
+  useEffect(() => {
+    const [lastItem] = [...rowVirtualizer.virtualItems].reverse();
+
+    if (!lastItem) {
+      return;
+    }
+
+    if (
+      lastItem.index >= rows.length - 1 &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
+      console.info("?");
+      fetchNextPage();
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    rows.length,
+    isFetchingNextPage,
+    rowVirtualizer.virtualItems,
+  ]);
 
   return (
     <div ref={parentRef} style={{ width: `100%` }}>
@@ -34,7 +61,7 @@ export default function InfiniteScroller({
               transform: `translateY(${virtualRow.start}px)`,
             }}
           >
-            {children(rows, rows[virtualRow.index], virtualRow)}
+            {children(virtualRow, rows)}
           </div>
         ))}
       </div>

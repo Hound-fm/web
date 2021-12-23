@@ -3,7 +3,7 @@ import Thumbnail from "component/thumbnail";
 import Page from "component/page";
 import { DateTime } from "luxon";
 import { useFetchFeed } from "api";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import Icon from "component/icon";
 import Link from "component/link";
 import { durationShortFormat } from "util/formatDuration";
@@ -16,8 +16,7 @@ const EVENT_ICON = { discover: Radio, publish: Upload, repost: Repeat };
 const formatDate = (iso) =>
   DateTime.fromISO(iso).toRelativeCalendar({ base: DateTime.now() });
 
-const EmbedStream = ({ eventData = {} }) => {
-  console.info(eventData.id);
+const EmbedStream = memo(({ eventData = {} }) => {
   return (
     <div className="embed-stream">
       <div className="stream__info">
@@ -48,9 +47,9 @@ const EmbedStream = ({ eventData = {} }) => {
       </div>
     </div>
   );
-};
+});
 
-const FeedEvent = ({ eventData = {}, showEmbedStream }) => {
+const FeedEvent = memo(({ eventData = {}, showEmbedStream }) => {
   return (
     <div className={clsx("event", !showEmbedStream && "event--linked")}>
       <div className="event__header">
@@ -80,74 +79,55 @@ const FeedEvent = ({ eventData = {}, showEmbedStream }) => {
       </div>
     </div>
   );
-};
+});
 
 export default function Feed() {
-  const { data, status } = useFetchFeed();
+  const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useFetchFeed();
+
   const [resultsData, setResultsData] = useState([]);
 
   useEffect(() => {
     if (status === "success" && data) {
       // Process results
-      if (data.data && data.data.hits) {
-        const hits = data.data.hits;
-        setResultsData(hits.hits);
+      if (data) {
+        setResultsData(data);
       }
     }
   }, [data, status, setResultsData]);
 
+  const eventRow = useCallback((virtualRow, rows) => {
+    let showEmbedStream = true;
+    let next = virtualRow.index + 1;
+    if (rows && virtualRow.index < rows.length) {
+      const rowdata = rows[virtualRow.index];
+      next = next > -1 ? rows[next] : false;
+      const feedEventData = {
+        ...rowdata._source,
+        id: rowdata._source.event_stream_id,
+      };
+      if (next && next._source.event_stream_id === feedEventData.id) {
+        showEmbedStream = false;
+      }
+      return (
+        <FeedEvent
+          eventData={feedEventData}
+          showEmbedStream={showEmbedStream}
+        />
+      );
+    }
+  }, []);
+
   return (
     <Page title={"Feed"}>
-      <InfiniteScroller rows={resultsData}>
-        {(rows, rowdata, virtualRow) => {
-          let showEmbedStream = true;
-          let next = virtualRow.index + 1;
-          next = next > -1 ? rows[next] : false;
-          const feedEventData = {
-            ...rowdata._source,
-            id: rowdata._source.event_stream_id,
-          };
-          if (next && next._source.event_stream_id === feedEventData.id) {
-            showEmbedStream = false;
-          }
-          return (
-            <FeedEvent
-              eventData={feedEventData}
-              showEmbedStream={showEmbedStream}
-            />
-          );
-        }}
+      <InfiniteScroller
+        isFetching={isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        data={resultsData}
+      >
+        {eventRow}
       </InfiniteScroller>
-      {/*
-      <section className="feed__container">
-        {resultsData &&
-          resultsData.map((feedEventRaw, index) => {
-            let next = index + 1;
-            let showEmbedStream = true;
-            next = next > -1 ? resultsData[next] : false;
-
-            const feedEventData = {
-              ...feedEventRaw._source,
-              id: feedEventRaw._source.event_stream_id,
-            };
-
-            // Stack events on stream
-
-            if (next && next._source.event_stream_id === feedEventData.id) {
-              showEmbedStream = false;
-            }
-
-            return (
-              <FeedEvent
-                key={feedEventRaw._id}
-                eventData={feedEventData}
-                showEmbedStream={showEmbedStream}
-              />
-            );
-          })}
-
-      </section>
-      */}
     </Page>
   );
 }

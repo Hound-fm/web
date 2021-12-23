@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useInfiniteQuery } from "react-query";
 
 const API = "https://api.hound.fm/";
 
@@ -108,12 +108,30 @@ export const useFetchFeature = () =>
     keepPreviousData: true,
   });
 
-const fetchFeed = (resolveData) =>
-  fetch(API + `feed`).then((response) => {
-    if (!response.ok) {
-      throw new Error("HTTP error " + response.status);
-    }
-    return response.json();
-  });
+const fetchFeed = ({ pageParam = 0 }) =>
+  fetch(API + `feed?page=${pageParam}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data && data.data) {
+        const dataHits = data.data.hits;
+        if (dataHits && dataHits.hits) {
+          return dataHits.hits;
+        }
+      }
+    });
 
-export const useFetchFeed = () => useQuery(["resolve-ids"], () => fetchFeed());
+export const useFetchFeed = () => {
+  return useInfiniteQuery("feed", fetchFeed, {
+    getNextPageParam: (lastPage, pages) => {
+      if (!lastPage || !lastPage.length || lastPage.length < 25) {
+        return undefined;
+      }
+      return pages.length <= 10 ? pages.length : undefined;
+    },
+  });
+};
