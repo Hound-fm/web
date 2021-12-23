@@ -10,6 +10,7 @@ import { durationShortFormat } from "util/formatDuration";
 import StreamPlayButton from "component/streamPlayButton";
 import { Upload, Radio, Repeat } from "lucide-react";
 import InfiniteScroller from "component/infiniteScroller";
+import { WEB_DOMAIN } from "constants.js";
 
 const EVENT_ICON = { discover: Radio, publish: Upload, repost: Repeat };
 
@@ -22,8 +23,15 @@ const EmbedStream = memo(({ eventData = {} }) => {
       <div className="stream__info">
         <Thumbnail src={eventData.thumbnail} className="stream__thumbnail" />
         <div className="stream__metadata">
-          <div className="stream__title">{eventData.title}</div>
-          <div className="stream__subtitle">{eventData.channel_title}</div>
+          <Link
+            className="stream__title text-overflow-2"
+            href={`${WEB_DOMAIN}/${eventData.url}`}
+          >
+            {eventData.title}
+          </Link>
+          <Link className="stream__subtitle text-overflow">
+            {eventData.channel_title}
+          </Link>
         </div>
       </div>
       <div className="stream__actions">
@@ -64,8 +72,12 @@ const FeedEvent = memo(({ eventData = {}, showEmbedStream }) => {
           </div>
         )}
         <div className="event__header__data text-overflow">
-          <span className="event__author-link">{eventData.author_title}</span>
-          {/* <span className="event__type">{action}</span> */}
+          <Link
+            className="event__author-link"
+            href={`${WEB_DOMAIN}/${eventData.author_url}`}
+          >
+            {eventData.author_title}
+          </Link>
           {eventData.event_date && (
             <>
               <span className="text-separator"> • </span>

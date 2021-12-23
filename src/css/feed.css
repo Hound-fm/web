@@ -8,6 +8,13 @@
   align-items: flex-start;
   justify-content: space-around;
 }
+
+.event a {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  border-radius: 0;
+}
 .event--linked {
   border-bottom: 0;
   padding-bottom: 0;
@@ -67,9 +74,10 @@
   border-radius: var(--card-border-radius);
 }
 
-.stream__title {
+a.stream__title {
   color: var(--text-color);
   margin-bottom: 2px;
+  display: block;
 }
 
 .stream__subtitle {
@@ -105,7 +113,7 @@
   display: flex;
 }
 
-.embed__button {
+.event .embed__button {
   border-radius: 24px;
   padding: 2px 8px;
   display: flex;
