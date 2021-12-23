@@ -1,7 +1,7 @@
 import Logo from "../logo.svg";
 import Link from "component/link";
 import { memo, useEffect, useRef, useState } from "react";
-import { Home, Heart, Search, Layers } from "lucide-react";
+import { Home, Heart, Search, Layers, Rss } from "lucide-react";
 import { useState as useHookState, Downgraded } from "@hookstate/core";
 import { globalMobileAppState } from "store";
 import { useMediaQuery } from "react-responsive";
@@ -155,6 +155,7 @@ function Sidebar() {
         <ul>
           <SidebarLink to={"/"} exact icon={Home} label={"Home"} />
           <SidebarLink to={"/search"} icon={Search} label={"Search"} />
+          <SidebarLink to={"/feed"} exact icon={Rss} label={"Feed"} />
           {/*
         <SidebarLink icon={Music} label={"Music"} current />
         <SidebarLink icon={Podcast} label={"Podcats"} />

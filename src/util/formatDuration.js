@@ -9,9 +9,9 @@ const getDurationShortFormat = (seconds = 0) => {
   }
   const minutes = duration.as("minutes");
   if (minutes >= 1) {
-    return minutes.toFixed() + " min";
+    return minutes.toFixed() + " min ";
   }
-  return seconds.toFixed() + " sec";
+  return seconds.toFixed() + " sec ";
 };
 
 export const durationShortFormat = memoizeOne(getDurationShortFormat);
