@@ -131,7 +131,7 @@ export const useFetchFeed = () => {
       if (!lastPage || !lastPage.length || lastPage.length < 25) {
         return undefined;
       }
-      return pages.length <= 10 ? pages.length : undefined;
+      return pages.length <= 40 ? pages.length : undefined;
     },
   });
 };
