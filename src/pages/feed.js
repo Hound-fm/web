@@ -14,7 +14,7 @@ import InfiniteScroller from "component/infiniteScroller";
 const EVENT_ICON = { discover: Radio, publish: Upload, repost: Repeat };
 
 const formatDate = (iso) =>
-  DateTime.fromISO(iso).toRelativeCalendar({ base: DateTime.now() });
+  DateTime.fromISO(iso, { zone: "utc" }).toRelativeCalendar();
 
 const EmbedStream = memo(({ eventData = {} }) => {
   return (
@@ -69,7 +69,9 @@ const FeedEvent = memo(({ eventData = {}, showEmbedStream }) => {
           {eventData.event_date && (
             <>
               <span className="text-separator"> • </span>
-              {formatDate(eventData.event_date)}
+              <span title={eventData.event_date}>
+                {formatDate(eventData.event_date)}
+              </span>
             </>
           )}
         </div>
