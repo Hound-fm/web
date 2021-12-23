@@ -13,6 +13,11 @@ import InfiniteScroller from "component/infiniteScroller";
 import { WEB_DOMAIN } from "constants.js";
 
 const EVENT_ICON = { discover: Radio, publish: Upload, repost: Repeat };
+const EVENT_ACTIONS = {
+  repost: "Reposted by ",
+  publish: "Published by ",
+  discover: "Discover by ",
+};
 
 const formatDate = (iso) =>
   DateTime.fromISO(iso, { zone: "utc" }).toRelativeCalendar();
@@ -29,7 +34,12 @@ const EmbedStream = memo(({ eventData = {} }) => {
           >
             {eventData.title}
           </Link>
-          <Link className="stream__subtitle text-overflow">
+          <Link
+            className="stream__subtitle text-overflow"
+            to={`/${
+              eventData.channel_type === "podcast_series" ? "podcast" : "artist"
+            }/${eventData.channel_id}`}
+          >
             {eventData.channel_title}
           </Link>
         </div>
@@ -73,6 +83,9 @@ const FeedEvent = memo(({ eventData = {}, showEmbedStream }) => {
         )}
         <div className="event__header__data text-overflow">
           <Link
+            title={`${EVENT_ACTIONS[eventData.event_type]} ${
+              eventData.author_title
+            }`}
             className="event__author-link"
             href={`${WEB_DOMAIN}/${eventData.author_url}`}
           >
