@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.2] - 2021-12-23
+### Added
+- New global feed page (warning: experimental)
+
+### Changed
+- Minor css fixes.
+
 ## [2.0.1] - 2021-12-20
 ### Added
 - Show channel top genre on artist and podcast page.

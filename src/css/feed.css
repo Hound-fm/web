@@ -146,7 +146,7 @@ a.embed__button {
   padding: 0;
 }
 
-.embed__price {
+.event .embed__button.embed__price {
   border: 1px solid rgb(246, 229, 141);
   color: rgb(246, 229, 141);
 }
