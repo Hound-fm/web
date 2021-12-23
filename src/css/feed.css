@@ -9,6 +9,10 @@
   justify-content: space-around;
 }
 
+.event--first {
+  border-top: 1px solid var(--card-bg-color);
+}
+
 .event a {
   margin: 0;
   padding: 0;

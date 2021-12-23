@@ -67,9 +67,15 @@ const EmbedStream = memo(({ eventData = {} }) => {
   );
 });
 
-const FeedEvent = memo(({ eventData = {}, showEmbedStream }) => {
+const FeedEvent = memo(({ eventData = {}, showEmbedStream, index }) => {
   return (
-    <div className={clsx("event", !showEmbedStream && "event--linked")}>
+    <div
+      className={clsx(
+        "event",
+        !showEmbedStream && "event--linked",
+        index === 0 && "event--first"
+      )}
+    >
       <div className="event__header">
         {eventData.event_type && (
           <div
@@ -138,6 +144,7 @@ export default function Feed() {
       }
       return (
         <FeedEvent
+          index={virtualRow.index}
           eventData={feedEventData}
           showEmbedStream={showEmbedStream}
         />
