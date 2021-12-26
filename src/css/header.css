@@ -1,6 +1,6 @@
 .header {
   height: var(--header-height);
-  background: rgba(12, 12, 12, 0.94);
+  background: var(--header-bg-color);
   display: flex;
   align-items: center;
   justify-content: space-between;

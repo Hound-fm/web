@@ -168,3 +168,29 @@ a.embed__button {
   margin: 0;
   padding: 0;
 }
+
+.tabs {
+  display: flex;
+  padding: 18px 24px;
+  top: var(--header-height);
+  z-index: 3;
+  backdrop-filter: blur(10px);
+}
+
+.tabs a.tab {
+  border-radius: var(--border-radius);
+  padding: 4px 18px;
+  margin: 0;
+  margin-right: 18px;
+  border-radius: 25px;
+}
+
+.tab a.tab span {
+  margin: 0;
+  padding: 0;
+}
+
+.tabs a.tab[aria-current="page"] {
+  color: var(--text-color);
+  background: var(--card-active-bg-color);
+}

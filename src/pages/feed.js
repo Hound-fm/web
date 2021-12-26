@@ -153,7 +153,15 @@ export default function Feed() {
   }, []);
 
   return (
-    <Page title={"Feed"}>
+    <Page title="Feed">
+      {/*
+      <div className="tabs">
+      <Link className="tab" to="/feed">All</Link>
+      <Link className="tab">Discovers</Link>
+       <Link className="tab">Undiscovered</Link>
+      </div>
+      */}
+
       <InfiniteScroller
         isFetching={isFetchingNextPage}
         fetchNextPage={fetchNextPage}

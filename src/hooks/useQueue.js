@@ -18,20 +18,20 @@ export function useQueueLoad() {
 
 export function useQueueSlice() {
   const playerState = useHookState(globalPlayerState);
+  const currentTrack = playerState.currentTrack.attach(Downgraded).value;
+  const queueData = playerState.queueData.attach(Downgraded).value;
+  const queueIndex = playerState.queueIndex.attach(Downgraded).value;
+
   const [state, setState] = useState({
     next: null,
     current: null,
   });
 
-  const queueData = playerState.queueData.attach(Downgraded).value;
-  const queueIndex = playerState.queueIndex.attach(Downgraded).value;
-
   useEffect(() => {
     if (!queueData || !queueData.length) {
-      setState({
-        next: null,
-        current: null,
-      });
+      // Empty queue (Only current track)
+      console.info(currentTrack);
+      setState({ next: null, current: currentTrack ? [currentTrack] : null });
     } else if (queueData && queueData.length) {
       playerState.queueData.set((prevQueueData) => {
         if (!prevQueueData || !prevQueueData.length) {
@@ -44,19 +44,22 @@ export function useQueueSlice() {
         if (item) {
           if (nextIndex < prevQueueData.length) {
             const next = prevQueueData.slice(nextIndex);
-            setState({ next, current: [item] });
+            setState({ next, current: [currentTrack] });
           } else {
-            setState({ next: null, current: [item] });
+            setState({ next: null, current: [currentTrack] });
           }
         } else {
-          setState({ next: null, current: null });
+          setState({
+            next: null,
+            current: currentTrack ? [currentTrack] : null,
+          });
         }
 
         return prevQueueData;
       });
     }
     // eslint-disable-next-line
-  }, [queueData, queueIndex]);
+  }, [currentTrack, queueData, queueIndex]);
   return state;
 }
 export function useQueueUpdate() {

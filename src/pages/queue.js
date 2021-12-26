@@ -11,7 +11,7 @@ export default function Queue() {
   const queueTitle = playerState.queueTitle.value;
 
   const { next, current } = useQueueSlice();
-
+  console.info(current);
   return (
     <Page title={"Queue"}>
       {current && (
