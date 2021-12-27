@@ -35,7 +35,6 @@ export default function Queue() {
 
   return (
     <>
-      {" "}
       {showQueue && (
         <Page title={"Queue"}>
           {current && (
