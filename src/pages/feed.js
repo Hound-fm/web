@@ -11,6 +11,8 @@ import StreamPlayButton from "component/streamPlayButton";
 import { Upload, Radio, Repeat } from "lucide-react";
 import InfiniteScroller from "component/infiniteScroller";
 import { WEB_DOMAIN } from "constants.js";
+import LoadingPage from "pages/loading";
+import { ErrorAPIPage } from "pages/error";
 
 const EVENT_ICON = { discover: Radio, publish: Upload, repost: Repeat };
 const EVENT_ACTIONS = {
@@ -115,8 +117,15 @@ const FeedEvent = memo(({ eventData = {}, showEmbedStream, index }) => {
 });
 
 export default function Feed() {
-  const { data, status, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useFetchFeed();
+  const {
+    data,
+    isError,
+    isLoading,
+    status,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useFetchFeed();
 
   const [resultsData, setResultsData] = useState([]);
 
@@ -151,6 +160,14 @@ export default function Feed() {
       );
     }
   }, []);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError) {
+    return <ErrorAPIPage />;
+  }
 
   return (
     <Page title="Feed">

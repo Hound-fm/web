@@ -23,8 +23,8 @@ export function useQueueSlice() {
   const queueIndex = playerState.queueIndex.attach(Downgraded).value;
 
   const [state, setState] = useState({
-    next: null,
-    current: null,
+    next: undefined,
+    current: undefined,
   });
 
   useEffect(() => {

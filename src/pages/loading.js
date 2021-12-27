@@ -5,9 +5,9 @@ export default function LoadingPage() {
     <Page>
       <div className={"empty-state"}>
         <div className="loading">
-          <div></div>
-          <div></div>
-          <div></div>
+          <div />
+          <div />
+          <div />
         </div>
       </div>
     </Page>
