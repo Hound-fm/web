@@ -29,7 +29,7 @@ const getTopGenre = (channelData) => {
   ) {
     // Unique genre
     const keep =
-      genre && channelData.content_genres.slice(0, 3).includes(genre);
+      genre && channelData.content_genres.slice(0, 5).includes(genre);
 
     if (!keep) {
       genre = channelData.content_genres[0];
